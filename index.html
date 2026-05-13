@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriVerse AI — Fuel Smarter. Study Better.</title>
+<meta name="description" content="AI-powered nutrition intelligence for healthier students and smarter campuses.">
+<meta name="theme-color" content="#2A7A3B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NutriVerse">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nutriverse.css">
+</head>
+<body>
+
+<!-- ════════════════ NAV ════════════════ -->
+<nav>
+  <a class="nav-logo" onclick="scrollToTop()">
+    <span class="nav-logo-dot"></span>
+    Nutri<span>Verse</span> AI
+  </a>
+  <ul class="nav-links">
+    <li><a onclick="scrollToTop()">Home</a></li>
+    <li><a onclick="scrollToSection('features')">Features</a></li>
+    <li><a onclick="scrollToSection('campus-section')">For Students <span class="nav-badge">NEW</span></a></li>
+    <li><a onclick="scrollToSection('mess-section')">Mess Menu <span class="nav-badge">NEW</span></a></li>
+    <li><a onclick="scrollToSection('planner')">AI Planner</a></li>
+    <li><a onclick="scrollToSection('ai-chat')">Nutrition AI <span class="nav-badge">NEW</span></a></li>
+  </ul>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="nav-student-btn" id="nav-student-btn" onclick="openVerifyModal()">🎓 College Access</button>
+    <div class="nav-student-verified" id="nav-student-verified">✅ Verified</div>
+    <!-- User Auth Button -->
+    <div class="nav-user-wrap" id="nav-user-wrap" style="display:none;position:relative">
+      <button class="nav-user-btn" id="nav-user-btn" onclick="toggleUserMenu()"><span class="nav-user-avatar" id="nav-user-avatar">U</span><span class="nav-user-name" id="nav-user-name">User</span><span class="nav-user-arrow">▾</span></button>
+      <div class="nav-user-dropdown" id="nav-user-dropdown">
+        <div class="nud-email" id="nud-email">user@gmail.com</div>
+        <div class="nud-divider"></div>
+        <a class="nud-item" onclick="scrollToSection('saved-plans-section');toggleUserMenu()">💾 Saved Plans</a>
+        <a class="nud-item" onclick="scrollToSection('checkin-section');toggleUserMenu()">📋 Weekly Check-in</a>
+        <div class="nud-divider"></div>
+        <a class="nud-item nud-logout" onclick="userLogout()">🚪 Sign Out</a>
+      </div>
+    </div>
+    <button class="btn-nav" onclick="scrollToSection('planner')">Get Started</button>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ════════════════ MOBILE MENU ════════════════ -->
+<div class="mobile-menu" id="mobile-menu">
+  <a onclick="scrollToTop();closeMobileMenu()">🏠 Home</a>
+  <a onclick="scrollToSection('campus-section');closeMobileMenu()">🎓 For College Students</a>
+  <a onclick="scrollToSection('mess-section');closeMobileMenu()">📋 Mess Menu Tracker</a>
+  <a onclick="scrollToSection('planner');closeMobileMenu()">🥗 AI Meal Planner</a>
+  <a onclick="scrollToSection('saved-plans-section');closeMobileMenu()">💾 Saved Plans</a>
+  <a onclick="scrollToSection('checkin-section');closeMobileMenu()">📋 Weekly Check-in</a>
+  <a onclick="scrollToSection('ai-chat');closeMobileMenu()">🤖 Nutrition AI Coach</a>
+  <a onclick="scrollToSection('features');closeMobileMenu()">📊 Nutrition Insights</a>
+  <div class="mm-divider"></div>
+  <a class="mm-college-btn" id="mm-auth-btn" onclick="openVerifyModal();closeMobileMenu()">🎓 Verify College Email — Unlock Student Access</a>
+  <a class="mm-college-btn" id="mm-signout-btn" style="display:none;background:linear-gradient(135deg,#EF4444,#DC2626)" onclick="userLogout();closeMobileMenu()">🚪 Sign Out</a>
+</div>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-fruits">
+    <div class="fruit f-avo">
+      <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="130" rx="75" ry="100" fill="#2D5A1B"/>
+        <ellipse cx="100" cy="140" rx="55" ry="75" fill="#7DB843"/>
+        <ellipse cx="100" cy="155" rx="28" ry="38" fill="#5C3D1E"/>
+        <ellipse cx="100" cy="155" rx="22" ry="30" fill="#8B5E3C"/>
+      </svg>
+    </div>
+    <div class="fruit f-orange">
+      <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="90" cy="90" r="80" fill="#F4A623"/>
+        <circle cx="90" cy="90" r="70" fill="#F7B733" opacity=".5"/>
+        <path d="M90 15C90 15 85 5 90 0" stroke="#2D7A3A" stroke-width="4" stroke-linecap="round"/>
+        <path d="M90 15C100 10 108 5 105 0" stroke="#2D7A3A" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="fruit f-kiwi">
+      <svg viewBox="0 0 110 130" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="55" cy="70" rx="45" ry="56" fill="#4A7C1F"/>
+        <ellipse cx="55" cy="72" rx="38" ry="48" fill="#90C640"/>
+        <circle cx="55" cy="72" r="12" fill="#E8D44D"/>
+        <line x1="55" y1="24" x2="55" y2="120" stroke="#6B4C1A" stroke-width="1.5" opacity=".4"/>
+        <line x1="17" y1="52" x2="93" y2="92" stroke="#6B4C1A" stroke-width="1.5" opacity=".4"/>
+        <line x1="17" y1="92" x2="93" y2="52" stroke="#6B4C1A" stroke-width="1.5" opacity=".4"/>
+      </svg>
+    </div>
+    <div class="fruit f-grape">
+      <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="30" r="18" fill="#8B4DB8" opacity=".9"/>
+        <circle cx="35" cy="55" r="18" fill="#9B5DC8" opacity=".85"/>
+        <circle cx="85" cy="55" r="18" fill="#7B3DA8" opacity=".9"/>
+        <circle cx="50" cy="80" r="18" fill="#8B4DB8" opacity=".85"/>
+        <circle cx="75" cy="80" r="18" fill="#9B5DC8" opacity=".8"/>
+        <circle cx="62" cy="103" r="17" fill="#7B3DA8" opacity=".9"/>
+      </svg>
+    </div>
+    <div class="fruit f-straw">
+      <svg viewBox="0 0 80 90" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="40" cy="55" rx="33" ry="35" fill="#E53E3E"/>
+        <ellipse cx="40" cy="45" rx="28" ry="25" fill="#FC8181" opacity=".4"/>
+        <path d="M40 20 L45 5 L50 10" stroke="#2D7A3A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M40 20 L33 3 L28 8" stroke="#2D7A3A" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="status-pill"><span class="status-dot"></span> Wellness System Online</div>
+      <h1>Fuel Smarter.<br>Study <em>Better</em>.<span class="amber-text">.</span></h1>
+      <p class="hero-desc">AI-powered nutrition intelligence for healthier students and smarter campuses. Personalized plans, real-time tracking, and mess menu optimization — zero guesswork.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="scrollToSection('planner')">⚡ Build My Diet →</button>
+        <button class="btn-secondary" onclick="scrollToSection('mess-section')">📋 Upload Mess Menu</button>
+      </div>
+      <div class="hero-stats">
+        <div class="h-stat">🤖 Groq AI Powered</div>
+        <div class="h-stat">🎓 College Student Mode</div>
+        <div class="h-stat">🇮🇳 Built for India</div>
+      </div>
+
+      <!-- TDEE Calculator -->
+      <div class="tdee-card" id="tdee-card">
+        <div class="tdee-header">
+          <div class="tdee-label">🔥 Personalised Calorie Target</div>
+          <div class="tdee-sub">Get your daily calorie & macro targets based on your body and goals.</div>
+        </div>
+        <div class="tdee-form">
+          <div class="tdee-row">
+            <div class="tdee-field"><label>Age</label><input type="number" id="tdee-age" placeholder="21" min="14" max="80"></div>
+            <div class="tdee-field"><label>Weight (kg)</label><input type="number" id="tdee-weight" placeholder="65" min="30" max="200"></div>
+            <div class="tdee-field"><label>Height (cm)</label><input type="number" id="tdee-height" placeholder="170" min="100" max="230"></div>
+          </div>
+          <div class="tdee-row">
+            <div class="tdee-field tdee-wide"><label>Gender</label>
+              <div class="tdee-toggle"><button class="tt-btn on" onclick="selectTDEE(this,'gender')" data-val="male">♂ Male</button><button class="tt-btn" onclick="selectTDEE(this,'gender')" data-val="female">♀ Female</button></div>
+            </div>
+            <div class="tdee-field tdee-wide"><label>Activity Level</label>
+              <select id="tdee-activity"><option value="1.2">Sedentary (little exercise)</option><option value="1.375">Light (1-3 days/wk)</option><option value="1.55" selected>Moderate (3-5 days/wk)</option><option value="1.725">Active (6-7 days/wk)</option><option value="1.9">Very Active (athlete)</option></select>
+            </div>
+          </div>
+          <button class="btn-tdee" onclick="calculateTDEE()">⚡ Calculate My TDEE</button>
+        </div>
+        <div class="tdee-result" id="tdee-result" style="display:none">
+          <div class="tdee-result-grid">
+            <div class="tdee-stat"><div class="tdee-stat-val" id="tdee-cal-val">2200</div><div class="tdee-stat-label">Daily Calories</div></div>
+            <div class="tdee-stat"><div class="tdee-stat-val" id="tdee-prot-val">120g</div><div class="tdee-stat-label">Protein</div></div>
+            <div class="tdee-stat"><div class="tdee-stat-val" id="tdee-carb-val">275g</div><div class="tdee-stat-label">Carbs</div></div>
+            <div class="tdee-stat"><div class="tdee-stat-val" id="tdee-fat-val">73g</div><div class="tdee-stat-label">Fat</div></div>
+          </div>
+          <div class="tdee-note" id="tdee-note">🎯 These targets are now used by the AI Meal Planner for your personalized plans.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hc-top">
+          <div>
+            <div class="hc-label">NutriVerse AI</div>
+            <div class="hc-title">Wellness Dashboard</div>
+          </div>
+          <div class="live-chip" onclick="refreshDashboard()"><span class="live-dot2"></span> Live ↻</div>
+        </div>
+        <div class="hc-metrics">
+          <div class="hc-metric">
+            <div class="hc-m-top">
+              <span class="hc-m-label">Protein Today</span>
+              <span class="hc-m-pct pct-green" id="prot-pct">57%</span>
+            </div>
+            <div class="hc-m-val" id="prot-val">68g</div>
+            <div class="hc-m-sub" id="prot-sub">of 120g</div>
+            <div class="prog"><div class="prog-fill pg" id="prot-bar" style="width:57%"></div></div>
+          </div>
+          <div class="hc-metric">
+            <div class="hc-m-top">
+              <span class="hc-m-label">Calories</span>
+              <span class="hc-m-pct pct-green" id="cal-pct">84%</span>
+            </div>
+            <div class="hc-m-val" id="cal-val">1,840</div>
+            <div class="hc-m-sub">of 2,200 kcal</div>
+            <div class="prog"><div class="prog-fill pg" id="cal-bar" style="width:84%"></div></div>
+          </div>
+          <div class="hc-metric">
+            <div class="hc-m-top">
+              <span class="hc-m-label">Energy Score</span>
+              <span class="hc-m-pct pct-amber" id="energy-pct">72%</span>
+            </div>
+            <div class="hc-m-val" id="energy-val">72</div>
+            <div class="hc-m-sub">of 100</div>
+            <div class="prog"><div class="prog-fill pa" id="energy-bar" style="width:72%"></div></div>
+          </div>
+          <div class="hc-metric">
+            <div class="hc-m-top">
+              <span class="hc-m-label">Hydration</span>
+              <span class="hc-m-pct pct-blue" id="hydra-pct">60%</span>
+            </div>
+            <div class="hc-m-val" id="hydra-val">1.8L</div>
+            <div class="hc-m-sub">of 3L</div>
+            <div class="prog"><div class="prog-fill pb" id="hydra-bar" style="width:60%"></div></div>
+          </div>
+        </div>
+        <div class="ai-insight-mini" onclick="openModal('insight-modal')">
+          <div class="ai-icon">⚡</div>
+          <div>
+            <div class="ai-tag">AI Insight — tap for more</div>
+            <div class="ai-text" id="insight-text">Protein 43% below target. Add 1 cup of dal or 2 eggs at dinner to recover by 9 PM.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ COLLEGE STUDENTS SECTION ════════════════ -->
+<section class="campus-section" id="campus-section">
+  <div class="campus-inner">
+    <div>
+      <div class="campus-label">🎓 For College Students</div>
+      <h2 class="campus-title">Your mess. Your <span class="g">nutrition</span>. Optimized.</h2>
+      <p class="campus-desc">We built NutriVerse specifically for the chaos of hostel life — unpredictable mess menus, late-night study sessions, and tight budgets. Our AI adapts to your campus reality.</p>
+      <div class="campus-features">
+        <div class="campus-feat">
+          <div class="feat-icon">🍽️</div>
+          <div class="feat-text">
+            <h4>Mess Menu Integration</h4>
+            <p>Upload your weekly mess schedule and get instant nutritional analysis and smart swaps.</p>
+          </div>
+        </div>
+        <div class="campus-feat">
+          <div class="feat-icon">🧠</div>
+          <div class="feat-text">
+            <h4>Exam Season Mode</h4>
+            <p>Special brain-fuel meal plans optimized for memory retention and sustained focus.</p>
+          </div>
+        </div>
+        <div class="campus-feat">
+          <div class="feat-icon">💰</div>
+          <div class="feat-text">
+            <h4>Budget-Aware Planning</h4>
+            <p>High-protein, affordable meal suggestions under ₹100/day for students on tight budgets.</p>
+          </div>
+        </div>
+        <div class="campus-feat">
+          <div class="feat-icon">🏃</div>
+          <div class="feat-text">
+            <h4>Between-Lecture Snacks</h4>
+            <p>Quick grab-and-go options from your college canteen that fit your nutrition goals.</p>
+          </div>
+        </div>
+      </div>
+      <button class="campus-cta" onclick="openVerifyModal()">🎓 Verify College Email & Unlock Access →</button>
+    </div>
+    <div class="campus-cards-grid">
+      <div class="campus-mini-card" onclick="scrollToSection('planner')">
+        <div class="cmc-top"><div class="cmc-ico">🔥</div><div class="cmc-title">Exam Crunch Mode</div></div>
+        <div class="cmc-desc">Omega-3 rich foods + complex carbs timed for peak studying hours. Activate 7 days before exams.</div>
+        <div class="cmc-stat">+34% Focus</div>
+      </div>
+      <div class="campus-mini-card" onclick="scrollToSection('mess-section')">
+        <div class="cmc-top"><div class="cmc-ico">📊</div><div class="cmc-title">Mess Nutrition Score</div></div>
+        <div class="cmc-desc">Get a weekly nutrition report for your college mess. Know exactly what's missing and how to fill the gaps.</div>
+        <div class="cmc-stat">Weekly Report</div>
+      </div>
+      <div class="campus-mini-card" onclick="scrollToSection('ai-chat')">
+        <div class="cmc-top"><div class="cmc-ico">🤖</div><div class="cmc-title">AI Nutrition Coach</div></div>
+        <div class="cmc-desc">Ask anything — from protein in rajma to whether your 3AM Maggi habit is really that bad.</div>
+        <div class="cmc-stat">Ask Anything</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ NUTRITION GAP ════════════════ -->
+<section class="gap-section" id="features">
+  <div class="sec-header" style="text-align:center;max-width:1100px;margin:0 auto">
+    <div class="sec-label">Research Insights</div>
+    <h2 class="sec-title">The Nutrition <span class="accent">Gap</span></h2>
+    <p class="sec-sub" style="margin:0 auto">Common patterns across Indian college students — small daily changes make a massive difference in energy, focus, and health.</p>
+  </div>
+  <div class="gap-grid">
+    <div class="gap-card" onclick="openGapCard('skip-lunch')">
+      <div class="gap-ico">☕</div>
+      <div class="gap-pct">68%</div>
+      <h3>Skip Lunch Daily</h3>
+      <p>Due to class schedules and poor mess food quality.</p>
+    </div>
+    <div class="gap-card" onclick="openGapCard('protein')">
+      <div class="gap-ico">⚡</div>
+      <div class="gap-pct">42g</div>
+      <h3>Avg Daily Protein</h3>
+      <p>Significantly lower than the recommended 60–80g intake.</p>
+    </div>
+    <div class="gap-card" onclick="openGapCard('energy')">
+      <div class="gap-ico">🔋</div>
+      <div class="gap-pct">3PM</div>
+      <h3>Energy Crash Time</h3>
+      <p>Most students report low energy during post-lunch classes.</p>
+    </div>
+    <div class="gap-card" onclick="openGapCard('focus')">
+      <div class="gap-ico">🧠</div>
+      <div class="gap-pct">85%</div>
+      <h3>Link Nutrition to Focus</h3>
+      <p>Students who improved diet reported better academic performance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MESS UPLOAD SECTION ════════════════ -->
+<section class="mess-section" id="mess-section">
+  <div class="mess-inner">
+    <div class="sec-header">
+      <div class="sec-label">Mess Menu & Meal Tracking</div>
+      <h2 class="sec-title">Upload & <span class="accent">Optimize</span> Your Meals</h2>
+      <p class="sec-sub">Track your mess meals, personal meals, and hostel food. Get weekly nutrition scores and AI-powered optimization tips.</p>
+    </div>
+    <div class="mess-grid">
+      <!-- Upload + Add Meal -->
+      <div class="mess-upload-card">
+        <h3 style="font-family:var(--font);font-size:1.1rem;font-weight:800;color:var(--dark);margin-bottom:16px">📋 Add Meals to Track</h3>
+        <div class="upload-zone" id="upload-zone">
+          <input type="file" class="upload-input" accept=".pdf,.jpg,.png,.txt" onchange="handleFileUpload(event)">
+          <div class="upload-icon">📁</div>
+          <div class="upload-title">Upload Mess Menu Photo / PDF</div>
+          <div class="upload-desc">Drag & drop or tap to upload your weekly mess schedule</div>
+        </div>
+        <div style="text-align:center;font-size:0.82rem;color:var(--muted);margin:10px 0 16px">— or add meal manually —</div>
+        <div class="meal-form">
+          <input class="mf-input" type="text" id="meal-name-input" placeholder="Meal name (e.g. Dal Makhani, Roti, Poha)" />
+          <div class="mf-row">
+            <input class="mf-input" type="number" id="meal-cal-input" placeholder="Calories (kcal)" min="0" />
+            <input class="mf-input" type="number" id="meal-prot-input" placeholder="Protein (g)" min="0" />
+          </div>
+          <div class="mf-row">
+            <select class="mf-select" id="meal-type-input">
+              <option value="">Meal type</option>
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+              <option value="Snack">Snack / Canteen</option>
+              <option value="Mess">Mess Food</option>
+            </select>
+            <select class="mf-select" id="meal-day-input">
+              <option value="">Day</option>
+              <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+              <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+            </select>
+          </div>
+          <button class="btn-add-meal" onclick="addMeal()">➕ Add to Weekly Tracker</button>
+        </div>
+
+        <!-- Saved meals list -->
+        <div class="saved-meals" id="saved-meals-section" style="display:none;margin-top:20px">
+          <div class="sm-title">
+            This Week's Meals
+            <span class="sm-clear" onclick="clearMeals()">Clear all</span>
+          </div>
+          <div id="meal-list"></div>
+        </div>
+      </div>
+
+      <!-- Weekly Tracker -->
+      <div class="mess-weekly-card">
+        <h3 style="font-family:var(--font);font-size:1.1rem;font-weight:800;color:var(--dark);margin-bottom:16px">📅 Weekly Mess Tracker</h3>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:16px">Tap a day to view meals. Green = meals logged for the day.</p>
+        <div class="weekly-grid" id="weekly-grid">
+          <!-- Days filled by JS -->
+        </div>
+        <div class="week-summary" id="week-summary">
+          <div class="ws-title">📊 Week Summary</div>
+          <div class="ws-stats">
+            <div>
+              <div class="ws-stat-val" id="ws-total-meals">0</div>
+              <div class="ws-stat-label">Meals Logged</div>
+            </div>
+            <div>
+              <div class="ws-stat-val" id="ws-avg-cal">0</div>
+              <div class="ws-stat-label">Avg Calories/Day</div>
+            </div>
+            <div>
+              <div class="ws-stat-val" id="ws-avg-prot">0g</div>
+              <div class="ws-stat-label">Avg Protein/Day</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-optimize" onclick="optimizeMeals()">
+          <span id="opt-spinner" style="display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite"></span>
+          <span id="opt-text">✨ Optimize My Week with AI</span>
+        </button>
+
+        <!-- Optimization result -->
+        <div id="opt-result" style="display:none;margin-top:16px;background:var(--green-bg);border:1px solid var(--green-xl);border-radius:14px;padding:16px">
+          <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:8px">🤖 AI Optimization Insights</div>
+          <div id="opt-result-text" style="font-size:0.85rem;color:var(--text);line-height:1.6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MEAL PLANNER ════════════════ -->
+<section class="planner-section" id="planner">
+  <div class="sec-header" style="text-align:center;max-width:960px;margin:0 auto 40px">
+    <div class="sec-label">AI Meal Planner</div>
+    <h2 class="sec-title">Smart <span class="accent">Diet Planner</span></h2>
+    <p class="sec-sub" style="margin:0 auto">Set your goals, preferences, and allergies. Our AI builds your perfect daily menu instantly.</p>
+  </div>
+  <div class="planner-inner">
+    <!-- Preferences -->
+    <div class="pref-grid">
+      <div class="pref-card">
+        <div class="pref-label">🎯 Primary Goal</div>
+        <div class="chips" id="goal-chips">
+          <button class="chip" onclick="selectChip(this,'goal')">🔥 Fat Burn</button>
+          <button class="chip" onclick="selectChip(this,'goal')">💪 Muscle Gain</button>
+          <button class="chip on" onclick="selectChip(this,'goal')">🧠 Exam Focus</button>
+          <button class="chip" onclick="selectChip(this,'goal')">⚡ Energy Boost</button>
+          <button class="chip" onclick="selectChip(this,'goal')">🥩 High Protein</button>
+        </div>
+      </div>
+      <div class="pref-card">
+        <div class="pref-label">🥗 Diet Preference</div>
+        <div class="chips" id="diet-chips">
+          <button class="chip on" onclick="selectChip(this,'diet')">🌱 Vegetarian</button>
+          <button class="chip" onclick="selectChip(this,'diet')">🥚 Eggetarian</button>
+          <button class="chip" onclick="selectChip(this,'diet')">🍗 Non-Veg</button>
+          <button class="chip" onclick="selectChip(this,'diet')">🌿 Vegan</button>
+        </div>
+      </div>
+      <div class="pref-card">
+        <div class="pref-label">⚠️ Allergies / Avoid</div>
+        <div class="chips" id="allergy-chips" style="margin-bottom:8px">
+          <button class="chip" onclick="selectChip(this,'allergy')">🥜 Nuts</button>
+          <button class="chip" onclick="selectChip(this,'allergy')">🥛 Dairy</button>
+          <button class="chip" onclick="selectChip(this,'allergy')">🌾 Gluten</button>
+          <button class="chip" onclick="selectChip(this,'allergy')">🐟 Fish</button>
+        </div>
+        <input class="allergy-input" type="text" id="allergy-other" placeholder="Other (e.g. brinjal, bitter gourd…)" />
+      </div>
+    </div>
+
+    <button class="btn-gen" id="generate-btn" onclick="generatePlan()">
+      <div class="spinner" id="gen-spinner"></div>
+      <span class="btn-text">✨ Generate My Personalized Plan</span>
+    </button>
+  </div>
+
+  <!-- Plan Result -->
+  <div class="daily-plan planner-inner" id="daily-plan">
+    <div class="plan-head">
+      <div>
+        <div class="plan-ready-tag" id="plan-ready-tag">Ready For You</div>
+        <div class="plan-title" id="plan-title-text">Your Daily Plan</div>
+      </div>
+      <div class="plan-cals">
+        <div class="plan-cal-num" id="plan-cal-num">1300</div>
+        <div class="plan-cal-label">Est. Calories</div>
+      </div>
+    </div>
+    <div id="meal-rows"></div>
+    <div class="plan-total-row">
+      <div class="pt-val" id="plan-total-val">74g</div>
+      <div class="pt-label">Total Daily Protein</div>
+    </div>
+    <div class="plan-acts">
+      <button class="btn-save" onclick="savePlan()">💾 Save This Plan</button>
+      <button class="btn-share" onclick="sharePlan()">📤 Share Plan</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SAVED PLANS HISTORY ════════════════ -->
+<section class="saved-plans-section" id="saved-plans-section">
+  <div class="sp-inner">
+    <div class="sec-header" style="text-align:center;max-width:960px;margin:0 auto 40px">
+      <div class="sec-label">💾 Saved Plans</div>
+      <h2 class="sec-title">Your Plan <span class="accent">History</span></h2>
+      <p class="sec-sub" style="margin:0 auto">Revisit up to 5 saved AI-generated meal plans anytime — no need to regenerate. Each account gets its own saved plans.</p>
+    </div>
+    <div class="sp-login-prompt" id="sp-login-prompt">
+      <div class="sp-login-icon">🔒</div>
+      <div class="sp-login-text">Sign in to save and access your meal plans across sessions.</div>
+      <button class="btn-primary" onclick="openVerifyModal()">Sign In →</button>
+    </div>
+    <div class="sp-grid" id="sp-grid" style="display:none"></div>
+    <div class="sp-empty" id="sp-empty" style="display:none">
+      <div class="sp-empty-icon">📋</div>
+      <div class="sp-empty-text">No saved plans yet. Generate a plan above and hit "💾 Save This Plan" to store it here.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ WEEKLY CHECK-IN ════════════════ -->
+<section class="checkin-section" id="checkin-section">
+  <div class="ci-inner">
+    <div class="sec-header" style="text-align:center;max-width:960px;margin:0 auto 40px">
+      <div class="sec-label">📋 Weekly Progress</div>
+      <h2 class="sec-title">How Did You <span class="accent">Eat</span> This Week?</h2>
+      <p class="sec-sub" style="margin:0 auto">Quick self-assessment that generates an AI reflection comparing your habits to your nutrition goals.</p>
+    </div>
+    <div class="ci-card">
+      <div class="ci-form" id="ci-form">
+        <div class="ci-q"><label>🎯 What was your nutrition goal this week?</label>
+          <select id="ci-goal"><option value="fat loss">Fat Loss / Calorie Deficit</option><option value="muscle gain">Muscle Gain / Bulk</option><option value="balanced eating" selected>Balanced Eating</option><option value="exam focus">Exam Focus / Brain Food</option><option value="budget eating">Budget-Friendly Eating</option></select>
+        </div>
+        <div class="ci-q"><label>🍝 How many meals did you eat per day on average?</label>
+          <div class="ci-pills" id="ci-meals-pills"><button class="ci-pill" onclick="selectCIPill(this,'meals')" data-val="1-2">1–2</button><button class="ci-pill on" onclick="selectCIPill(this,'meals')" data-val="3">3</button><button class="ci-pill" onclick="selectCIPill(this,'meals')" data-val="4+">4+</button></div>
+        </div>
+        <div class="ci-q"><label>🥦 Rate your overall eating quality (1=poor, 5=great)</label>
+          <div class="ci-pills" id="ci-quality-pills"><button class="ci-pill" onclick="selectCIPill(this,'quality')" data-val="1">1</button><button class="ci-pill" onclick="selectCIPill(this,'quality')" data-val="2">2</button><button class="ci-pill on" onclick="selectCIPill(this,'quality')" data-val="3">3</button><button class="ci-pill" onclick="selectCIPill(this,'quality')" data-val="4">4</button><button class="ci-pill" onclick="selectCIPill(this,'quality')" data-val="5">5</button></div>
+        </div>
+        <div class="ci-q"><label>📝 Any notes? (skipped meals, ate out a lot, cravings, etc.)</label>
+          <textarea id="ci-notes" class="ci-textarea" rows="3" placeholder="e.g. Skipped breakfast 3 times, had too much fried food..."></textarea>
+        </div>
+        <button class="btn-gen" id="ci-submit-btn" onclick="submitCheckin()"><div class="spinner" id="ci-spinner"></div><span class="btn-text">🤖 Get AI Reflection</span></button>
+      </div>
+      <div class="ci-result" id="ci-result" style="display:none">
+        <div class="ci-result-head">
+          <div class="ci-result-tag">🤖 AI Weekly Reflection</div>
+          <button class="ci-reset-btn" onclick="resetCheckin()">New Check-in →</button>
+        </div>
+        <div class="ci-result-text" id="ci-result-text"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ AI NUTRITION CHAT ════════════════ -->
+<section class="ai-section" id="ai-chat">
+  <div class="ai-inner">
+    <div class="sec-header">
+      <div class="sec-label">AI Nutrition Coach</div>
+      <h2 class="sec-title">Ask Your <span class="accent">Nutrition AI</span></h2>
+      <p class="sec-sub">Powered by Groq AI. Ask anything about nutrition, your mess food, or get personalized advice based on your goals. Add your Groq API key to unlock full AI conversations.</p>
+    </div>
+
+    <!-- College Verification Banner -->
+    <div class="college-banner" id="college-banner">
+      <div class="cb-icon">🎓</div>
+      <div class="cb-body">
+        <strong>Are you a college student?</strong>
+        <span>Verify your .ac.in or .edu email to unlock exclusive student features — exam mode, mess AI, budget planning & more.</span>
+      </div>
+      <button class="btn-cb-verify" onclick="openVerifyModal()">Verify Email →</button>
+      <div class="cb-verified-tag" id="cb-verified-tag">✅ Student Verified</div>
+    </div>
+
+    <!-- Student Exclusive Strip (shown after verification) -->
+    <div class="student-exclusive-strip" id="student-exclusive-strip">
+      <div class="ses-title">⚡ Your Student-Exclusive Features</div>
+      <div class="ses-grid">
+        <div class="ses-card" onclick="sendQuickPrompt('Give me a 7-day exam season meal plan optimised for memory and focus for an Indian college student')">
+          <div class="ses-card-emoji">🧠</div>
+          <div class="ses-card-title">Exam Focus Mode</div>
+          <div class="ses-card-desc">7-day brain-fuel plan timed for peak study hours.</div>
+          <div class="ses-badge">STUDENT ONLY</div>
+        </div>
+        <div class="ses-card" onclick="sendQuickPrompt('Analyse a typical Indian college mess menu and tell me the biggest nutritional gaps and how to fix them cheaply')">
+          <div class="ses-card-emoji">🍽️</div>
+          <div class="ses-card-title">Mess Menu AI</div>
+          <div class="ses-card-desc">Instant nutrition breakdown + smart swaps for your mess food.</div>
+          <div class="ses-badge">STUDENT ONLY</div>
+        </div>
+        <div class="ses-card" onclick="sendQuickPrompt('Create a high-protein Indian meal plan under ₹100 per day for a hostel student')">
+          <div class="ses-card-emoji">💰</div>
+          <div class="ses-card-title">₹100/Day Budget Plan</div>
+          <div class="ses-card-desc">High-protein, balanced meals on a tight hostel budget.</div>
+          <div class="ses-badge">STUDENT ONLY</div>
+        </div>
+        <div class="ses-card" onclick="sendQuickPrompt('What are the best canteen snacks for an Indian college student to maintain energy between lectures without gaining weight?')">
+          <div class="ses-card-emoji">⚡</div>
+          <div class="ses-card-title">Canteen Smart Picks</div>
+          <div class="ses-card-desc">Best grab-and-go options from typical college canteens.</div>
+          <div class="ses-badge">STUDENT ONLY</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat UI -->
+    <div class="chat-container">
+      <div class="chat-header">
+        <span class="chat-header-dot"></span>
+        <div>
+          <div class="chat-header-title">NutriVerse AI Coach</div>
+          <div class="chat-header-sub" id="chat-header-sub">Powered by Groq AI</div>
+        </div>
+      </div>
+      <div class="quick-prompts">
+        <div class="qp" onclick="sendQuickPrompt('How much protein is in 1 cup of dal?')">🫘 Protein in dal?</div>
+        <div class="qp" onclick="sendQuickPrompt('What should I eat before an exam for better focus and memory?')">🧠 Pre-exam meals?</div>
+        <div class="qp" onclick="sendQuickPrompt('Is Maggi healthy for a college student eating it 3-4 times a week?')">🍜 Is Maggi okay?</div>
+        <div class="qp" onclick="sendQuickPrompt('How can I build muscle on a hostel mess diet with limited budget?')">💪 Muscle on mess diet?</div>
+        <div class="qp" onclick="sendQuickPrompt('What are the best high-protein vegetarian foods available in India under ₹50?')">💰 Budget protein foods?</div>
+      </div>
+      <div class="chat-msgs" id="chat-msgs">
+        <div class="msg msg-ai">
+          <div class="msg-bubble">👋 Hi! I'm your NutriVerse AI Coach. Ask me anything about nutrition, hostel mess food, meal timing, or diet planning for college life. Type a question or tap a quick prompt below to get started!</div>
+        </div>
+      </div>
+      <div class="chat-input-bar">
+        <textarea class="chat-input" id="chat-input" placeholder="Ask about nutrition, mess food, supplements, meal timing…" rows="1" onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="btn-send" id="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TOAST ════════════════ -->
+<div class="toast" id="toast">
+  <span id="toast-icon">✅</span>
+  <span id="toast-msg">Done!</span>
+</div>
+
+<!-- ════════════════ MODALS ════════════════ -->
+<!-- AI Insight -->
+<div class="modal-overlay" id="insight-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('insight-modal')">✕</button>
+    <div class="modal-icon">⚡</div>
+    <h3>Your AI Wellness Insights</h3>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <div style="background:#F0FFF4;border-radius:12px;padding:14px">
+        <div style="font-weight:700;font-size:0.82rem;color:var(--green);margin-bottom:4px">🥦 Protein Gap</div>
+        <p style="font-size:0.85rem;color:var(--text);line-height:1.55;margin:0">Add 1 cup of dal or 2 boiled eggs at dinner to hit your 120g protein target.</p>
+      </div>
+      <div style="background:#FFFBF0;border-radius:12px;padding:14px">
+        <div style="font-weight:700;font-size:0.82rem;color:var(--amber);margin-bottom:4px">💧 Hydration Alert</div>
+        <p style="font-size:0.85rem;color:var(--text);line-height:1.55;margin:0">You're 1.2L short. Drink a glass every hour through 8 PM.</p>
+      </div>
+      <div style="background:#EEF2FF;border-radius:12px;padding:14px">
+        <div style="font-weight:700;font-size:0.82rem;color:#4F46E5;margin-bottom:4px">🧠 Focus Tip</div>
+        <p style="font-size:0.85rem;color:var(--text);line-height:1.55;margin:0">Snack on walnuts or almonds before your 4 PM study session.</p>
+      </div>
+    </div>
+    <button class="mbtn-p" style="width:100%" onclick="closeModal('insight-modal')">Got It!</button>
+  </div>
+</div>
+
+<!-- Gap card detail -->
+<div class="modal-overlay" id="gap-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('gap-modal')">✕</button>
+    <div class="modal-icon" id="gap-modal-icon">📊</div>
+    <h3 id="gap-modal-title">Gap Detail</h3>
+    <p id="gap-modal-text">Details here.</p>
+    <div class="modal-btns">
+      <button class="mbtn-p" onclick="closeModal('gap-modal');scrollToSection('planner')">Fix With AI Planner</button>
+      <button class="mbtn-s" onclick="closeModal('gap-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Day detail modal -->
+<div class="modal-overlay" id="day-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('day-modal')">✕</button>
+    <div class="modal-icon">📅</div>
+    <h3 id="day-modal-title">Monday's Meals</h3>
+    <div id="day-modal-meals" style="margin-bottom:16px;display:flex;flex-direction:column;gap:8px"></div>
+    <div class="modal-btns">
+      <button class="mbtn-p" onclick="closeModal('day-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Optimize result modal -->
+<div class="modal-overlay" id="optimize-modal">
+  <div class="modal" style="max-width:520px">
+    <button class="modal-close" onclick="closeModal('optimize-modal')">✕</button>
+    <div class="modal-icon">✨</div>
+    <h3>AI Optimization Report</h3>
+    <div id="optimize-modal-content" style="font-size:0.88rem;color:var(--text);line-height:1.65;margin-bottom:18px"></div>
+    <button class="mbtn-p" style="width:100%" onclick="closeModal('optimize-modal')">Apply These Changes</button>
+  </div>
+</div>
+
+<div style="height:60px"></div>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <!-- Brand -->
+      <div>
+        <div class="footer-brand-logo"><span class="dot"></span>Nutri<span>Verse</span> AI</div>
+        <p class="footer-tagline">AI-powered nutrition intelligence for Indian college students. Built for hostel life, mess menus, and exam seasons.</p>
+        <div class="footer-badge">🇮🇳 Built for India &nbsp;·&nbsp; No data stored on servers</div>
+      </div>
+      <!-- Features -->
+      <div>
+        <div class="footer-col-title">Features</div>
+        <ul class="footer-links">
+          <li><a onclick="scrollToSection('ai-chat')">🤖 AI Nutrition Coach</a></li>
+          <li><a onclick="scrollToSection('planner')">🥗 AI Meal Planner</a></li>
+          <li><a onclick="scrollToSection('mess-section')">📋 Mess Tracker</a></li>
+          <li><a onclick="scrollToSection('campus-section')">🎓 College Student Mode</a></li>
+          <li><a onclick="scrollToSection('features')">📊 Nutrition Insights</a></li>
+        </ul>
+      </div>
+      <!-- Students -->
+      <div>
+        <div class="footer-col-title">For Students</div>
+        <ul class="footer-links">
+          <li><a onclick="openVerifyModal()">✅ Verify College Email</a></li>
+          <li><a onclick="scrollToSection('ai-chat');setTimeout(()=>document.getElementById('chat-input').value='Give me a 7-day exam focus meal plan',200)">🧠 Exam Focus Mode</a></li>
+          <li><a onclick="scrollToSection('ai-chat');setTimeout(()=>document.getElementById('chat-input').value='Meal plan under ₹100/day for hostel',200)">💰 ₹100/Day Budget Plan</a></li>
+          <li><a onclick="scrollToSection('mess-section')">🍽️ Mess Menu Analysis</a></li>
+        </ul>
+      </div>
+      <!-- About -->
+      <div>
+        <div class="footer-col-title">About</div>
+        <ul class="footer-links">
+          <li><a>ℹ️ About NutriVerse</a></li>
+          <li><a href="mailto:shivanshboora14@gmail.com">📧 Contact</a></li>
+          <li><a>🔒 Privacy Policy</a></li>
+          <li><a href="https://console.groq.com" target="_blank" rel="noopener">⚡ Get Groq API Key</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 NutriVerse AI — All data stored locally in your browser only.</div>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div class="footer-groq-badge">⚡ Powered by Groq · llama-3.1-8b-instant</div>
+        <div class="footer-legal">
+          <a>Privacy Policy</a>
+          <a>Terms of Use</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════ ADMIN FAB (only visible when admin is authenticated) ════════════════ -->
+<button class="admin-fab" id="admin-fab" title="Admin Panel" onclick="openAdminPanel()">⚙️</button>
+
+<!-- ════════════════ ADMIN PANEL ════════════════ -->
+<div class="admin-overlay" id="admin-overlay">
+  <div class="admin-panel">
+    <button class="admin-close-btn" onclick="closeAdminPanel()">✕</button>
+
+    <!-- LOGIN VIEW -->
+    <div class="admin-login-view" id="admin-login-view">
+      <div class="al-icon">🔐</div>
+      <div class="al-title">Admin Access</div>
+      <div class="al-desc">This panel is restricted. Enter your admin email address to continue.</div>
+      <input class="admin-email-input" type="email" id="admin-email-input" placeholder="your@gmail.com" onkeydown="if(event.key==='Enter')adminDoLogin()"/>
+      <button class="btn-admin-enter" onclick="adminDoLogin()">Continue →</button>
+      <div class="admin-login-error" id="admin-login-error">⛔ Access denied. This account is not authorised.</div>
+    </div>
+
+    <!-- KEY MANAGEMENT VIEW -->
+    <div class="admin-key-view" id="admin-key-view" style="display:none">
+      <div class="ak-header">
+        <div class="ak-icon-wrap">⚙️</div>
+        <div>
+          <div class="ak-title">API Key Manager</div>
+          <div class="ak-sub">NutriVerse Admin Panel</div>
+        </div>
+      </div>
+      <div class="admin-key-box">
+        <div class="admin-key-label">🔑 Groq API Key</div>
+        <div class="admin-key-current" id="admin-key-current">No key saved yet.</div>
+        <div class="admin-key-saved-msg" id="admin-key-saved-msg">✅ Key saved successfully!</div>
+        <input class="admin-key-input" type="password" id="admin-key-input" placeholder="Paste new Groq key (gsk_…)"/>
+        <button class="btn-save-admin-key" onclick="adminSaveKey()">💾 Save New Key</button>
+      </div>
+      <div class="admin-logout-link">
+        <button onclick="adminLogout()">Sign out of admin</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ COLLEGE VERIFY MODAL ════════════════ -->
+<div class="overlay" id="verify-overlay">
+  <div class="verify-modal">
+    <button class="verify-modal-close" onclick="closeVerifyModal()">✕</button>
+
+    <!-- ENTER EMAIL VIEW -->
+    <div id="vm-enter-view">
+      <div class="vm-icon">👤</div>
+      <div class="vm-title">Sign In to NutriVerse</div>
+      <div class="vm-desc">Enter any email to use the AI coach. Use your college email to also unlock student-exclusive features.</div>
+      <input class="vm-input" type="email" id="vm-email-input" placeholder="you@example.com" onkeydown="if(event.key==='Enter')doVerifyEmail()"/>
+      <div class="vm-error" id="vm-error">Please enter a valid email address.</div>
+      <button class="btn-vm-primary" onclick="doVerifyEmail()">Continue →</button>
+      <div style="margin:16px 0;display:flex;align-items:center;gap:10px">
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+        <span style="font-size:0.75rem;color:var(--muted-l);font-weight:600">STUDENT?</span>
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+      </div>
+      <div style="background:var(--green-bg);border:1px solid var(--green-xl);border-radius:12px;padding:12px 14px;font-size:0.8rem;color:var(--text);line-height:1.6">
+        🎓 <strong>College email detected automatically.</strong> Domains like <code style="font-size:0.75rem;background:#E8F5E9;padding:1px 5px;border-radius:4px">.ac.in</code> <code style="font-size:0.75rem;background:#E8F5E9;padding:1px 5px;border-radius:4px">.edu</code> unlock Exam Mode, Mess AI, Budget Plans & more for free.
+      </div>
+    </div>
+
+    <!-- SUCCESS VIEW (college) -->
+    <div id="vm-success-view" style="display:none">
+      <div class="vm-success-icon">🎉</div>
+      <div class="vm-success-title">College Access Unlocked!</div>
+      <div class="vm-success-desc">Verified as <span class="vm-success-email" id="vm-success-email"></span>.<br>You now have full access to all student-exclusive features.</div>
+      <button class="btn-vm-primary" onclick="closeVerifyModal()">Start Exploring →</button>
+    </div>
+
+    <!-- SUCCESS VIEW (normal user) -->
+    <div id="vm-success-normal-view" style="display:none">
+      <div class="vm-success-icon">✅</div>
+      <div class="vm-success-title">You're all set!</div>
+      <div class="vm-success-desc">Signed in as <span class="vm-success-email" id="vm-success-normal-email"></span>.<br>All core AI features are now available to you.</div>
+      <button class="btn-vm-primary" onclick="closeVerifyModal()">Start Chatting →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Glossary Tooltip -->
+<div class="glossary-tooltip" id="glossary-tooltip">
+  <div class="gt-term" id="gt-term"></div>
+  <div class="gt-def" id="gt-def"></div>
+</div>
+
+<!-- PWA Install Banner -->
+<div class="pwa-install-bar" id="pwa-install-bar" style="display:none">
+  <div class="pwa-install-inner">
+    <div class="pwa-install-text"><strong>📲 Install NutriVerse</strong><span>Add to your homescreen for quick access — works offline too!</span></div>
+    <div class="pwa-install-btns">
+      <button class="pwa-install-btn" id="pwa-install-btn" onclick="installPWA()">Install</button>
+      <button class="pwa-dismiss-btn" onclick="dismissPWA()">Not Now</button>
+    </div>
+  </div>
+</div>
+
+<script src="nutriverse.js"></script>
+<script>
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      console.log('SW registered:', reg.scope)
+    }).catch(err => console.warn('SW registration failed:', err))
+  })
+}
+</script>
+</body>
+</html>

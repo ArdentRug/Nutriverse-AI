@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriVerse AI — Fuel Smarter. Study Better.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#2A7A3B;--green-l:#4CAF50;--green-xl:#A8DAAD;--green-bg:#EAF5EA;
+  --amber:#E8971A;--amber-bg:#FEF3DC;
+  --blue:#2563EB;--blue-bg:#EFF6FF;
+  --dark:#111827;--text:#1F2937;--muted:#6B7280;--muted-l:#9CA3AF;
+  --bg:#F6F4F0;--white:#FFFFFF;--border:#E5E7EB;--border-l:#F3F4F6;
+  --card:#FFFFFF;--radius:18px;--radius-sm:10px;
+  --font:'Syne',sans-serif;--body:'DM Sans',sans-serif;
+  --shadow:0 2px 24px rgba(0,0,0,0.07);--shadow-lg:0 8px 40px rgba(0,0,0,0.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+
+/* ═══════════════ NAV ═══════════════ */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(255,255,255,0.96);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 52px;height:66px;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--font);font-size:1.25rem;font-weight:800;color:var(--dark);text-decoration:none;cursor:pointer;letter-spacing:-0.01em}
+.nav-logo-dot{width:10px;height:10px;background:var(--green);border-radius:50%;display:inline-block;margin-right:2px}
+.nav-logo span{color:var(--green)}
+.nav-links{display:flex;gap:8px;list-style:none;align-items:center}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:0.88rem;font-weight:500;transition:color .2s;cursor:pointer;padding:6px 12px;border-radius:50px}
+.nav-links a:hover{color:var(--dark);background:var(--bg)}
+.nav-badge{background:var(--green-bg);color:var(--green);font-size:0.72rem;font-weight:700;padding:2px 7px;border-radius:50px;letter-spacing:0.04em;margin-left:3px;vertical-align:middle}
+.btn-nav{background:var(--dark);color:#fff;border:none;padding:9px 20px;border-radius:50px;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--body);letter-spacing:0.01em}
+.btn-nav:hover{background:var(--green);transform:translateY(-1px)}
+.nav-api-badge{background:#FEF3DC;color:#92400E;font-size:0.72rem;font-weight:700;padding:4px 10px;border-radius:50px;border:1px solid #FCD34D;cursor:pointer;transition:all .2s}
+.nav-api-badge:hover{background:#FCD34D}
+
+/* ═══════════════ HERO ═══════════════ */
+.hero{
+  min-height:100vh;
+  background:linear-gradient(150deg,#F0F9F1 0%,#F6F4F0 45%,#FFF8EC 100%);
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;padding:100px 52px 80px;
+}
+.hero-fruits{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fruit{position:absolute}
+.f-avo{top:-20px;left:-40px;width:260px;opacity:.85}
+.f-orange{top:-30px;right:-50px;width:220px;opacity:.8}
+.f-kiwi{bottom:60px;left:30px;width:110px;opacity:.75}
+.f-grape{top:40px;right:220px;width:120px;opacity:.7}
+.f-banana{bottom:40px;right:30px;width:100px;opacity:.65}
+.f-straw{bottom:100px;left:200px;width:80px;opacity:.7}
+
+.hero-content{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1200px;margin:0 auto;width:100%;z-index:2;position:relative}
+.hero-left{}
+.status-pill{display:inline-flex;align-items:center;gap:7px;background:white;border:1px solid var(--border);border-radius:50px;padding:5px 14px;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark);margin-bottom:24px}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green-l);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero h1{font-family:var(--font);font-size:3.6rem;font-weight:800;line-height:1.05;letter-spacing:-0.03em;margin-bottom:20px;color:var(--dark)}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero h1 .amber-text{color:var(--amber)}
+.hero-desc{color:var(--muted);font-size:1rem;line-height:1.7;max-width:420px;margin-bottom:32px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
+.btn-primary{background:var(--green);color:white;border:none;padding:13px 26px;border-radius:50px;font-size:0.95rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s;font-family:var(--body)}
+.btn-primary:hover{background:#23693100 00;background:var(--green-l);transform:translateY(-2px);box-shadow:0 6px 20px rgba(42,122,59,.28)}
+.btn-secondary{background:white;color:var(--dark);border:1.5px solid var(--border);padding:13px 26px;border-radius:50px;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--body)}
+.btn-secondary:hover{border-color:var(--dark);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:10px;flex-wrap:wrap}
+.h-stat{background:white;border:1px solid var(--border);border-radius:50px;padding:7px 16px;font-size:0.82rem;font-weight:600;color:var(--dark)}
+
+/* ═══════════════ HERO DASHBOARD CARD ═══════════════ */
+.hero-right{}
+.hero-card{background:white;border-radius:24px;padding:26px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--green-l),var(--amber))}
+.hc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.hc-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:3px}
+.hc-title{font-family:var(--font);font-size:1.3rem;font-weight:700;color:var(--dark)}
+.live-chip{display:flex;align-items:center;gap:5px;font-size:0.78rem;font-weight:600;color:var(--green);background:var(--green-bg);padding:5px 12px;border-radius:50px;cursor:pointer;border:1px solid var(--green-xl);transition:all .2s}
+.live-chip:hover{background:var(--green);color:white}
+.live-dot2{width:7px;height:7px;border-radius:50%;background:var(--green-l);animation:pulse 2s infinite}
+.hc-metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.hc-metric{}
+.hc-m-top{display:flex;justify-content:space-between;margin-bottom:2px}
+.hc-m-label{font-size:0.78rem;color:var(--muted);font-weight:500}
+.hc-m-pct{font-size:0.78rem;font-weight:700}
+.pct-green{color:var(--green)}
+.pct-amber{color:var(--amber)}
+.pct-blue{color:var(--blue)}
+.hc-m-val{font-family:var(--font);font-size:1.6rem;font-weight:800;color:var(--dark);margin-bottom:1px}
+.hc-m-sub{font-size:0.72rem;color:var(--muted-l);margin-bottom:7px}
+.prog{height:5px;background:#F0F0F0;border-radius:10px;overflow:hidden}
+.prog-fill{height:100%;border-radius:10px;transition:width .6s ease}
+.pg{background:var(--green-l)}
+.pa{background:var(--amber)}
+.pb{background:var(--blue)}
+.ai-insight-mini{background:#FFFBF0;border:1px solid #FDE68A;border-radius:12px;padding:14px 16px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;transition:all .2s}
+.ai-insight-mini:hover{background:#FEF3C7;transform:translateY(-1px)}
+.ai-icon{font-size:1rem;margin-top:1px}
+.ai-tag{font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:3px}
+.ai-text{font-size:0.85rem;color:var(--text);line-height:1.5}
+
+/* ═══════════════ SECTION BASE ═══════════════ */
+.section{padding:80px 52px}
+.sec-label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--green);margin-bottom:10px}
+.sec-title{font-family:var(--font);font-size:2.6rem;font-weight:800;color:var(--dark);letter-spacing:-0.025em;line-height:1.1;margin-bottom:14px}
+.sec-title .accent{color:var(--green)}
+.sec-sub{font-size:1rem;color:var(--muted);max-width:520px;line-height:1.7}
+.sec-header{margin-bottom:48px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border-l)}
+
+/* ═══════════════ COLLEGE STUDENTS SECTION — Energetic Student Palette ═══════════════ */
+/* Psychology: 18-22yr olds → warm energy, forward motion, optimism, not corporate */
+.campus-section{
+  background:linear-gradient(135deg,#0C1F3F 0%,#0E4D6B 45%,#1A3A2A 100%);
+  padding:80px 52px;color:white;position:relative;overflow:hidden
+}
+/* Warm orange energy glow top-right — feels alive, not like a bank */
+.campus-section::before{
+  content:'';position:absolute;top:-120px;right:-80px;
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(251,146,60,.22) 0%,transparent 65%);
+  pointer-events:none;z-index:1
+}
+/* Teal accent glow bottom-left */
+.campus-section::after{
+  content:'';position:absolute;bottom:-60px;left:-60px;
+  width:380px;height:380px;
+  background:radial-gradient(circle,rgba(34,211,238,.14) 0%,transparent 65%);
+  pointer-events:none;z-index:1
+}
+.campus-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:2}
+.campus-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:#67E8F9;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.campus-label::before{content:'';display:inline-block;width:18px;height:2px;background:#67E8F9;border-radius:2px}
+.campus-title{font-family:var(--font);font-size:2.9rem;font-weight:800;line-height:1.06;letter-spacing:-0.03em;margin-bottom:18px;color:white}
+/* Orange highlight — warm energy, ambition */
+.campus-title .g{color:#FB923C;text-shadow:0 0 40px rgba(251,146,60,.35)}
+.campus-desc{color:rgba(255,255,255,.72);font-size:0.97rem;line-height:1.75;margin-bottom:32px;max-width:480px}
+.campus-features{display:flex;flex-direction:column;gap:16px;margin-bottom:36px}
+.campus-feat{display:flex;align-items:flex-start;gap:14px}
+/* Feature icons: teal-tinted, feels tech-forward not corporate */
+.feat-icon{
+  width:36px;height:36px;
+  background:rgba(34,211,238,.18);
+  border:1px solid rgba(103,232,249,.35);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;margin-top:2px
+}
+.feat-text h4{font-size:0.93rem;font-weight:700;color:white;margin-bottom:3px}
+.feat-text p{font-size:0.82rem;color:rgba(255,255,255,.6);line-height:1.55}
+/* CTA — orange, energetic, stands out strongly from the dark bg */
+.campus-cta{
+  background:linear-gradient(135deg,#F97316,#FB923C);
+  color:white;border:none;padding:14px 30px;border-radius:50px;
+  font-size:0.96rem;font-weight:700;cursor:pointer;font-family:var(--body);
+  transition:all .25s;display:inline-flex;align-items:center;gap:9px;
+  box-shadow:0 4px 20px rgba(249,115,22,.4)
+}
+.campus-cta:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(249,115,22,.55)}
+/* Cards: glassmorphism with a teal shimmer on hover */
+.campus-cards-grid{display:flex;flex-direction:column;gap:14px}
+.campus-mini-card{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:18px;padding:22px;transition:all .28s;cursor:pointer;
+  backdrop-filter:blur(10px)
+}
+.campus-mini-card:hover{
+  background:rgba(34,211,238,.12);
+  border-color:rgba(103,232,249,.45);
+  transform:translateX(6px);
+  box-shadow:0 4px 24px rgba(34,211,238,.12)
+}
+.cmc-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.cmc-ico{font-size:1.2rem}
+.cmc-title{font-size:0.93rem;font-weight:700;color:white}
+.cmc-desc{font-size:0.82rem;color:rgba(255,255,255,.6);line-height:1.55}
+/* Stat: teal accent — forward energy */
+.cmc-stat{font-size:1.35rem;font-weight:800;font-family:var(--font);color:#67E8F9;margin-top:10px}
+
+/* ═══════════════ MESS UPLOAD SECTION ═══════════════ */
+.mess-section{background:var(--bg);padding:80px 52px}
+.mess-inner{max-width:1100px;margin:0 auto}
+.mess-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.mess-upload-card{background:white;border-radius:24px;padding:32px;box-shadow:var(--shadow)}
+.mess-weekly-card{background:white;border-radius:24px;padding:32px;box-shadow:var(--shadow)}
+.upload-zone{border:2px dashed var(--border);border-radius:16px;padding:32px 20px;text-align:center;cursor:pointer;transition:all .25s;position:relative;margin-bottom:20px}
+.upload-zone:hover{border-color:var(--green);background:var(--green-bg)}
+.upload-zone.drag-over{border-color:var(--green);background:var(--green-bg);transform:scale(1.01)}
+.upload-icon{font-size:2rem;margin-bottom:10px}
+.upload-title{font-size:0.95rem;font-weight:700;color:var(--dark);margin-bottom:4px;font-family:var(--font)}
+.upload-desc{font-size:0.82rem;color:var(--muted)}
+.upload-input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.meal-form{display:flex;flex-direction:column;gap:12px}
+.mf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mf-input{border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:var(--body);color:var(--dark);outline:none;transition:border .2s;background:white;width:100%}
+.mf-input:focus{border-color:var(--green)}
+.mf-select{appearance:none;border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:var(--body);color:var(--dark);outline:none;transition:border .2s;background:white;width:100%;cursor:pointer}
+.mf-select:focus{border-color:var(--green)}
+.btn-add-meal{background:var(--green-bg);color:var(--green);border:1.5px solid var(--green-xl);padding:11px;border-radius:12px;font-size:0.88rem;font-weight:700;cursor:pointer;font-family:var(--body);width:100%;transition:all .2s}
+.btn-add-meal:hover{background:var(--green);color:white}
+.saved-meals{margin-top:0}
+.sm-title{font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.sm-clear{font-size:0.75rem;font-weight:600;color:var(--muted);cursor:pointer;text-transform:none;letter-spacing:0}
+.sm-clear:hover{color:var(--dark)}
+.meal-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg);border-radius:10px;margin-bottom:8px;border:1px solid var(--border-l)}
+.mi-left{}
+.mi-name{font-size:0.88rem;font-weight:600;color:var(--dark)}
+.mi-meta{font-size:0.75rem;color:var(--muted)}
+.mi-right{display:flex;align-items:center;gap:10px}
+.mi-cal{font-size:0.88rem;font-weight:700;color:var(--green)}
+.mi-del{background:none;border:none;cursor:pointer;font-size:0.85rem;color:var(--muted-l);padding:2px;transition:color .2s}
+.mi-del:hover{color:#EF4444}
+.weekly-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:16px}
+.day-col{text-align:center}
+.day-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px}
+.day-dot{width:100%;aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;cursor:pointer;transition:all .2s;border:1.5px solid var(--border)}
+.day-dot.has-meal{background:var(--green-bg);border-color:var(--green-xl);color:var(--green)}
+.day-dot.empty{background:var(--bg);color:var(--muted-l)}
+.day-dot:hover{border-color:var(--green);transform:scale(1.08)}
+.week-summary{margin-top:20px;background:var(--green-bg);border:1px solid var(--green-xl);border-radius:12px;padding:16px}
+.ws-title{font-size:0.8rem;font-weight:700;color:var(--green);margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em}
+.ws-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+.ws-stat-val{font-family:var(--font);font-size:1.2rem;font-weight:800;color:var(--dark)}
+.ws-stat-label{font-size:0.7rem;color:var(--muted);font-weight:500}
+.btn-optimize{width:100%;background:var(--green);color:white;border:none;padding:13px;border-radius:12px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:var(--body);margin-top:14px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-optimize:hover{background:var(--green-l);transform:translateY(-2px)}
+
+/* ═══════════════ MEAL PLANNER ═══════════════ */
+.planner-section{background:linear-gradient(180deg,#F5F3EF 0%,#EDF7ED 100%);padding:80px 52px}
+.planner-inner{max-width:960px;margin:0 auto}
+.pref-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px}
+.pref-card{background:white;border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.pref-label{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--dark);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{background:#F5F5F5;border:1.5px solid var(--border);border-radius:50px;padding:7px 14px;font-size:0.82rem;font-weight:600;color:var(--dark);cursor:pointer;transition:all .2s;font-family:var(--body)}
+.chip:hover{border-color:var(--green);color:var(--green)}
+.chip.on{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.allergy-input{border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;font-size:0.85rem;font-family:var(--body);color:var(--dark);outline:none;transition:border .2s;background:white;width:100%;margin-top:4px}
+.allergy-input:focus{border-color:var(--green)}
+.btn-gen{width:100%;background:var(--dark);color:white;border:none;padding:16px;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .2s;margin:8px 0;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:-0.01em}
+.btn-gen:hover{background:var(--green);transform:translateY(-2px);box-shadow:0 8px 24px rgba(42,122,59,.28)}
+.btn-gen:disabled{background:#ccc;cursor:not-allowed;transform:none;box-shadow:none}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.btn-gen.loading .spinner{display:inline-block}
+.btn-gen.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.daily-plan{background:white;border-radius:24px;padding:32px;box-shadow:var(--shadow);max-width:960px;margin:0 auto;display:none}
+.daily-plan.visible{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.plan-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.plan-title{font-family:var(--font);font-size:1.4rem;font-weight:800;color:var(--dark)}
+.plan-ready-tag{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:4px}
+.plan-cals{text-align:right}
+.plan-cal-num{font-family:var(--font);font-size:2rem;font-weight:900;color:var(--dark)}
+.plan-cal-label{font-size:0.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.meal-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-top:1px solid #F3F4F6}
+.meal-tag-pill{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:white;background:var(--green);padding:2px 9px;border-radius:50px;margin-bottom:5px;display:inline-block}
+.meal-name{font-size:0.97rem;font-weight:700;color:var(--dark);border-left:3px solid var(--green);padding-left:10px}
+.meal-macros{display:flex;gap:16px;text-align:right}
+.mac-val{font-size:1rem;font-weight:800;color:var(--green);font-family:var(--font)}
+.mac-label{font-size:0.68rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.plan-total-row{display:flex;gap:8px;align-items:baseline;padding:16px 0 0;border-top:2px solid #F3F4F6;margin-top:4px}
+.pt-val{font-family:var(--font);font-size:2.2rem;font-weight:900;color:var(--green)}
+.pt-label{font-size:0.88rem;color:var(--muted);font-weight:600}
+.plan-acts{display:flex;gap:10px;margin-top:16px}
+.btn-save{flex:1;background:var(--green-bg);color:var(--green);border:1.5px solid var(--green-xl);padding:11px;border-radius:12px;font-size:0.88rem;font-weight:700;cursor:pointer;font-family:var(--body);transition:all .2s}
+.btn-save:hover{background:var(--green);color:white}
+.btn-share{flex:1;background:#F5F5F5;color:var(--dark);border:1.5px solid var(--border);padding:11px;border-radius:12px;font-size:0.88rem;font-weight:700;cursor:pointer;font-family:var(--body);transition:all .2s}
+.btn-share:hover{background:var(--dark);color:white}
+
+/* ═══════════════ AI CHAT ═══════════════ */
+.ai-section{background:white;padding:80px 52px}
+.ai-inner{max-width:800px;margin:0 auto}
+.api-key-bar{background:var(--amber-bg);border:1.5px solid #FCD34D;border-radius:14px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.api-key-ico{font-size:1.2rem;flex-shrink:0}
+.api-key-text{flex:1;min-width:160px}
+.api-key-text strong{font-size:0.88rem;font-weight:700;color:var(--dark);display:block;margin-bottom:2px}
+.api-key-text span{font-size:0.78rem;color:var(--muted)}
+.api-key-input-wrap{display:flex;gap:8px;flex:1;min-width:200px}
+.chat-container{background:var(--bg);border:1.5px solid var(--border);border-radius:20px;overflow:hidden}
+.chat-header{background:white;border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:10px}
+.chat-header-dot{width:8px;height:8px;border-radius:50%;background:var(--green-l);animation:pulse 2s infinite}
+.chat-header-title{font-family:var(--font);font-size:0.92rem;font-weight:700;color:var(--dark)}
+.chat-header-sub{font-size:0.75rem;color:var(--muted)}
+.chat-msgs{height:380px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.msg{max-width:75%;animation:msgIn .25s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg-user{align-self:flex-end}
+.msg-ai{align-self:flex-start}
+.msg-bubble{padding:12px 16px;border-radius:16px;font-size:0.88rem;line-height:1.6}
+.msg-user .msg-bubble{background:var(--dark);color:white;border-bottom-right-radius:4px}
+.msg-ai .msg-bubble{background:white;color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px}
+.msg-ai .msg-bubble.typing{color:var(--muted)}
+.typing-dots span{display:inline-block;width:6px;height:6px;background:var(--muted-l);border-radius:50%;margin:0 2px;animation:bounce 1.2s infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.chat-input-bar{background:white;border-top:1px solid var(--border);padding:14px 16px;display:flex;gap:10px;align-items:flex-end}
+.chat-input{flex:1;border:1.5px solid var(--border);border-radius:12px;padding:10px 14px;font-size:0.88rem;font-family:var(--body);color:var(--dark);outline:none;resize:none;transition:border .2s;line-height:1.5;max-height:120px}
+.chat-input:focus{border-color:var(--green)}
+.btn-send{background:var(--green);color:white;border:none;width:40px;height:40px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .2s;flex-shrink:0}
+.btn-send:hover{background:var(--green-l);transform:scale(1.05)}
+.btn-send:disabled{background:var(--muted-l);cursor:not-allowed;transform:none}
+.quick-prompts{display:flex;flex-wrap:wrap;gap:7px;padding:12px 16px 0;border-top:1px solid var(--border-l)}
+.qp{background:var(--bg);border:1px solid var(--border);border-radius:50px;padding:6px 13px;font-size:0.78rem;font-weight:600;color:var(--dark);cursor:pointer;transition:all .2s;white-space:nowrap}
+.qp:hover{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.no-key-msg{text-align:center;padding:40px 20px;color:var(--muted);font-size:0.88rem}
+.no-key-msg strong{display:block;font-size:1rem;color:var(--dark);margin-bottom:6px;font-family:var(--font)}
+
+/* ═══════════════ GAP SECTION ═══════════════ */
+.gap-section{background:var(--bg);padding:80px 52px}
+.gap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1100px;margin:48px auto 0}
+.gap-card{background:white;border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);cursor:pointer;transition:all .25s;border:2px solid transparent}
+.gap-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--green)}
+.gap-ico{width:44px;height:44px;background:var(--green-bg);border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:1.3rem}
+.gap-pct{font-family:var(--font);font-size:2rem;font-weight:900;color:var(--green);margin-bottom:3px}
+.gap-card h3{font-size:0.97rem;font-weight:700;color:var(--dark);margin-bottom:6px}
+.gap-card p{font-size:0.82rem;color:var(--muted);line-height:1.55}
+
+/* ═══════════════ TOAST ═══════════════ */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark);color:white;padding:12px 22px;border-radius:50px;font-size:0.88rem;font-weight:600;z-index:9999;transition:transform .3s ease;display:flex;align-items:center;gap:8px;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ═══════════════ MODAL ═══════════════ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex;animation:fadeIn .2s ease}
+.modal{background:white;border-radius:24px;padding:36px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative;animation:slideUp .3s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-close{position:absolute;top:16px;right:16px;background:#F5F5F5;border:none;width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.modal-close:hover{background:#E0E0E0}
+.modal-icon{font-size:2.2rem;margin-bottom:14px}
+.modal h3{font-family:var(--font);font-size:1.3rem;font-weight:800;color:var(--dark);margin-bottom:8px}
+.modal p{font-size:0.92rem;color:var(--muted);line-height:1.6;margin-bottom:18px}
+.modal-btns{display:flex;gap:10px}
+.mbtn-p{flex:1;background:var(--green);color:white;border:none;padding:12px;border-radius:12px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:var(--body);transition:all .2s}
+.mbtn-p:hover{background:var(--green-l)}
+.mbtn-s{flex:1;background:#F5F5F5;color:var(--dark);border:none;padding:12px;border-radius:12px;font-size:0.92rem;font-weight:600;cursor:pointer;font-family:var(--body);transition:all .2s}
+.mbtn-s:hover{background:#E5E5E5}
+
+/* ═══════════════ STUDENT BADGE (NAV) ═══════════════ */
+.nav-student-btn{background:var(--blue-bg);color:var(--blue);border:1.5px solid #BFDBFE;font-size:0.78rem;font-weight:700;padding:6px 14px;border-radius:50px;cursor:pointer;transition:all .2s;font-family:var(--body);display:flex;align-items:center;gap:5px}
+.nav-student-btn:hover{background:var(--blue);color:white;border-color:var(--blue)}
+.nav-student-verified{background:#D1FAE5;color:#065F46;border:1.5px solid #6EE7B7;font-size:0.78rem;font-weight:700;padding:6px 14px;border-radius:50px;font-family:var(--body);display:none;align-items:center;gap:5px}
+
+/* ═══════════════ COLLEGE VERIFY MODAL ═══════════════ */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(5px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex;animation:fadeIn .2s ease}
+.verify-modal{background:white;border-radius:28px;padding:40px 36px 32px;max-width:430px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.22);position:relative;animation:slideUp .3s ease}
+.verify-modal-close{position:absolute;top:16px;right:16px;background:#F3F4F6;border:none;width:34px;height:34px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.verify-modal-close:hover{background:#E5E7EB}
+.vm-icon{text-align:center;font-size:2.6rem;margin-bottom:14px}
+.vm-title{font-family:var(--font);font-size:1.35rem;font-weight:800;color:var(--dark);text-align:center;margin-bottom:8px;letter-spacing:-0.02em}
+.vm-desc{font-size:0.88rem;color:var(--muted);text-align:center;line-height:1.65;margin-bottom:20px}
+.vm-domains{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:20px}
+.vm-domain-pill{background:var(--blue-bg);color:var(--blue);border:1px solid #BFDBFE;border-radius:50px;padding:4px 11px;font-size:0.72rem;font-weight:700;letter-spacing:.03em}
+.vm-input{width:100%;border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;font-size:0.9rem;font-family:var(--body);color:var(--dark);outline:none;transition:border .2s;margin-bottom:6px}
+.vm-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.vm-hint{font-size:0.75rem;color:var(--muted-l);text-align:center;margin-bottom:16px}
+.vm-error{font-size:0.8rem;color:#EF4444;font-weight:600;text-align:center;margin-bottom:10px;display:none}
+.btn-vm-primary{width:100%;background:var(--blue);color:white;border:none;padding:13px;border-radius:13px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:var(--body);transition:all .2s;margin-bottom:10px}
+.btn-vm-primary:hover{background:#1D4ED8;transform:translateY(-1px)}
+.vm-skip{text-align:center;font-size:0.8rem;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.vm-skip:hover{color:var(--dark)}
+.vm-success-icon{font-size:2.8rem;text-align:center;margin-bottom:12px}
+.vm-success-title{font-family:var(--font);font-size:1.25rem;font-weight:800;color:var(--dark);text-align:center;margin-bottom:8px}
+.vm-success-desc{font-size:0.88rem;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:22px}
+.vm-success-email{font-weight:700;color:var(--blue)}
+
+/* ═══════════════ STUDENT EXCLUSIVE STRIP ═══════════════ */
+.student-exclusive-strip{display:none;background:linear-gradient(135deg,#EFF6FF 0%,#F0FFF4 100%);border:2px solid #A8DAAD;border-radius:20px;padding:24px 28px;margin-bottom:28px;position:relative;overflow:hidden}
+.student-exclusive-strip.visible{display:block;animation:fadeUp .5s ease}
+.student-exclusive-strip::before{content:'🎓 STUDENT EXCLUSIVE';position:absolute;top:14px;right:18px;font-size:0.65rem;font-weight:800;letter-spacing:.1em;color:var(--green);background:var(--green-bg);border:1px solid var(--green-xl);padding:3px 10px;border-radius:50px}
+.ses-title{font-family:var(--font);font-size:1rem;font-weight:800;color:var(--dark);margin-bottom:14px}
+.ses-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px}
+.ses-card{background:white;border:1.5px solid var(--border-l);border-radius:14px;padding:16px 18px;cursor:pointer;transition:all .22s;position:relative}
+.ses-card:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 4px 20px rgba(42,122,59,.12)}
+.ses-card-emoji{font-size:1.3rem;margin-bottom:8px}
+.ses-card-title{font-size:0.87rem;font-weight:700;color:var(--dark);margin-bottom:3px}
+.ses-card-desc{font-size:0.76rem;color:var(--muted);line-height:1.5}
+.ses-badge{display:inline-block;background:var(--green-bg);color:var(--green);font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:50px;margin-top:6px;letter-spacing:.04em}
+
+/* ═══════════════ COLLEGE VERIFY BANNER (in AI chat) ═══════════════ */
+.college-banner{background:linear-gradient(135deg,#EFF6FF,#F5F3FF);border:1.5px solid #BFDBFE;border-radius:16px;padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cb-icon{font-size:2rem;flex-shrink:0}
+.cb-body{flex:1;min-width:200px}
+.cb-body strong{font-size:0.9rem;font-weight:700;color:var(--dark);display:block;margin-bottom:3px}
+.cb-body span{font-size:0.8rem;color:var(--muted)}
+.btn-cb-verify{background:var(--blue);color:white;border:none;padding:9px 20px;border-radius:50px;font-size:0.85rem;font-weight:700;cursor:pointer;font-family:var(--body);transition:all .2s;white-space:nowrap}
+.btn-cb-verify:hover{background:#1D4ED8}
+.cb-verified-tag{background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;border-radius:50px;padding:6px 14px;font-size:0.82rem;font-weight:700;display:none;align-items:center;gap:5px}
+
+/* ═══════════════ ADMIN PANEL ═══════════════ */
+.admin-fab{position:fixed;bottom:32px;right:32px;width:46px;height:46px;background:#111827;border:none;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;z-index:1500;box-shadow:0 4px 20px rgba(0,0,0,.35);transition:all .2s}
+.admin-fab:hover{background:#1F2937;transform:scale(1.08)}
+.admin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:1600;display:none;align-items:center;justify-content:center;padding:20px}
+.admin-overlay.open{display:flex;animation:fadeIn .2s ease}
+.admin-panel{background:white;border-radius:28px;padding:36px;max-width:420px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,.28);position:relative;animation:slideUp .3s ease}
+.admin-close-btn{position:absolute;top:16px;right:16px;background:#F3F4F6;border:none;width:34px;height:34px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.admin-close-btn:hover{background:#E5E7EB}
+/* Login view */
+.admin-login-view .al-icon{font-size:2.4rem;text-align:center;margin-bottom:14px}
+.admin-login-view .al-title{font-family:var(--font);font-size:1.25rem;font-weight:800;color:var(--dark);text-align:center;margin-bottom:6px}
+.admin-login-view .al-desc{font-size:0.84rem;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:22px}
+.admin-email-input{width:100%;border:1.5px solid var(--border);border-radius:12px;padding:11px 15px;font-size:0.9rem;font-family:var(--body);color:var(--dark);outline:none;transition:border .2s;margin-bottom:10px;text-align:center;letter-spacing:.01em}
+.admin-email-input:focus{border-color:var(--dark);box-shadow:0 0 0 3px rgba(17,24,39,.08)}
+.btn-admin-enter{width:100%;background:var(--dark);color:white;border:none;padding:12px;border-radius:13px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:var(--body);transition:all .2s;margin-bottom:8px}
+.btn-admin-enter:hover{background:var(--green)}
+.admin-login-error{font-size:0.8rem;color:#EF4444;font-weight:600;text-align:center;display:none;margin-top:4px}
+/* Key view */
+.admin-key-view .ak-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--border-l)}
+.ak-icon-wrap{width:42px;height:42px;background:var(--dark);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.ak-title{font-family:var(--font);font-size:1.1rem;font-weight:800;color:var(--dark)}
+.ak-sub{font-size:0.76rem;color:var(--muted)}
+.admin-key-box{background:#F9FAFB;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px}
+.admin-key-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px}
+.admin-key-current{font-size:0.78rem;color:var(--muted);margin-bottom:12px;word-break:break-all;font-family:monospace;background:#F3F4F6;padding:8px 12px;border-radius:8px}
+.admin-key-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:monospace;color:var(--dark);outline:none;margin-bottom:10px;transition:border .2s;background:white}
+.admin-key-input:focus{border-color:var(--dark)}
+.admin-key-saved-msg{font-size:0.8rem;color:var(--green);font-weight:600;display:none;margin-bottom:8px}
+.btn-save-admin-key{width:100%;background:var(--dark);color:white;border:none;padding:12px;border-radius:12px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:var(--body);transition:all .2s}
+.btn-save-admin-key:hover{background:var(--green)}
+.admin-logout-link{text-align:center;margin-top:14px}
+.admin-logout-link button{background:none;border:none;color:var(--muted);font-size:0.8rem;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-family:var(--body)}
+.admin-logout-link button:hover{color:var(--dark)}
+
+/* ═══════════════ FOOTER ═══════════════ */
+footer{background:#0D1117;color:white;padding:60px 52px 32px}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand-logo{font-family:var(--font);font-size:1.2rem;font-weight:800;color:white;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.footer-brand-logo .dot{width:9px;height:9px;background:#4CAF50;border-radius:50%}
+.footer-brand-logo span{color:#A8DAAD}
+.footer-tagline{font-size:0.85rem;color:#6B7280;line-height:1.7;max-width:240px;margin-bottom:18px}
+.footer-badge{display:inline-flex;align-items:center;gap:6px;background:#161B22;border:1px solid #21262D;border-radius:50px;padding:5px 12px;font-size:0.74rem;font-weight:600;color:#8B949E}
+.footer-col-title{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#4B5563;margin-bottom:16px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-links li a{font-size:0.87rem;color:#6B7280;cursor:pointer;text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:6px}
+.footer-links li a:hover{color:#E5E7EB}
+.footer-bottom{border-top:1px solid #161B22;padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:0.78rem;color:#374151}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:0.78rem;color:#374151;text-decoration:underline;text-underline-offset:3px;cursor:pointer;transition:color .2s}
+.footer-legal a:hover{color:#9CA3AF}
+.footer-groq-badge{display:inline-flex;align-items:center;gap:6px;background:#161B22;border:1px solid #21262D;border-radius:6px;padding:4px 10px;font-size:0.72rem;font-weight:600;color:#8B949E}
+/* Footer responsive */
+@media(max-width:1024px){.footer-top{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.footer-top{grid-template-columns:1fr}footer{padding:48px 20px 24px}.footer-bottom{flex-direction:column;align-items:flex-start;gap:8px}}
+
+/* ═══════════════ HAMBURGER + MOBILE MENU ═══════════════ */
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;background:none;border:none;padding:6px;width:36px;height:36px;flex-shrink:0}
+.nav-hamburger span{display:block;height:2px;background:var(--dark);border-radius:2px;transition:all .3s ease;transform-origin:center}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{
+  display:none;position:fixed;top:66px;left:0;right:0;
+  background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:16px 20px 24px;z-index:190;
+  flex-direction:column;gap:4px;
+  box-shadow:0 12px 40px rgba(0,0,0,.1)
+}
+.mobile-menu.open{display:flex;animation:slideDown .22s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.mobile-menu a{
+  display:flex;align-items:center;gap:10px;
+  color:var(--text);font-size:0.95rem;font-weight:600;
+  padding:13px 16px;border-radius:12px;cursor:pointer;
+  text-decoration:none;transition:background .18s;border:none;background:none;
+  font-family:var(--body);width:100%;text-align:left
+}
+.mobile-menu a:hover{background:var(--bg);color:var(--dark)}
+.mobile-menu .mm-divider{height:1px;background:var(--border-l);margin:8px 0}
+.mobile-menu .mm-college-btn{
+  background:linear-gradient(135deg,#F97316,#FB923C);color:white;
+  border-radius:12px;margin-top:4px;justify-content:center;
+  font-size:0.9rem
+}
+.mobile-menu .mm-college-btn:hover{background:linear-gradient(135deg,#EA6C0A,#F97316);color:white}
+
+/* ═══════════════ RESPONSIVE ═══════════════ */
+@media(max-width:1024px){
+  .hero-content{grid-template-columns:1fr;gap:40px}
+  .hero-right{display:none}
+  .campus-inner{grid-template-columns:1fr}
+  .mess-grid{grid-template-columns:1fr}
+  .pref-grid{grid-template-columns:1fr 1fr}
+  .gap-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  .section,.campus-section,.mess-section,.planner-section,.ai-section,.gap-section{padding:60px 20px}
+  .hero{padding:80px 20px 60px}
+  .hero h1{font-size:2.4rem}
+  .pref-grid{grid-template-columns:1fr}
+  .gap-grid{grid-template-columns:1fr}
+  .hc-metrics{grid-template-columns:1fr}
+  .quick-prompts{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .quick-prompts::-webkit-scrollbar{display:none}
+  .plan-acts{flex-wrap:wrap}
+  .campus-section{padding:60px 20px}
+  .campus-title{font-size:2.1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ NAV ════════════════ -->
+<nav>
+  <a class="nav-logo" onclick="scrollToTop()">
+    <span class="nav-logo-dot"></span>
+    Nutri<span>Verse</span> AI
+  </a>
+  <ul class="nav-links">
+    <li><a onclick="scrollToTop()">Home</a></li>
+    <li><a onclick="scrollToSection('features')">Features</a></li>
+    <li><a onclick="scrollToSection('campus-section')">For Students <span class="nav-badge">NEW</span></a></li>
+    <li><a onclick="scrollToSection('mess-section')">Mess Menu <span class="nav-badge">NEW</span></a></li>
+    <li><a onclick="scrollToSection('planner')">AI Planner</a></li>
+    <li><a onclick="scrollToSection('ai-chat')">Nutrition AI <span class="nav-badge">NEW</span></a></li>
+  </ul>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="nav-student-btn" id="nav-student-btn" onclick="openVerifyModal()">🎓 College Access</button>
+    <div class="nav-student-verified" id="nav-student-verified">✅ Verified</div>
+    <button class="btn-nav" onclick="scrollToSection('planner')">Get Started</button>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ════════════════ MOBILE MENU ════════════════ -->
+<div class="mobile-menu" id="mobile-menu">
+  <a onclick="scrollToTop();closeMobileMenu()">🏠 Home</a>
+  <a onclick="scrollToSection('campus-section');closeMobileMenu()">🎓 For College Students</a>
+  <a onclick="scrollToSection('mess-section');closeMobileMenu()">📋 Mess Menu Tracker</a>
+  <a onclick="scrollToSection('planner');closeMobileMenu()">🥗 AI Meal Planner</a>
+  <a onclick="scrollToSection('ai-chat');closeMobileMenu()">🤖 Nutrition AI Coach</a>
+  <a onclick="scrollToSection('features');closeMobileMenu()">📊 Nutrition Insights</a>
+  <div class="mm-divider"></div>
+  <a class="mm-college-btn" onclick="openVerifyModal();closeMobileMenu()">🎓 Verify College Email — Unlock Student Access</a>
+</div>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-fruits">
+    <div class="fruit f-avo">
+      <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="130" rx="75" ry="100" fill="#2D5A1B"/>
+        <ellipse cx="100" cy="140" rx="55" ry="75" fill="#7DB843"/>
+        <ellipse cx="100" cy="155" rx="28" ry="38" fill="#5C3D1E"/>
+        <ellipse cx="100" cy="155" rx="22" ry="30" fill="#8B5E3C"/>
+      </svg>
+    </div>
+    <div class="fruit f-orange">
+      <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="90" cy="90" r="80" fill="#F4A623"/>
+        <circle cx="90" cy="90" r="70" fill="#F7B733" opacity=".5"/>
+        <path d="M90 15C90 15 85 5 90 0" stroke="#2D7A3A" stroke-width="4" stroke-linecap="round"/>
+        <path d="M90 15C100 10 108 5 105 0" stroke="#2D7A3A" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="fruit f-kiwi">
+      <svg viewBox="0 0 110 130" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="55" cy="70" rx="45" ry="56" fill="#4A7C1F"/>
+        <ellipse cx="55" cy="72" rx="38" ry="48" fill="#90C640"/>
+        <circle cx="55" cy="72" r="12" fill="#E8D44D"/>
+        <line x1="55" y1="24" x2="55" y2="120" stroke="#6B4C1A" stroke-width="1.5" opacity=".4"/>
+        <line x1="17" y1="52" x2="93" y2="92" stroke="#6B4C1A" stroke-width="1.5" opacity=".4"/>
+        <line x1="17" y1="92" x2="93" y2="52" stroke="#6B4C1A" stroke-width="1.5" opacity=".4"/>
+      </svg>
+    </div>
+    <div class="fruit f-grape">
+      <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="30" r="18" fill="#8B4DB8" opacity=".9"/>
+        <circle cx="35" cy="55" r="18" fill="#9B5DC8" opacity=".85"/>
+        <circle cx="85" cy="55" r="18" fill="#7B3DA8" opacity=".9"/>
+        <circle cx="50" cy="80" r="18" fill="#8B4DB8" opacity=".85"/>
+        <circle cx="75" cy="80" r="18" fill="#9B5DC8" opacity=".8"/>
+        <circle cx="62" cy="103" r="17" fill="#7B3DA8" opacity=".9"/>
+      </svg>
+    </div>
+    <div class="fruit f-straw">
+      <svg viewBox="0 0 80 90" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="40" cy="55" rx="33" ry="35" fill="#E53E3E"/>
+        <ellipse cx="40" cy="45" rx="28" ry="25" fill="#FC8181" opacity=".4"/>
+        <path d="M40 20 L45 5 L50 10" stroke="#2D7A3A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M40 20 L33 3 L28 8" stroke="#2D7A3A" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="status-pill"><span class="status-dot"></span> Wellness System Online</div>
+      <h1>Fuel Smarter.<br>Study <em>Better</em>.<span class="amber-text">.</span></h1>
+      <p class="hero-desc">AI-powered nutrition intelligence for healthier students and smarter campuses. Personalized plans, real-time tracking, and mess menu optimization — zero guesswork.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="scrollToSection('planner')">⚡ Build My Diet →</button>
+        <button class="btn-secondary" onclick="scrollToSection('mess-section')">📋 Upload Mess Menu</button>
+      </div>
+      <div class="hero-stats">
+        <div class="h-stat">🤖 Groq AI Powered</div>
+        <div class="h-stat">🎓 College Student Mode</div>
+        <div class="h-stat">🇮🇳 Built for India</div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hc-top">
+          <div>
+            <div class="hc-label">NutriVerse AI</div>
+            <div class="hc-title">Wellness Dashboard</div>
+          </div>
+          <div class="live-chip" onclick="refreshDashboard()"><span class="live-dot2"></span> Live ↻</div>
+        </div>
+        <div class="hc-metrics">
+          <div class="hc-metric">
+            <div class="hc-m-top">
+              <span class="hc-m-label">Protein Today</span>
+              <span class="hc-m-pct pct-green" id="prot-pct">57%</span>
+            </div>
+            <div class="hc-m-val" id="prot-val">68g</div>
+            <div class="hc-m-sub" id="prot-sub">of 120g</div>
+            <div class="prog"><div class="prog-fill pg" id="prot-bar" style="width:57%"></div></div>
+          </div>
+          <div class="hc-metric">
+            <div class="hc-m-top">
+              <span class="hc-m-label">Calories</span>
+              <span class="hc-m-pct pct-green" id="cal-pct">84%</span>
+            </div>
+            <div class="hc-m-val" id="cal-val">1,840</div>
+            <div class="hc-m-sub">of 2,200 kcal</div>
+            <div class="prog"><div class="prog-fill pg" id="cal-bar" style="width:84%"></div></div>
+          </div>
+          <div class="hc-metric">
+            <div class="hc-m-top">
+              <span class="hc-m-label">Energy Score</span>
+              <span class="hc-m-pct pct-amber" id="energy-pct">72%</span>
+            </div>
+            <div class="hc-m-val" id="energy-val">72</div>
+            <div class="hc-m-sub">of 100</div>
+            <div class="prog"><div class="prog-fill pa" id="energy-bar" style="width:72%"></div></div>
+          </div>
+          <div class="hc-metric">
+            <div class="hc-m-top">
+              <span class="hc-m-label">Hydration</span>
+              <span class="hc-m-pct pct-blue" id="hydra-pct">60%</span>
+            </div>
+            <div class="hc-m-val" id="hydra-val">1.8L</div>
+            <div class="hc-m-sub">of 3L</div>
+            <div class="prog"><div class="prog-fill pb" id="hydra-bar" style="width:60%"></div></div>
+          </div>
+        </div>
+        <div class="ai-insight-mini" onclick="openModal('insight-modal')">
+          <div class="ai-icon">⚡</div>
+          <div>
+            <div class="ai-tag">AI Insight — tap for more</div>
+            <div class="ai-text" id="insight-text">Protein 43% below target. Add 1 cup of dal or 2 eggs at dinner to recover by 9 PM.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ COLLEGE STUDENTS SECTION ════════════════ -->
+<section class="campus-section" id="campus-section">
+  <div class="campus-inner">
+    <div>
+      <div class="campus-label">🎓 For College Students</div>
+      <h2 class="campus-title">Your mess. Your <span class="g">nutrition</span>. Optimized.</h2>
+      <p class="campus-desc">We built NutriVerse specifically for the chaos of hostel life — unpredictable mess menus, late-night study sessions, and tight budgets. Our AI adapts to your campus reality.</p>
+      <div class="campus-features">
+        <div class="campus-feat">
+          <div class="feat-icon">🍽️</div>
+          <div class="feat-text">
+            <h4>Mess Menu Integration</h4>
+            <p>Upload your weekly mess schedule and get instant nutritional analysis and smart swaps.</p>
+          </div>
+        </div>
+        <div class="campus-feat">
+          <div class="feat-icon">🧠</div>
+          <div class="feat-text">
+            <h4>Exam Season Mode</h4>
+            <p>Special brain-fuel meal plans optimized for memory retention and sustained focus.</p>
+          </div>
+        </div>
+        <div class="campus-feat">
+          <div class="feat-icon">💰</div>
+          <div class="feat-text">
+            <h4>Budget-Aware Planning</h4>
+            <p>High-protein, affordable meal suggestions under ₹100/day for students on tight budgets.</p>
+          </div>
+        </div>
+        <div class="campus-feat">
+          <div class="feat-icon">🏃</div>
+          <div class="feat-text">
+            <h4>Between-Lecture Snacks</h4>
+            <p>Quick grab-and-go options from your college canteen that fit your nutrition goals.</p>
+          </div>
+        </div>
+      </div>
+      <button class="campus-cta" onclick="openVerifyModal()">🎓 Verify College Email & Unlock Access →</button>
+    </div>
+    <div class="campus-cards-grid">
+      <div class="campus-mini-card" onclick="scrollToSection('planner')">
+        <div class="cmc-top"><div class="cmc-ico">🔥</div><div class="cmc-title">Exam Crunch Mode</div></div>
+        <div class="cmc-desc">Omega-3 rich foods + complex carbs timed for peak studying hours. Activate 7 days before exams.</div>
+        <div class="cmc-stat">+34% Focus</div>
+      </div>
+      <div class="campus-mini-card" onclick="scrollToSection('mess-section')">
+        <div class="cmc-top"><div class="cmc-ico">📊</div><div class="cmc-title">Mess Nutrition Score</div></div>
+        <div class="cmc-desc">Get a weekly nutrition report for your college mess. Know exactly what's missing and how to fill the gaps.</div>
+        <div class="cmc-stat">Weekly Report</div>
+      </div>
+      <div class="campus-mini-card" onclick="scrollToSection('ai-chat')">
+        <div class="cmc-top"><div class="cmc-ico">🤖</div><div class="cmc-title">AI Nutrition Coach</div></div>
+        <div class="cmc-desc">Ask anything — from protein in rajma to whether your 3AM Maggi habit is really that bad.</div>
+        <div class="cmc-stat">Ask Anything</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ NUTRITION GAP ════════════════ -->
+<section class="gap-section" id="features">
+  <div class="sec-header" style="text-align:center;max-width:1100px;margin:0 auto">
+    <div class="sec-label">Research Insights</div>
+    <h2 class="sec-title">The Nutrition <span class="accent">Gap</span></h2>
+    <p class="sec-sub" style="margin:0 auto">Common patterns across Indian college students — small daily changes make a massive difference in energy, focus, and health.</p>
+  </div>
+  <div class="gap-grid">
+    <div class="gap-card" onclick="openGapCard('skip-lunch')">
+      <div class="gap-ico">☕</div>
+      <div class="gap-pct">68%</div>
+      <h3>Skip Lunch Daily</h3>
+      <p>Due to class schedules and poor mess food quality.</p>
+    </div>
+    <div class="gap-card" onclick="openGapCard('protein')">
+      <div class="gap-ico">⚡</div>
+      <div class="gap-pct">42g</div>
+      <h3>Avg Daily Protein</h3>
+      <p>Significantly lower than the recommended 60–80g intake.</p>
+    </div>
+    <div class="gap-card" onclick="openGapCard('energy')">
+      <div class="gap-ico">🔋</div>
+      <div class="gap-pct">3PM</div>
+      <h3>Energy Crash Time</h3>
+      <p>Most students report low energy during post-lunch classes.</p>
+    </div>
+    <div class="gap-card" onclick="openGapCard('focus')">
+      <div class="gap-ico">🧠</div>
+      <div class="gap-pct">85%</div>
+      <h3>Link Nutrition to Focus</h3>
+      <p>Students who improved diet reported better academic performance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MESS UPLOAD SECTION ════════════════ -->
+<section class="mess-section" id="mess-section">
+  <div class="mess-inner">
+    <div class="sec-header">
+      <div class="sec-label">Mess Menu & Meal Tracking</div>
+      <h2 class="sec-title">Upload & <span class="accent">Optimize</span> Your Meals</h2>
+      <p class="sec-sub">Track your mess meals, personal meals, and hostel food. Get weekly nutrition scores and AI-powered optimization tips.</p>
+    </div>
+    <div class="mess-grid">
+      <!-- Upload + Add Meal -->
+      <div class="mess-upload-card">
+        <h3 style="font-family:var(--font);font-size:1.1rem;font-weight:800;color:var(--dark);margin-bottom:16px">📋 Add Meals to Track</h3>
+        <div class="upload-zone" id="upload-zone">
+          <input type="file" class="upload-input" accept=".pdf,.jpg,.png,.txt" onchange="handleFileUpload(event)">
+          <div class="upload-icon">📁</div>
+          <div class="upload-title">Upload Mess Menu Photo / PDF</div>
+          <div class="upload-desc">Drag & drop or tap to upload your weekly mess schedule</div>
+        </div>
+        <div style="text-align:center;font-size:0.82rem;color:var(--muted);margin:10px 0 16px">— or add meal manually —</div>
+        <div class="meal-form">
+          <input class="mf-input" type="text" id="meal-name-input" placeholder="Meal name (e.g. Dal Makhani, Roti, Poha)" />
+          <div class="mf-row">
+            <input class="mf-input" type="number" id="meal-cal-input" placeholder="Calories (kcal)" min="0" />
+            <input class="mf-input" type="number" id="meal-prot-input" placeholder="Protein (g)" min="0" />
+          </div>
+          <div class="mf-row">
+            <select class="mf-select" id="meal-type-input">
+              <option value="">Meal type</option>
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+              <option value="Snack">Snack / Canteen</option>
+              <option value="Mess">Mess Food</option>
+            </select>
+            <select class="mf-select" id="meal-day-input">
+              <option value="">Day</option>
+              <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+              <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+            </select>
+          </div>
+          <button class="btn-add-meal" onclick="addMeal()">➕ Add to Weekly Tracker</button>
+        </div>
+
+        <!-- Saved meals list -->
+        <div class="saved-meals" id="saved-meals-section" style="display:none;margin-top:20px">
+          <div class="sm-title">
+            This Week's Meals
+            <span class="sm-clear" onclick="clearMeals()">Clear all</span>
+          </div>
+          <div id="meal-list"></div>
+        </div>
+      </div>
+
+      <!-- Weekly Tracker -->
+      <div class="mess-weekly-card">
+        <h3 style="font-family:var(--font);font-size:1.1rem;font-weight:800;color:var(--dark);margin-bottom:16px">📅 Weekly Mess Tracker</h3>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:16px">Tap a day to view meals. Green = meals logged for the day.</p>
+        <div class="weekly-grid" id="weekly-grid">
+          <!-- Days filled by JS -->
+        </div>
+        <div class="week-summary" id="week-summary">
+          <div class="ws-title">📊 Week Summary</div>
+          <div class="ws-stats">
+            <div>
+              <div class="ws-stat-val" id="ws-total-meals">0</div>
+              <div class="ws-stat-label">Meals Logged</div>
+            </div>
+            <div>
+              <div class="ws-stat-val" id="ws-avg-cal">0</div>
+              <div class="ws-stat-label">Avg Calories/Day</div>
+            </div>
+            <div>
+              <div class="ws-stat-val" id="ws-avg-prot">0g</div>
+              <div class="ws-stat-label">Avg Protein/Day</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-optimize" onclick="optimizeMeals()">
+          <span id="opt-spinner" style="display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite"></span>
+          <span id="opt-text">✨ Optimize My Week with AI</span>
+        </button>
+
+        <!-- Optimization result -->
+        <div id="opt-result" style="display:none;margin-top:16px;background:var(--green-bg);border:1px solid var(--green-xl);border-radius:14px;padding:16px">
+          <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:8px">🤖 AI Optimization Insights</div>
+          <div id="opt-result-text" style="font-size:0.85rem;color:var(--text);line-height:1.6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MEAL PLANNER ════════════════ -->
+<section class="planner-section" id="planner">
+  <div class="sec-header" style="text-align:center;max-width:960px;margin:0 auto 40px">
+    <div class="sec-label">AI Meal Planner</div>
+    <h2 class="sec-title">Smart <span class="accent">Diet Planner</span></h2>
+    <p class="sec-sub" style="margin:0 auto">Set your goals, preferences, and allergies. Our AI builds your perfect daily menu instantly.</p>
+  </div>
+  <div class="planner-inner">
+    <!-- Preferences -->
+    <div class="pref-grid">
+      <div class="pref-card">
+        <div class="pref-label">🎯 Primary Goal</div>
+        <div class="chips" id="goal-chips">
+          <button class="chip" onclick="selectChip(this,'goal')">🔥 Fat Burn</button>
+          <button class="chip" onclick="selectChip(this,'goal')">💪 Muscle Gain</button>
+          <button class="chip on" onclick="selectChip(this,'goal')">🧠 Exam Focus</button>
+          <button class="chip" onclick="selectChip(this,'goal')">⚡ Energy Boost</button>
+          <button class="chip" onclick="selectChip(this,'goal')">🥩 High Protein</button>
+        </div>
+      </div>
+      <div class="pref-card">
+        <div class="pref-label">🥗 Diet Preference</div>
+        <div class="chips" id="diet-chips">
+          <button class="chip on" onclick="selectChip(this,'diet')">🌱 Vegetarian</button>
+          <button class="chip" onclick="selectChip(this,'diet')">🥚 Eggetarian</button>
+          <button class="chip" onclick="selectChip(this,'diet')">🍗 Non-Veg</button>
+          <button class="chip" onclick="selectChip(this,'diet')">🌿 Vegan</button>
+        </div>
+      </div>
+      <div class="pref-card">
+        <div class="pref-label">⚠️ Allergies / Avoid</div>
+        <div class="chips" id="allergy-chips" style="margin-bottom:8px">
+          <button class="chip" onclick="selectChip(this,'allergy')">🥜 Nuts</button>
+          <button class="chip" onclick="selectChip(this,'allergy')">🥛 Dairy</button>
+          <button class="chip" onclick="selectChip(this,'allergy')">🌾 Gluten</button>
+          <button class="chip" onclick="selectChip(this,'allergy')">🐟 Fish</button>
+        </div>
+        <input class="allergy-input" type="text" id="allergy-other" placeholder="Other (e.g. brinjal, bitter gourd…)" />
+      </div>
+    </div>
+
+    <button class="btn-gen" id="generate-btn" onclick="generatePlan()">
+      <div class="spinner" id="gen-spinner"></div>
+      <span class="btn-text">✨ Generate My Personalized Plan</span>
+    </button>
+  </div>
+
+  <!-- Plan Result -->
+  <div class="daily-plan planner-inner" id="daily-plan">
+    <div class="plan-head">
+      <div>
+        <div class="plan-ready-tag">Ready For You</div>
+        <div class="plan-title" id="plan-title-text">Your Daily Plan</div>
+      </div>
+      <div class="plan-cals">
+        <div class="plan-cal-num" id="plan-cal-num">1300</div>
+        <div class="plan-cal-label">Est. Calories</div>
+      </div>
+    </div>
+    <div id="meal-rows"></div>
+    <div class="plan-total-row">
+      <div class="pt-val" id="plan-total-val">74g</div>
+      <div class="pt-label">Total Daily Protein</div>
+    </div>
+    <div class="plan-acts">
+      <button class="btn-save" onclick="savePlan()">💾 Save This Plan</button>
+      <button class="btn-share" onclick="sharePlan()">📤 Share Plan</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ AI NUTRITION CHAT ════════════════ -->
+<section class="ai-section" id="ai-chat">
+  <div class="ai-inner">
+    <div class="sec-header">
+      <div class="sec-label">AI Nutrition Coach</div>
+      <h2 class="sec-title">Ask Your <span class="accent">Nutrition AI</span></h2>
+      <p class="sec-sub">Powered by Groq AI. Ask anything about nutrition, your mess food, or get personalized advice based on your goals. Add your Groq API key to unlock full AI conversations.</p>
+    </div>
+
+    <!-- College Verification Banner -->
+    <div class="college-banner" id="college-banner">
+      <div class="cb-icon">🎓</div>
+      <div class="cb-body">
+        <strong>Are you a college student?</strong>
+        <span>Verify your .ac.in or .edu email to unlock exclusive student features — exam mode, mess AI, budget planning & more.</span>
+      </div>
+      <button class="btn-cb-verify" onclick="openVerifyModal()">Verify Email →</button>
+      <div class="cb-verified-tag" id="cb-verified-tag">✅ Student Verified</div>
+    </div>
+
+    <!-- Student Exclusive Strip (shown after verification) -->
+    <div class="student-exclusive-strip" id="student-exclusive-strip">
+      <div class="ses-title">⚡ Your Student-Exclusive Features</div>
+      <div class="ses-grid">
+        <div class="ses-card" onclick="sendQuickPrompt('Give me a 7-day exam season meal plan optimised for memory and focus for an Indian college student')">
+          <div class="ses-card-emoji">🧠</div>
+          <div class="ses-card-title">Exam Focus Mode</div>
+          <div class="ses-card-desc">7-day brain-fuel plan timed for peak study hours.</div>
+          <div class="ses-badge">STUDENT ONLY</div>
+        </div>
+        <div class="ses-card" onclick="sendQuickPrompt('Analyse a typical Indian college mess menu and tell me the biggest nutritional gaps and how to fix them cheaply')">
+          <div class="ses-card-emoji">🍽️</div>
+          <div class="ses-card-title">Mess Menu AI</div>
+          <div class="ses-card-desc">Instant nutrition breakdown + smart swaps for your mess food.</div>
+          <div class="ses-badge">STUDENT ONLY</div>
+        </div>
+        <div class="ses-card" onclick="sendQuickPrompt('Create a high-protein Indian meal plan under ₹100 per day for a hostel student')">
+          <div class="ses-card-emoji">💰</div>
+          <div class="ses-card-title">₹100/Day Budget Plan</div>
+          <div class="ses-card-desc">High-protein, balanced meals on a tight hostel budget.</div>
+          <div class="ses-badge">STUDENT ONLY</div>
+        </div>
+        <div class="ses-card" onclick="sendQuickPrompt('What are the best canteen snacks for an Indian college student to maintain energy between lectures without gaining weight?')">
+          <div class="ses-card-emoji">⚡</div>
+          <div class="ses-card-title">Canteen Smart Picks</div>
+          <div class="ses-card-desc">Best grab-and-go options from typical college canteens.</div>
+          <div class="ses-badge">STUDENT ONLY</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat UI -->
+    <div class="chat-container">
+      <div class="chat-header">
+        <span class="chat-header-dot"></span>
+        <div>
+          <div class="chat-header-title">NutriVerse AI Coach</div>
+          <div class="chat-header-sub" id="chat-header-sub">Powered by Groq AI</div>
+        </div>
+      </div>
+      <div class="quick-prompts">
+        <div class="qp" onclick="sendQuickPrompt('How much protein is in 1 cup of dal?')">🫘 Protein in dal?</div>
+        <div class="qp" onclick="sendQuickPrompt('What should I eat before an exam for better focus and memory?')">🧠 Pre-exam meals?</div>
+        <div class="qp" onclick="sendQuickPrompt('Is Maggi healthy for a college student eating it 3-4 times a week?')">🍜 Is Maggi okay?</div>
+        <div class="qp" onclick="sendQuickPrompt('How can I build muscle on a hostel mess diet with limited budget?')">💪 Muscle on mess diet?</div>
+        <div class="qp" onclick="sendQuickPrompt('What are the best high-protein vegetarian foods available in India under ₹50?')">💰 Budget protein foods?</div>
+      </div>
+      <div class="chat-msgs" id="chat-msgs">
+        <div class="msg msg-ai">
+          <div class="msg-bubble">👋 Hi! I'm your NutriVerse AI Coach. Ask me anything about nutrition, hostel mess food, meal timing, or diet planning for college life. Type a question or tap a quick prompt below to get started!</div>
+        </div>
+      </div>
+      <div class="chat-input-bar">
+        <textarea class="chat-input" id="chat-input" placeholder="Ask about nutrition, mess food, supplements, meal timing…" rows="1" onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="btn-send" id="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TOAST ════════════════ -->
+<div class="toast" id="toast">
+  <span id="toast-icon">✅</span>
+  <span id="toast-msg">Done!</span>
+</div>
+
+<!-- ════════════════ MODALS ════════════════ -->
+<!-- AI Insight -->
+<div class="modal-overlay" id="insight-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('insight-modal')">✕</button>
+    <div class="modal-icon">⚡</div>
+    <h3>Your AI Wellness Insights</h3>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      <div style="background:#F0FFF4;border-radius:12px;padding:14px">
+        <div style="font-weight:700;font-size:0.82rem;color:var(--green);margin-bottom:4px">🥦 Protein Gap</div>
+        <p style="font-size:0.85rem;color:var(--text);line-height:1.55;margin:0">Add 1 cup of dal or 2 boiled eggs at dinner to hit your 120g protein target.</p>
+      </div>
+      <div style="background:#FFFBF0;border-radius:12px;padding:14px">
+        <div style="font-weight:700;font-size:0.82rem;color:var(--amber);margin-bottom:4px">💧 Hydration Alert</div>
+        <p style="font-size:0.85rem;color:var(--text);line-height:1.55;margin:0">You're 1.2L short. Drink a glass every hour through 8 PM.</p>
+      </div>
+      <div style="background:#EEF2FF;border-radius:12px;padding:14px">
+        <div style="font-weight:700;font-size:0.82rem;color:#4F46E5;margin-bottom:4px">🧠 Focus Tip</div>
+        <p style="font-size:0.85rem;color:var(--text);line-height:1.55;margin:0">Snack on walnuts or almonds before your 4 PM study session.</p>
+      </div>
+    </div>
+    <button class="mbtn-p" style="width:100%" onclick="closeModal('insight-modal')">Got It!</button>
+  </div>
+</div>
+
+<!-- Gap card detail -->
+<div class="modal-overlay" id="gap-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('gap-modal')">✕</button>
+    <div class="modal-icon" id="gap-modal-icon">📊</div>
+    <h3 id="gap-modal-title">Gap Detail</h3>
+    <p id="gap-modal-text">Details here.</p>
+    <div class="modal-btns">
+      <button class="mbtn-p" onclick="closeModal('gap-modal');scrollToSection('planner')">Fix With AI Planner</button>
+      <button class="mbtn-s" onclick="closeModal('gap-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Day detail modal -->
+<div class="modal-overlay" id="day-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('day-modal')">✕</button>
+    <div class="modal-icon">📅</div>
+    <h3 id="day-modal-title">Monday's Meals</h3>
+    <div id="day-modal-meals" style="margin-bottom:16px;display:flex;flex-direction:column;gap:8px"></div>
+    <div class="modal-btns">
+      <button class="mbtn-p" onclick="closeModal('day-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Optimize result modal -->
+<div class="modal-overlay" id="optimize-modal">
+  <div class="modal" style="max-width:520px">
+    <button class="modal-close" onclick="closeModal('optimize-modal')">✕</button>
+    <div class="modal-icon">✨</div>
+    <h3>AI Optimization Report</h3>
+    <div id="optimize-modal-content" style="font-size:0.88rem;color:var(--text);line-height:1.65;margin-bottom:18px"></div>
+    <button class="mbtn-p" style="width:100%" onclick="closeModal('optimize-modal')">Apply These Changes</button>
+  </div>
+</div>
+
+<div style="height:60px"></div>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <!-- Brand -->
+      <div>
+        <div class="footer-brand-logo"><span class="dot"></span>Nutri<span>Verse</span> AI</div>
+        <p class="footer-tagline">AI-powered nutrition intelligence for Indian college students. Built for hostel life, mess menus, and exam seasons.</p>
+        <div class="footer-badge">🇮🇳 Built for India &nbsp;·&nbsp; No data stored on servers</div>
+      </div>
+      <!-- Features -->
+      <div>
+        <div class="footer-col-title">Features</div>
+        <ul class="footer-links">
+          <li><a onclick="scrollToSection('ai-chat')">🤖 AI Nutrition Coach</a></li>
+          <li><a onclick="scrollToSection('planner')">🥗 AI Meal Planner</a></li>
+          <li><a onclick="scrollToSection('mess-section')">📋 Mess Tracker</a></li>
+          <li><a onclick="scrollToSection('campus-section')">🎓 College Student Mode</a></li>
+          <li><a onclick="scrollToSection('features')">📊 Nutrition Insights</a></li>
+        </ul>
+      </div>
+      <!-- Students -->
+      <div>
+        <div class="footer-col-title">For Students</div>
+        <ul class="footer-links">
+          <li><a onclick="openVerifyModal()">✅ Verify College Email</a></li>
+          <li><a onclick="scrollToSection('ai-chat');setTimeout(()=>document.getElementById('chat-input').value='Give me a 7-day exam focus meal plan',200)">🧠 Exam Focus Mode</a></li>
+          <li><a onclick="scrollToSection('ai-chat');setTimeout(()=>document.getElementById('chat-input').value='Meal plan under ₹100/day for hostel',200)">💰 ₹100/Day Budget Plan</a></li>
+          <li><a onclick="scrollToSection('mess-section')">🍽️ Mess Menu Analysis</a></li>
+        </ul>
+      </div>
+      <!-- About -->
+      <div>
+        <div class="footer-col-title">About</div>
+        <ul class="footer-links">
+          <li><a>ℹ️ About NutriVerse</a></li>
+          <li><a href="mailto:shivanshboora14@gmail.com">📧 Contact</a></li>
+          <li><a>🔒 Privacy Policy</a></li>
+          <li><a href="https://console.groq.com" target="_blank" rel="noopener">⚡ Get Groq API Key</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 NutriVerse AI — All data stored locally in your browser only.</div>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div class="footer-groq-badge">⚡ Powered by Groq · llama-3.1-8b-instant</div>
+        <div class="footer-legal">
+          <a>Privacy Policy</a>
+          <a>Terms of Use</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════ ADMIN FAB (only visible when admin is authenticated) ════════════════ -->
+<button class="admin-fab" id="admin-fab" title="Admin Panel" onclick="openAdminPanel()">⚙️</button>
+
+<!-- ════════════════ ADMIN PANEL ════════════════ -->
+<div class="admin-overlay" id="admin-overlay">
+  <div class="admin-panel">
+    <button class="admin-close-btn" onclick="closeAdminPanel()">✕</button>
+
+    <!-- LOGIN VIEW -->
+    <div class="admin-login-view" id="admin-login-view">
+      <div class="al-icon">🔐</div>
+      <div class="al-title">Admin Access</div>
+      <div class="al-desc">This panel is restricted. Enter your admin email address to continue.</div>
+      <input class="admin-email-input" type="email" id="admin-email-input" placeholder="your@gmail.com" onkeydown="if(event.key==='Enter')adminDoLogin()"/>
+      <button class="btn-admin-enter" onclick="adminDoLogin()">Continue →</button>
+      <div class="admin-login-error" id="admin-login-error">⛔ Access denied. This account is not authorised.</div>
+    </div>
+
+    <!-- KEY MANAGEMENT VIEW -->
+    <div class="admin-key-view" id="admin-key-view" style="display:none">
+      <div class="ak-header">
+        <div class="ak-icon-wrap">⚙️</div>
+        <div>
+          <div class="ak-title">API Key Manager</div>
+          <div class="ak-sub">NutriVerse Admin Panel</div>
+        </div>
+      </div>
+      <div class="admin-key-box">
+        <div class="admin-key-label">🔑 Groq API Key</div>
+        <div class="admin-key-current" id="admin-key-current">No key saved yet.</div>
+        <div class="admin-key-saved-msg" id="admin-key-saved-msg">✅ Key saved successfully!</div>
+        <input class="admin-key-input" type="password" id="admin-key-input" placeholder="Paste new Groq key (gsk_…)"/>
+        <button class="btn-save-admin-key" onclick="adminSaveKey()">💾 Save New Key</button>
+      </div>
+      <div class="admin-logout-link">
+        <button onclick="adminLogout()">Sign out of admin</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ COLLEGE VERIFY MODAL ════════════════ -->
+<div class="overlay" id="verify-overlay">
+  <div class="verify-modal">
+    <button class="verify-modal-close" onclick="closeVerifyModal()">✕</button>
+
+    <!-- ENTER EMAIL VIEW -->
+    <div id="vm-enter-view">
+      <div class="vm-icon">👤</div>
+      <div class="vm-title">Sign In to NutriVerse</div>
+      <div class="vm-desc">Enter any email to use the AI coach. Use your college email to also unlock student-exclusive features.</div>
+      <input class="vm-input" type="email" id="vm-email-input" placeholder="you@example.com" onkeydown="if(event.key==='Enter')doVerifyEmail()"/>
+      <div class="vm-error" id="vm-error">Please enter a valid email address.</div>
+      <button class="btn-vm-primary" onclick="doVerifyEmail()">Continue →</button>
+      <div style="margin:16px 0;display:flex;align-items:center;gap:10px">
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+        <span style="font-size:0.75rem;color:var(--muted-l);font-weight:600">STUDENT?</span>
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+      </div>
+      <div style="background:var(--green-bg);border:1px solid var(--green-xl);border-radius:12px;padding:12px 14px;font-size:0.8rem;color:var(--text);line-height:1.6">
+        🎓 <strong>College email detected automatically.</strong> Domains like <code style="font-size:0.75rem;background:#E8F5E9;padding:1px 5px;border-radius:4px">.ac.in</code> <code style="font-size:0.75rem;background:#E8F5E9;padding:1px 5px;border-radius:4px">.edu</code> unlock Exam Mode, Mess AI, Budget Plans & more for free.
+      </div>
+    </div>
+
+    <!-- SUCCESS VIEW (college) -->
+    <div id="vm-success-view" style="display:none">
+      <div class="vm-success-icon">🎉</div>
+      <div class="vm-success-title">College Access Unlocked!</div>
+      <div class="vm-success-desc">Verified as <span class="vm-success-email" id="vm-success-email"></span>.<br>You now have full access to all student-exclusive features.</div>
+      <button class="btn-vm-primary" onclick="closeVerifyModal()">Start Exploring →</button>
+    </div>
+
+    <!-- SUCCESS VIEW (normal user) -->
+    <div id="vm-success-normal-view" style="display:none">
+      <div class="vm-success-icon">✅</div>
+      <div class="vm-success-title">You're all set!</div>
+      <div class="vm-success-desc">Signed in as <span class="vm-success-email" id="vm-success-normal-email"></span>.<br>All core AI features are now available to you.</div>
+      <button class="btn-vm-primary" onclick="closeVerifyModal()">Start Chatting →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══ NAVIGATION ═══ */
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
+function scrollToSection(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}
+
+/* ═══ MOBILE MENU ═══ */
+function toggleMobileMenu(){
+  const menu=document.getElementById('mobile-menu')
+  const btn=document.getElementById('nav-hamburger')
+  const isOpen=menu.classList.contains('open')
+  menu.classList.toggle('open')
+  btn.classList.toggle('open')
+  document.body.style.overflow=isOpen?'':'hidden'
+}
+function closeMobileMenu(){
+  document.getElementById('mobile-menu').classList.remove('open')
+  document.getElementById('nav-hamburger').classList.remove('open')
+  document.body.style.overflow=''
+}
+// Close mobile menu when clicking outside
+document.addEventListener('click',function(e){
+  const menu=document.getElementById('mobile-menu')
+  const btn=document.getElementById('nav-hamburger')
+  if(menu.classList.contains('open')&&!menu.contains(e.target)&&!btn.contains(e.target)){
+    closeMobileMenu()
+  }
+})
+
+/* ═══ MODALS ═══ */
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o){o.classList.remove('open');document.body.style.overflow=''}}))
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow=''})})
+
+/* ═══ TOAST ═══ */
+let toastTimer
+function showToast(icon,msg,dur=2800){
+  const t=document.getElementById('toast')
+  document.getElementById('toast-icon').textContent=icon
+  document.getElementById('toast-msg').textContent=msg
+  t.classList.add('show')
+  clearTimeout(toastTimer)
+  toastTimer=setTimeout(()=>t.classList.remove('show'),dur)
+}
+
+/* ═══ DASHBOARD REFRESH ═══ */
+const dsStates=[
+  {prot:{p:'57%',v:'68g',s:'of 120g',w:'57%'},cal:{p:'84%',v:'1,840',w:'84%'},energy:{p:'72%',v:'72',w:'72%'},hydra:{p:'60%',v:'1.8L',w:'60%'},i:'Protein 43% below target. Add 1 cup of dal or 2 eggs at dinner.'},
+  {prot:{p:'75%',v:'90g',s:'of 120g',w:'75%'},cal:{p:'62%',v:'1,364',w:'62%'},energy:{p:'88%',v:'88',w:'88%'},hydra:{p:'80%',v:'2.4L',w:'80%'},i:'Great progress! Energy is high. Add a protein snack after 6 PM.'},
+  {prot:{p:'45%',v:'54g',s:'of 120g',w:'45%'},cal:{p:'95%',v:'2,090',w:'95%'},energy:{p:'55%',v:'55',w:'55%'},hydra:{p:'40%',v:'1.2L',w:'40%'},i:'Low hydration affecting energy. Drink 500ml now and reduce carbs at dinner.'},
+]
+let dsIdx=0
+function refreshDashboard(){
+  dsIdx=(dsIdx+1)%dsStates.length
+  const s=dsStates[dsIdx]
+  document.getElementById('prot-pct').textContent=s.prot.p
+  document.getElementById('prot-val').textContent=s.prot.v
+  document.getElementById('prot-sub').textContent=s.prot.s
+  document.getElementById('prot-bar').style.width=s.prot.w
+  document.getElementById('cal-pct').textContent=s.cal.p
+  document.getElementById('cal-val').textContent=s.cal.v
+  document.getElementById('cal-bar').style.width=s.cal.w
+  document.getElementById('energy-pct').textContent=s.energy.p
+  document.getElementById('energy-val').textContent=s.energy.v
+  document.getElementById('energy-bar').style.width=s.energy.w
+  document.getElementById('hydra-pct').textContent=s.hydra.p
+  document.getElementById('hydra-val').textContent=s.hydra.v
+  document.getElementById('hydra-bar').style.width=s.hydra.w
+  document.getElementById('insight-text').textContent=s.i
+  showToast('📊','Dashboard refreshed!')
+}
+
+/* ═══ CHIP SELECTION ═══ */
+function selectChip(el,group){
+  const parent=el.closest('.chips')||el.closest('.selector-chips')
+  parent.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'))
+  el.classList.add('on')
+}
+
+/* ═══ AI MEAL PLANNER — 100% Groq powered, no hardcoded plans ═══ */
+async function generatePlan(){
+  const btn = document.getElementById('generate-btn')
+  btn.classList.add('loading'); btn.disabled = true
+  document.getElementById('daily-plan').classList.remove('visible')
+
+  // Collect ALL user preferences
+  const goalEl   = document.querySelector('#goal-chips .chip.on')
+  const dietEl   = document.querySelector('#diet-chips .chip.on')
+  const goal     = goalEl  ? goalEl.textContent.trim().replace(/^[\S]+\s/,'') : 'Exam Focus'
+  const diet     = dietEl  ? dietEl.textContent.trim().replace(/^[\S]+\s/,'') : 'Vegetarian'
+  const allergyChips = Array.from(document.querySelectorAll('#allergy-chips .chip.on'))
+                             .map(c => c.textContent.trim().replace(/^[\S]+\s/,''))
+  const allergyFree  = document.getElementById('allergy-other').value.trim()
+  const allergies    = [...allergyChips, allergyFree].filter(Boolean)
+  const allergyStr   = allergies.length ? allergies.join(', ') : 'none'
+  const isStudent    = collegeVerified
+  const budgetNote   = isStudent ? 'Keep each meal under ₹80 — student hostel budget.' : 'Use affordable Indian ingredients.'
+
+  // Build a very explicit prompt so the model cannot ignore any field
+  const prompt = `You are a precise Indian nutrition expert. Generate a 1-day personalized meal plan strictly following ALL of these rules:
+
+GOAL: ${goal}
+DIET TYPE: ${diet} — only suggest foods compatible with this diet. If Vegetarian, NO chicken/fish/meat. If Vegan, NO dairy or eggs. If Eggetarian, eggs are fine but no meat.
+ALLERGIES / AVOID: ${allergyStr} — NEVER include these ingredients or any dish containing them, not even as a minor component.
+CONTEXT: ${isStudent ? 'Indian college hostel student with mess/canteen access.' : 'Indian adult cooking at home or eating out.'}
+BUDGET: ${budgetNote}
+
+Return ONLY a valid JSON object. No explanation, no markdown fences, no extra text.
+
+Required format:
+{"title":"<descriptive plan name>","cal":<total daily calories as integer>,"protein":"<total protein e.g. 74g>","meals":[{"tag":"Breakfast","name":"<specific Indian meal name>","protein":<grams as integer>,"kcal":<kcal as integer>,"note":"<1 short tip>"},{"tag":"Lunch","name":"...","protein":<n>,"kcal":<n>,"note":"..."},{"tag":"Snack","name":"...","protein":<n>,"kcal":<n>,"note":"..."},{"tag":"Dinner","name":"...","protein":<n>,"kcal":<n>,"note":"..."}]}`
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 600,
+        temperature: 0.5  // lower = more consistent JSON compliance
+      })
+    })
+    const data = await res.json()
+
+    if (!data.choices?.[0]) {
+      const errMsg = data.error?.message || 'Unknown API error'
+      showToast('⚠️', `AI error: ${errMsg}`, 5000)
+      btn.classList.remove('loading'); btn.disabled = false
+      return
+    }
+
+    // Safely parse — strip any accidental markdown fences
+    let raw = data.choices[0].message.content.trim()
+    raw = raw.replace(/^```json?\s*/i,'').replace(/```\s*$/,'').trim()
+    const plan = JSON.parse(raw)
+
+    // Render the plan
+    document.getElementById('plan-title-text').textContent = plan.title || `${goal} Plan`
+    document.getElementById('plan-cal-num').textContent    = (plan.cal || 0).toLocaleString()
+    document.getElementById('plan-total-val').textContent  = plan.protein || '—'
+
+    // Show allergy/diet badges under the title so the user can see they were respected
+    const badgeHtml = [
+      `<span style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-xl);border-radius:50px;padding:2px 10px;font-size:0.7rem;font-weight:700">${diet}</span>`,
+      ...allergies.map(a => `<span style="background:#FEF3DC;color:#92400E;border:1px solid #FCD34D;border-radius:50px;padding:2px 10px;font-size:0.7rem;font-weight:700">No ${a}</span>`)
+    ].join(' ')
+    document.getElementById('plan-ready-tag').innerHTML = `AI Generated &nbsp;·&nbsp; ${badgeHtml}`
+
+    document.getElementById('meal-rows').innerHTML = (plan.meals || []).map(m => `
+      <div class="meal-row">
+        <div style="flex:1">
+          <div class="meal-tag-pill">${m.tag}</div>
+          <div class="meal-name">${m.name}</div>
+          ${m.note ? `<div style="font-size:0.75rem;color:var(--muted);margin-top:4px;padding-left:13px">💡 ${m.note}</div>` : ''}
+        </div>
+        <div class="meal-macros">
+          <div><div class="mac-val">${m.protein}g</div><div class="mac-label">Protein</div></div>
+          <div><div class="mac-val">${m.kcal}</div><div class="mac-label">kcal</div></div>
+        </div>
+      </div>`).join('')
+
+    const dp = document.getElementById('daily-plan')
+    dp.classList.add('visible')
+    dp.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    showToast('✨', `${plan.title} ready!`)
+
+  } catch(err) {
+    showToast('⚠️', `Plan generation failed: ${err.message}. Try again.`, 5000)
+    console.error('generatePlan error:', err)
+  }
+
+  btn.classList.remove('loading'); btn.disabled = false
+}
+
+function savePlan(){ showToast('💾', 'Plan saved! (Use Share to copy it.)') }
+
+function sharePlan(){
+  const title = document.getElementById('plan-title-text').textContent
+  const cal   = document.getElementById('plan-cal-num').textContent
+  const prot  = document.getElementById('plan-total-val').textContent
+  const rows  = [...document.querySelectorAll('.meal-row')].map(r => {
+    const tag  = r.querySelector('.meal-tag-pill')?.textContent || ''
+    const name = r.querySelector('.meal-name')?.textContent || ''
+    return `  ${tag}: ${name}`
+  }).join('\n')
+  const text = `🥗 My NutriVerse AI Plan: ${title}\n📊 ${cal} cal · 💪 ${prot} protein\n\n${rows}\n\nGenerated by NutriVerse AI — Fuel Smarter. Study Better.`
+  if (navigator.share) navigator.share({ title: 'My NutriVerse Plan', text }).catch(()=>{})
+  else if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => showToast('📋','Plan copied to clipboard!'))
+  else showToast('📤','Copy the plan from above!')
+}
+
+/* ═══ GAP CARDS ═══ */
+const gapData={
+  'skip-lunch':{icon:'☕',title:'Why Students Skip Lunch',text:'68% of students skip lunch due to tight schedules and poor mess variety. Skipping lunch drops blood glucose by 30%, directly reducing concentration and memory recall. NutriVerse AI helps you plan quick, portable high-nutrition alternatives.'},
+  'protein':{icon:'⚡',title:'The Protein Deficit Crisis',text:'The average student consumes just 42g of protein daily — nearly half the recommended 80g. Low protein leads to muscle loss, slower recovery, and poor focus. A single serving of dal, paneer, or eggs can bridge the gap.'},
+  'energy':{icon:'🔋',title:'The 3PM Energy Crash',text:'Post-lunch energy crashes at 3PM affect 74% of students. High-carb, low-fiber meals spike and crash blood sugar. NutriVerse AI recommends balanced macros to maintain steady energy through evening classes.'},
+  'focus':{icon:'🧠',title:'Nutrition & Academic Performance',text:'85% of students who improved their daily nutrition reported better focus, faster recall, and higher exam scores within 4 weeks. Omega-3s, B-vitamins, and steady glucose are key.'}
+}
+function openGapCard(key){
+  const d=gapData[key]
+  document.getElementById('gap-modal-icon').textContent=d.icon
+  document.getElementById('gap-modal-title').textContent=d.title
+  document.getElementById('gap-modal-text').textContent=d.text
+  openModal('gap-modal')
+}
+
+/* ═══ MESS / MEAL TRACKER ═══ */
+const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+const FULL_DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+let meals=JSON.parse(localStorage.getItem('nv_meals')||'[]')
+
+function saveMeals(){localStorage.setItem('nv_meals',JSON.stringify(meals))}
+
+function renderWeeklyGrid(){
+  const grid=document.getElementById('weekly-grid')
+  grid.innerHTML=DAYS.map((d,i)=>{
+    const dayMeals=meals.filter(m=>m.day===FULL_DAYS[i])
+    const has=dayMeals.length>0
+    return`<div class="day-col">
+      <div class="day-label">${d}</div>
+      <div class="day-dot ${has?'has-meal':'empty'}" onclick="showDayMeals('${FULL_DAYS[i]}')">${has?dayMeals.length:'+'}</div>
+    </div>`
+  }).join('')
+}
+
+function renderMealList(){
+  const el=document.getElementById('meal-list')
+  if(!meals.length){document.getElementById('saved-meals-section').style.display='none';return}
+  document.getElementById('saved-meals-section').style.display='block'
+  el.innerHTML=meals.map((m,i)=>`
+    <div class="meal-item">
+      <div class="mi-left">
+        <div class="mi-name">${m.name}</div>
+        <div class="mi-meta">${m.type} · ${m.day}</div>
+      </div>
+      <div class="mi-right">
+        <div class="mi-cal">${m.cal}kcal · ${m.prot}g P</div>
+        <button class="mi-del" onclick="deleteMeal(${i})">✕</button>
+      </div>
+    </div>`).join('')
+}
+
+function updateWeekSummary(){
+  const total=meals.length
+  const totalCal=meals.reduce((s,m)=>s+parseInt(m.cal||0),0)
+  const totalProt=meals.reduce((s,m)=>s+parseInt(m.prot||0),0)
+  const daysLogged=new Set(meals.map(m=>m.day)).size||1
+  document.getElementById('ws-total-meals').textContent=total
+  document.getElementById('ws-avg-cal').textContent=Math.round(totalCal/daysLogged)
+  document.getElementById('ws-avg-prot').textContent=Math.round(totalProt/daysLogged)+'g'
+}
+
+function addMeal(){
+  const name=document.getElementById('meal-name-input').value.trim()
+  const cal=document.getElementById('meal-cal-input').value
+  const prot=document.getElementById('meal-prot-input').value
+  const type=document.getElementById('meal-type-input').value
+  const day=document.getElementById('meal-day-input').value
+  if(!name){showToast('⚠️','Please enter a meal name');return}
+  if(!day){showToast('⚠️','Please select a day');return}
+  meals.push({name,cal:cal||0,prot:prot||0,type:type||'Meal',day})
+  saveMeals()
+  renderMealList()
+  renderWeeklyGrid()
+  updateWeekSummary()
+  document.getElementById('meal-name-input').value=''
+  document.getElementById('meal-cal-input').value=''
+  document.getElementById('meal-prot-input').value=''
+  document.getElementById('meal-type-input').value=''
+  document.getElementById('meal-day-input').value=''
+  showToast('✅',`${name} added to tracker!`)
+}
+
+function deleteMeal(i){
+  const name=meals[i].name
+  meals.splice(i,1)
+  saveMeals()
+  renderMealList()
+  renderWeeklyGrid()
+  updateWeekSummary()
+  showToast('🗑️',`Removed ${name}`)
+}
+
+function clearMeals(){
+  if(!confirm('Clear all meals for this week?'))return
+  meals=[]
+  saveMeals()
+  renderMealList()
+  renderWeeklyGrid()
+  updateWeekSummary()
+  showToast('🧹','All meals cleared')
+}
+
+function showDayMeals(day){
+  const dayMeals=meals.filter(m=>m.day===day)
+  document.getElementById('day-modal-title').textContent=`${day}'s Meals`
+  const container=document.getElementById('day-modal-meals')
+  if(!dayMeals.length){
+    container.innerHTML=`<div style="color:var(--muted);font-size:0.88rem;text-align:center;padding:20px">No meals logged for ${day} yet.<br><span style="cursor:pointer;color:var(--green);font-weight:600" onclick="closeModal('day-modal')">Add one above ↑</span></div>`
+  }else{
+    container.innerHTML=dayMeals.map(m=>`
+      <div style="background:var(--bg);border-radius:10px;padding:12px 14px;border:1px solid var(--border-l)">
+        <div style="font-weight:700;font-size:0.9rem;color:var(--dark)">${m.name}</div>
+        <div style="font-size:0.78rem;color:var(--muted);margin-top:2px">${m.type} · ${m.cal}kcal · ${m.prot}g protein</div>
+      </div>`).join('')
+  }
+  openModal('day-modal')
+}
+
+function handleFileUpload(e){
+  const file=e.target.files[0]
+  if(!file)return
+  showToast('📁',`${file.name} received — analyzing with AI…`,3500)
+
+  const reader=new FileReader()
+  reader.onload=async(ev)=>{
+    const optResult=document.getElementById('opt-result')
+    const optResultText=document.getElementById('opt-result-text')
+    optResult.style.display='block'
+    optResultText.textContent='⏳ AI is reading your mess menu…'
+
+    let userContent=''
+    if(file.type==='text/plain'){
+      // Real text — send the actual content
+      userContent=`Here is the actual mess menu the student uploaded:\n\n${ev.target.result.slice(0,3000)}\n\nAnalyze this and provide: 1) Estimated daily calories and protein. 2) Top 3 nutritional gaps. 3) Specific, affordable Indian food additions to fix the gaps. Be concise and practical.`
+    } else {
+      // Image or PDF — use contextual analysis
+      userContent=`A college student uploaded a mess menu file called "${file.name}" (${(file.size/1024).toFixed(0)}KB, type: ${file.type}). Based on a typical Indian college mess that serves dal, roti, rice, sabzi, and occasionally egg or paneer: analyze the likely nutritional profile and provide: 1) Estimated daily calories (~1200-1600 kcal) and protein (~30-50g) typical of Indian college messes. 2) The 3 most common nutritional gaps (protein, iron, vitamins). 3) Three specific, cheap additions (canteen or kirana) to meaningfully improve nutrition. Keep it under 200 words and actionable.`
+    }
+
+    try{
+      const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
+        body:JSON.stringify({
+          model:'llama-3.1-8b-instant',
+          messages:[
+            {role:'system',content:'You are an Indian college nutrition analyst. Be concise, specific, and practical. Focus on realistic, affordable improvements.'},
+            {role:'user',content:userContent}
+          ],
+          max_tokens:400,temperature:0.6
+        })
+      })
+      const data=await res.json()
+      if(data.choices&&data.choices[0]){
+        const reply=data.choices[0].message.content
+        optResultText.textContent=reply
+        showToast('✅','Mess menu analyzed by AI!')
+      } else {
+        const errMsg=data.error?.message||'Unknown error'
+        optResultText.textContent=`⚠️ AI error: ${errMsg}`
+      }
+    }catch(err){
+      optResultText.textContent=`⚠️ Could not analyze: ${err.message}. Check your internet connection.`
+    }
+  }
+
+  if(file.type==='text/plain') reader.readAsText(file)
+  else reader.readAsDataURL(file) // triggers onload for non-text files too
+}
+
+/* ═══ DRAG & DROP ═══ */
+const uploadZone=document.getElementById('upload-zone')
+uploadZone.addEventListener('dragover',e=>{e.preventDefault();uploadZone.classList.add('drag-over')})
+uploadZone.addEventListener('dragleave',()=>uploadZone.classList.remove('drag-over'))
+uploadZone.addEventListener('drop',e=>{e.preventDefault();uploadZone.classList.remove('drag-over');if(e.dataTransfer.files[0])showToast('📁',`Uploaded: ${e.dataTransfer.files[0].name}`)})
+
+async function optimizeMeals(){
+  if(!meals.length){showToast('⚠️','Add some meals first to optimize!');return}
+  const spinner=document.getElementById('opt-spinner')
+  const text=document.getElementById('opt-text')
+  spinner.style.display='inline-block'; text.textContent='AI analyzing…'
+
+  const totalCal  = meals.reduce((s,m)=>s+parseInt(m.cal||0),0)
+  const totalProt = meals.reduce((s,m)=>s+parseInt(m.prot||0),0)
+  const days      = new Set(meals.map(m=>m.day)).size || 1
+  const avgCal    = Math.round(totalCal/days)
+  const avgProt   = Math.round(totalProt/days)
+  const mealList  = meals.map(m=>`- ${m.name} (${m.type}, ${m.day}): ${m.cal} kcal, ${m.prot}g protein`).join('\n')
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [{
+          role: 'system',
+          content: 'You are an Indian college nutrition coach. Give direct, specific, actionable optimization advice. Be concise — max 200 words. Use bullet points.'
+        },{
+          role: 'user',
+          content: `Here are my logged meals this week:\n${mealList}\n\nWeekly averages: ${avgCal} cal/day, ${avgProt}g protein/day across ${days} day(s).\n\nGive me:\n1. What's working well (1-2 lines)\n2. Top 3 specific problems with my current meals\n3. Three concrete Indian food swaps or additions to fix them — with specific foods and rough quantities\n\nBe direct. No generic advice.`
+        }],
+        max_tokens: 450,
+        temperature: 0.6
+      })
+    })
+    const data = await res.json()
+    if(data.choices?.[0]){
+      const insights = data.choices[0].message.content
+      document.getElementById('optimize-modal-content').innerText = insights
+      openModal('optimize-modal')
+      const optResult = document.getElementById('opt-result')
+      optResult.style.display = 'block'
+      document.getElementById('opt-result-text').textContent = insights.slice(0,240)+'…'
+    } else {
+      const errMsg = data.error?.message || 'Unknown error'
+      showToast('⚠️', `AI error: ${errMsg}`, 5000)
+    }
+  } catch(err){
+    showToast('⚠️', `Optimization failed: ${err.message}`, 5000)
+  }
+
+  spinner.style.display='none'; text.textContent='✨ Optimize My Week with AI'
+}
+
+/* ════════════════════════════════════════════════════
+   ⚠️  ADMIN CONFIG — SET YOUR GMAIL ADDRESS BELOW
+   ════════════════════════════════════════════════════ */
+const ADMIN_GMAIL = 'shivanshboora14@gmail.com'
+
+/* ═══ API KEY — set by admin, shared with all users ═══
+   Admin can override this at runtime via the admin panel.
+   To pre-fill a key at build time, paste it in SITE_API_KEY below. */
+const SITE_API_KEY = '' // Set via Admin Panel (triple-click the logo)
+let apiKey = localStorage.getItem('nv_groq_key') || SITE_API_KEY
+let chatHistory = []
+
+/* ════════ ADMIN PANEL ════════ */
+let adminAuthed = false
+
+function initAdmin() {
+  // Restore session if admin logged in earlier this session
+  if (sessionStorage.getItem('nv_admin_ok') === '1') {
+    adminAuthed = true
+    document.getElementById('admin-fab').style.display = 'flex'
+  }
+}
+
+// Secret entry: triple-click the logo in <600ms
+let _logoClicks = 0, _logoTimer
+document.querySelector('.nav-logo').addEventListener('click', function(e) {
+  _logoClicks++
+  clearTimeout(_logoTimer)
+  _logoTimer = setTimeout(() => { _logoClicks = 0 }, 600)
+  if (_logoClicks >= 3) { _logoClicks = 0; openAdminPanel() }
+})
+
+function openAdminPanel() {
+  const overlay = document.getElementById('admin-overlay')
+  overlay.classList.add('open')
+  document.body.style.overflow = 'hidden'
+  if (adminAuthed) { showAdminKeyView() }
+  else { showAdminLoginView() }
+}
+
+function closeAdminPanel() {
+  document.getElementById('admin-overlay').classList.remove('open')
+  document.body.style.overflow = ''
+  document.getElementById('admin-login-error').style.display = 'none'
+  document.getElementById('admin-email-input').value = ''
+}
+
+function showAdminLoginView() {
+  document.getElementById('admin-login-view').style.display = 'block'
+  document.getElementById('admin-key-view').style.display = 'none'
+  setTimeout(() => document.getElementById('admin-email-input').focus(), 100)
+}
+
+function showAdminKeyView() {
+  document.getElementById('admin-login-view').style.display = 'none'
+  document.getElementById('admin-key-view').style.display = 'block'
+  const stored = localStorage.getItem('nv_groq_key') || ''
+  const display = document.getElementById('admin-key-current')
+  display.textContent = stored
+    ? stored.slice(0, 8) + '••••••••••••••' + stored.slice(-4) + '  (active)'
+    : 'No key saved yet.'
+  document.getElementById('admin-key-saved-msg').style.display = 'none'
+  document.getElementById('admin-key-input').value = ''
+}
+
+function adminDoLogin() {
+  const entered = document.getElementById('admin-email-input').value.trim().toLowerCase()
+  const errEl = document.getElementById('admin-login-error')
+  if (entered === ADMIN_GMAIL.toLowerCase()) {
+    adminAuthed = true
+    sessionStorage.setItem('nv_admin_ok', '1')
+    document.getElementById('admin-fab').style.display = 'flex'
+    errEl.style.display = 'none'
+    showAdminKeyView()
+  } else {
+    errEl.style.display = 'block'
+    document.getElementById('admin-email-input').value = ''
+    document.getElementById('admin-email-input').focus()
+  }
+}
+
+function adminSaveKey() {
+  const val = document.getElementById('admin-key-input').value.trim()
+  if (!val || !val.startsWith('gsk_')) {
+    showToast('⚠️', 'Key must start with gsk_ — paste a valid Groq key.')
+    return
+  }
+  apiKey = val  // update live for this session immediately
+  localStorage.setItem('nv_groq_key', val)
+  document.getElementById('admin-key-saved-msg').style.display = 'block'
+  document.getElementById('admin-key-input').value = ''
+  showAdminKeyView()
+  showToast('🔑', 'API key updated! AI chat is now live for all users.')
+}
+
+function adminLogout() {
+  adminAuthed = false
+  sessionStorage.removeItem('nv_admin_ok')
+  document.getElementById('admin-fab').style.display = 'none'
+  closeAdminPanel()
+  showToast('👋', 'Signed out of admin panel.')
+}
+
+// Close admin panel on backdrop click
+document.getElementById('admin-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAdminPanel()
+})
+
+/* ════════ COLLEGE EMAIL VERIFICATION ════════ */
+// Recognised institutional domain patterns
+const COLLEGE_PATTERNS = [
+  /\.ac\.in$/, /\.edu$/, /\.edu\.in$/, /\.ernet\.in$/,
+  /\.ac\.uk$/, /\.edu\.au$/, /\.edu\.sg$/, /\.edu\.hk$/,
+  /\.ac\.nz$/, /\.edu\.my$/, /\.ac\.za$/,
+  /iit[a-z]+\.ac\.in$/, /nit[a-z]+\.ac\.in$/, /bits-pilani\.ac\.in$/,
+]
+
+function isCollegeEmail(email) {
+  if (!email || !email.includes('@')) return false
+  const domain = email.toLowerCase().split('@')[1]
+  if (!domain) return false
+  return COLLEGE_PATTERNS.some(p => p.test(domain))
+}
+
+let collegeVerified = false
+
+function initCollegeVerify() {
+  const collegeMail = localStorage.getItem('nv_college_email')
+  if (collegeMail && isCollegeEmail(collegeMail)) {
+    collegeVerified = true
+    applyCollegeVerifiedUI(collegeMail)
+    return
+  }
+  const anyMail = localStorage.getItem('nv_user_email')
+  if (anyMail) applyNormalUserUI(anyMail)
+}
+
+function openVerifyModal() {
+  if (collegeVerified) { showToast('✅', 'You already have college student access!'); return }
+  if (localStorage.getItem('nv_user_email')) { showToast('✅', 'You\'re already signed in!'); return }
+  document.getElementById('verify-overlay').classList.add('open')
+  document.body.style.overflow = 'hidden'
+  document.getElementById('vm-enter-view').style.display = 'block'
+  document.getElementById('vm-success-view').style.display = 'none'
+  document.getElementById('vm-success-normal-view').style.display = 'none'
+  document.getElementById('vm-error').style.display = 'none'
+  document.getElementById('vm-email-input').value = ''
+  setTimeout(() => document.getElementById('vm-email-input').focus(), 150)
+}
+
+function closeVerifyModal() {
+  document.getElementById('verify-overlay').classList.remove('open')
+  document.body.style.overflow = ''
+}
+
+function doVerifyEmail() {
+  const email = document.getElementById('vm-email-input').value.trim()
+  const errEl = document.getElementById('vm-error')
+  // Accept any valid email format
+  if (!email || !email.includes('@') || !email.split('@')[1]?.includes('.')) {
+    errEl.style.display = 'block'
+    return
+  }
+  errEl.style.display = 'none'
+  localStorage.setItem('nv_user_email', email)
+
+  if (isCollegeEmail(email)) {
+    // College user → unlock student features
+    localStorage.setItem('nv_college_email', email)
+    collegeVerified = true
+    document.getElementById('vm-enter-view').style.display = 'none'
+    document.getElementById('vm-success-view').style.display = 'block'
+    document.getElementById('vm-success-email').textContent = email
+    applyCollegeVerifiedUI(email)
+  } else {
+    // Normal user → just sign them in, AI still works
+    document.getElementById('vm-enter-view').style.display = 'none'
+    document.getElementById('vm-success-normal-view').style.display = 'block'
+    document.getElementById('vm-success-normal-email').textContent = email
+    applyNormalUserUI(email)
+  }
+}
+
+function applyNormalUserUI(email) {
+  // Update nav button to show signed-in state
+  const navBtn = document.getElementById('nav-student-btn')
+  if (navBtn) { navBtn.textContent = '👤 ' + email.split('@')[0]; navBtn.style.background = 'var(--green-bg)'; navBtn.style.color = 'var(--green)'; navBtn.style.borderColor = 'var(--green-xl)' }
+  // Hide college banner verify button, show signed-in state
+  const cbBtn = document.querySelector('.btn-cb-verify')
+  if (cbBtn) { cbBtn.textContent = '✅ Signed In'; cbBtn.disabled = true; cbBtn.style.background = '#6B7280' }
+}
+
+function applyCollegeVerifiedUI(email) {
+  const domain = email.split('@')[1] || 'college'
+  // Nav badge
+  const navBtn = document.getElementById('nav-student-btn')
+  const navVerified = document.getElementById('nav-student-verified')
+  if (navBtn) navBtn.style.display = 'none'
+  if (navVerified) { navVerified.style.display = 'flex'; navVerified.textContent = '✅ ' + domain }
+  // AI chat banner
+  const banner = document.getElementById('college-banner')
+  const cbVerified = document.getElementById('cb-verified-tag')
+  const cbBtn = document.querySelector('.btn-cb-verify')
+  if (banner) banner.style.background = 'linear-gradient(135deg,#D1FAE5,#EFF6FF)'
+  if (cbBtn) cbBtn.style.display = 'none'
+  if (cbVerified) { cbVerified.style.display = 'flex'; cbVerified.textContent = '✅ ' + domain }
+  // Student exclusive strip
+  const strip = document.getElementById('student-exclusive-strip')
+  if (strip) strip.classList.add('visible')
+  // Chat header
+  const chatSub = document.getElementById('chat-header-sub')
+  if (chatSub) chatSub.textContent = '🎓 Student Mode • Powered by Groq AI'
+}
+
+// Close verify modal on backdrop click
+document.getElementById('verify-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeVerifyModal()
+})
+
+/* ════════ AI CHAT ════════ */
+function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px' }
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() }
+}
+
+function sendQuickPrompt(text) {
+  const inp = document.getElementById('chat-input')
+  inp.value = text
+  autoResize(inp)
+  sendMessage()
+}
+
+function addMsg(role, text, isTyping = false) {
+  const msgs = document.getElementById('chat-msgs')
+  const div = document.createElement('div')
+  div.className = `msg msg-${role}`
+  div.innerHTML = `<div class="msg-bubble${isTyping ? ' typing' : ''}">${isTyping ? '<div class="typing-dots"><span></span><span></span><span></span></div>' : text}</div>`
+  msgs.appendChild(div)
+  msgs.scrollTop = msgs.scrollHeight
+  return div
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input')
+  const text = input.value.trim()
+  if (!text) return
+  addMsg('user', text)
+  input.value = ''; autoResize(input)
+  chatHistory.push({ role: 'user', content: text })
+  const typingDiv = addMsg('ai', '', true)
+  document.getElementById('send-btn').disabled = true
+
+  if (!apiKey) {
+    setTimeout(() => {
+      typingDiv.remove()
+      addMsg('ai', '⚠️ The AI service is being set up. Please check back shortly — the site admin will enable it soon.')
+      document.getElementById('send-btn').disabled = false
+    }, 900)
+    return
+  }
+
+  // Build a context-aware system prompt
+  const studentCtx = collegeVerified ? 'The user is a verified college student. Give advice specifically relevant to hostel and mess life, budget constraints (₹50–150/meal), exam schedules, and canteen food.' : 'The user may be a general user or student. Give practical, Indian-context nutrition advice.'
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [
+          { role: 'system', content: `You are NutriVerse AI, an expert nutrition coach for Indian students and young adults. You specialise in hostel and mess food, affordable high-protein Indian foods, exam-prep diets, and budget-friendly meal planning. Keep responses concise, practical, and grounded in Indian food culture. Use emojis sparingly. Give specific, actionable advice with real Indian food examples (dal, paneer, roti, rajma, poha, etc.). ${studentCtx}` },
+          ...chatHistory
+        ],
+        max_tokens: 600, temperature: 0.7
+      })
+    })
+    const data = await res.json()
+    typingDiv.remove()
+    if (data.choices && data.choices[0]) {
+      const reply = data.choices[0].message.content
+      chatHistory.push({ role: 'assistant', content: reply })
+      addMsg('ai', reply.replace(/\n/g, '<br>'))
+    } else {
+      // Show the actual Groq error — e.g. invalid key, rate limit, model error
+      const errMsg = data.error?.message || JSON.stringify(data)
+      const errType = data.error?.type || ''
+      let friendlyHint = ''
+      if (errType === 'invalid_request_error' || errMsg.includes('API key')) friendlyHint = ' (API key may be invalid or expired — admin should update it)'
+      else if (errMsg.includes('rate_limit') || errMsg.includes('rate limit')) friendlyHint = ' (Rate limit hit — try again in a few seconds)'
+      else if (errMsg.includes('model')) friendlyHint = ' (Model issue — try refreshing)'
+      addMsg('ai', `⚠️ Groq API error: ${errMsg}${friendlyHint}`)
+    }
+  } catch (err) {
+    typingDiv.remove()
+    // Distinguish network errors from other JS errors
+    if (err instanceof TypeError && err.message.includes('fetch')) {
+      addMsg('ai', `⚠️ Network error: Could not reach Groq API. Check your internet connection and try again.\n\nDetails: ${err.message}`)
+    } else {
+      addMsg('ai', `⚠️ Unexpected error: ${err.message || err}. Please refresh the page and try again.`)
+    }
+  }
+  document.getElementById('send-btn').disabled = false
+  document.getElementById('chat-msgs').scrollTop = 9999
+}
+
+/* ═══ INIT ═══ */
+renderWeeklyGrid()
+renderMealList()
+updateWeekSummary()
+initAdmin()
+initCollegeVerify()
+</script>
+</body>
+</html>

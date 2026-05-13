@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriVerse AI — Offline</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:#F6F4F0;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;color:#1F2937}
+  .offline-card{background:white;border-radius:28px;padding:48px 40px;max-width:440px;width:100%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.08)}
+  .offline-icon{font-size:4rem;margin-bottom:20px;animation:float 3s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  h1{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;margin-bottom:12px;letter-spacing:-0.02em}
+  h1 span{color:#2A7A3B}
+  p{color:#6B7280;font-size:0.95rem;line-height:1.7;margin-bottom:28px}
+  .retry-btn{background:#2A7A3B;color:white;border:none;padding:14px 32px;border-radius:50px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+  .retry-btn:hover{background:#4CAF50;transform:translateY(-2px);box-shadow:0 6px 20px rgba(42,122,59,.28)}
+  .saved-hint{margin-top:24px;background:#EAF5EA;border:1px solid #A8DAAD;border-radius:12px;padding:14px 18px;font-size:0.82rem;color:#2A7A3B;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="offline-card">
+  <div class="offline-icon">📡</div>
+  <h1>You're <span>Offline</span></h1>
+  <p>NutriVerse AI needs an internet connection for AI-powered features. But don't worry — your saved plans and meal logs are still available in your browser.</p>
+  <button class="retry-btn" onclick="location.reload()">🔄 Try Again</button>
+  <div class="saved-hint">
+    💡 <strong>Tip:</strong> Your saved meal plans and weekly tracker data are stored locally and available even offline. Just reconnect to generate new plans or chat with the AI coach.
+  </div>
+</div>
+</body>
+</html>
