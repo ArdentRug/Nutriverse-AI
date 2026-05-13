@@ -55,6 +55,17 @@
       line-height: 1.6
     }
 
+    /* Eliminate 300ms tap delay on all interactive elements */
+    a, button, [onclick], input, select, textarea {
+      touch-action: manipulation
+    }
+
+    /* GPU hints for elements that animate */
+    .btn-primary, .btn-secondary, .btn-nav, .gap-card,
+    .campus-mini-card, .hc-metric, .ses-card {
+      will-change: transform
+    }
+
     /* ═══════════════ NAV ═══════════════ */
     nav {
       position: sticky;
@@ -501,12 +512,20 @@
     .prog-fill {
       height: 100%;
       border-radius: 10px;
-      transition: width 0.9s cubic-bezier(.4,0,.2,1)
+      transition: width 0.9s cubic-bezier(.4, 0, .2, 1)
     }
 
-    .pg { background: linear-gradient(90deg, #22c55e, #4ade80) }
-    .pa { background: linear-gradient(90deg, #f59e0b, #fbbf24) }
-    .pb { background: linear-gradient(90deg, #38bdf8, #7dd3fc) }
+    .pg {
+      background: linear-gradient(90deg, #22c55e, #4ade80)
+    }
+
+    .pa {
+      background: linear-gradient(90deg, #f59e0b, #fbbf24)
+    }
+
+    .pb {
+      background: linear-gradient(90deg, #38bdf8, #7dd3fc)
+    }
 
     /* Interactive metric tile */
     .hc-metric {
@@ -518,21 +537,28 @@
       transition: all .2s;
       background: transparent
     }
+
     .hc-metric:hover {
-      background: rgba(16,185,129,.05);
-      border-color: rgba(16,185,129,.18);
+      background: rgba(16, 185, 129, .05);
+      border-color: rgba(16, 185, 129, .18);
       transform: translateY(-1px)
     }
+
     .hc-metric.expanded {
-      background: rgba(16,185,129,.06);
+      background: rgba(16, 185, 129, .06);
       border-color: var(--green-xl);
     }
+
     .hc-metric-quick {
       display: none;
       margin-top: 8px;
       animation: fadeSlide .2s ease
     }
-    .hc-metric.expanded .hc-metric-quick { display: block }
+
+    .hc-metric.expanded .hc-metric-quick {
+      display: block
+    }
+
     .hcq-input {
       width: 100%;
       box-sizing: border-box;
@@ -545,7 +571,11 @@
       color: var(--dark);
       margin-bottom: 5px
     }
-    .hcq-input:focus { border-color: var(--green) }
+
+    .hcq-input:focus {
+      border-color: var(--green)
+    }
+
     .hcq-add {
       width: 100%;
       padding: 5px 0;
@@ -558,35 +588,44 @@
       cursor: pointer;
       transition: background .2s
     }
-    .hcq-add:hover { background: var(--green-d) }
+
+    .hcq-add:hover {
+      background: var(--green-d)
+    }
+
     .hc-tip {
       font-size: 0.62rem;
       color: var(--muted-l);
       margin-top: 2px;
       text-align: right
     }
+
     /* Quick log panel at bottom of card */
     .ql-panel {
       overflow: hidden;
       max-height: 0;
-      transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s;
+      transition: max-height .35s cubic-bezier(.4, 0, .2, 1), opacity .25s;
       opacity: 0
     }
+
     .ql-panel.open {
       max-height: 220px;
       opacity: 1
     }
+
     .ql-panel-inner {
       border-top: 1px solid var(--border-l);
       padding-top: 12px;
       margin-top: 12px
     }
+
     .ql-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 6px;
       margin-bottom: 6px
     }
+
     .ql-inp {
       padding: 6px 9px;
       border: 1.5px solid var(--border-l);
@@ -599,8 +638,15 @@
       box-sizing: border-box;
       transition: border .2s
     }
-    .ql-inp:focus { border-color: var(--green) }
-    .ql-inp.full { grid-column: 1/-1 }
+
+    .ql-inp:focus {
+      border-color: var(--green)
+    }
+
+    .ql-inp.full {
+      grid-column: 1/-1
+    }
+
     .ql-btn {
       width: 100%;
       padding: 8px;
@@ -613,17 +659,40 @@
       cursor: pointer;
       transition: opacity .2s
     }
-    .ql-btn:hover { opacity: .88 }
+
+    .ql-btn:hover {
+      opacity: .88
+    }
+
     @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(-4px) }
-      to   { opacity: 1; transform: none }
+      from {
+        opacity: 0;
+        transform: translateY(-4px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
     }
+
     @keyframes popVal {
-      0%   { transform: scale(1) }
-      40%  { transform: scale(1.12) }
-      100% { transform: scale(1) }
+      0% {
+        transform: scale(1)
+      }
+
+      40% {
+        transform: scale(1.12)
+      }
+
+      100% {
+        transform: scale(1)
+      }
     }
-    .pop { animation: popVal .4s ease }
+
+    .pop {
+      animation: popVal .4s ease
+    }
 
     .ai-insight-mini {
       background: #FFFBF0;
@@ -3042,9 +3111,16 @@
       }
     }
 
+    /* ── Tablet / large phone ── */
     @media(max-width:768px) {
+      /* Nav */
       nav {
-        padding: 0 20px
+        padding: 0 16px;
+        height: 60px
+      }
+
+      .mobile-menu {
+        top: 60px
       }
 
       .nav-links {
@@ -3055,39 +3131,118 @@
         display: flex
       }
 
+      /* Hide "College Access" & "Get Started" in nav on mobile — available in mobile menu */
+      .nav-student-btn,
+      .nav-student-verified,
+      .btn-nav {
+        display: none !important
+      }
+
+      /* Remove heavy blur from nav — main choppiness culprit on mobile */
+      nav {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(255,255,255,0.99)
+      }
+
+      /* Mobile menu — remove heavy blur too */
+      .mobile-menu {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: #fff
+      }
+
+      /* Sections */
       .section,
       .campus-section,
       .mess-section,
       .planner-section,
       .ai-section,
       .gap-section {
-        padding: 60px 20px
+        padding: 52px 16px
       }
 
+      /* Hero */
       .hero {
-        padding: 80px 20px 60px
+        min-height: auto;
+        padding: 76px 16px 52px
       }
 
       .hero h1 {
-        font-size: 2.4rem
+        font-size: 2.2rem
       }
 
+      .hero-desc {
+        font-size: 0.92rem
+      }
+
+      .hero-btns {
+        flex-direction: column;
+        gap: 10px
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        text-align: center
+      }
+
+      /* Section titles */
+      .sec-title {
+        font-size: 2rem
+      }
+
+      /* Campus */
+      .campus-section {
+        padding: 52px 16px
+      }
+
+      .campus-title {
+        font-size: 2rem
+      }
+
+      /* Mess upload form — stack two-col rows */
+      .mf-row {
+        grid-template-columns: 1fr
+      }
+
+      /* Weekly mess grid — scrollable instead of cramped */
+      .weekly-grid {
+        grid-template-columns: repeat(7, minmax(36px, 1fr));
+        gap: 4px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch
+      }
+
+      .day-label {
+        font-size: 0.6rem
+      }
+
+      /* Prefs */
       .pref-grid {
         grid-template-columns: 1fr
       }
 
+      /* Gap / stats grid */
       .gap-grid {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr 1fr
       }
 
+      /* Dashboard metrics */
       .hc-metrics {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr 1fr
+      }
+
+      /* AI Chat */
+      .chat-msgs {
+        height: 280px
       }
 
       .quick-prompts {
         flex-wrap: nowrap;
         overflow-x: auto;
-        padding-bottom: 4px;
+        padding-bottom: 6px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none
       }
@@ -3096,16 +3251,214 @@
         display: none
       }
 
+      /* Meal planner */
       .plan-acts {
         flex-wrap: wrap
       }
 
-      .campus-section {
-        padding: 60px 20px
+      .meal-row {
+        flex-wrap: wrap;
+        gap: 8px
+      }
+
+      .meal-macros {
+        gap: 10px
+      }
+
+      /* Modal */
+      .modal {
+        padding: 28px 20px
+      }
+
+      /* Week summary */
+      .ws-stats {
+        grid-template-columns: repeat(3, 1fr)
+      }
+
+      /* Footer */
+      .footer-top {
+        grid-template-columns: 1fr 1fr
+      }
+
+      footer {
+        padding: 48px 16px 24px
+      }
+
+      /* Reduce heavy animations on mobile for performance */
+      .gap-card:hover,
+      .campus-mini-card:hover,
+      .ses-card:hover {
+        transform: none
+      }
+
+      /* Hide large decorative fruits on mobile to prevent text overlap */
+      .hero-fruits {
+        display: none
+      }
+
+      /* Ensure all horizontal overflow is clipped */
+      body {
+        overflow-x: hidden
+      }
+    }
+
+    /* ── Small phones (≤480px) ── */
+    @media(max-width:480px) {
+      /* Nav */
+      nav {
+        padding: 0 14px
+      }
+
+      /* Hero */
+      .hero h1 {
+        font-size: 1.9rem
+      }
+
+      .hero-stats {
+        gap: 7px
+      }
+
+      .h-stat {
+        font-size: 0.75rem;
+        padding: 6px 12px
+      }
+
+      /* Section titles */
+      .sec-title {
+        font-size: 1.75rem
       }
 
       .campus-title {
-        font-size: 2.1rem
+        font-size: 1.75rem
+      }
+
+      /* Gap grid: single column */
+      .gap-grid {
+        grid-template-columns: 1fr
+      }
+
+      /* Dashboard metrics: single column */
+      .hc-metrics {
+        grid-template-columns: 1fr
+      }
+
+      /* Mess upload card */
+      .mess-upload-card,
+      .mess-weekly-card {
+        padding: 20px 16px
+      }
+
+      /* Weekly grid — make dots a bit bigger, horizontally scrollable */
+      .weekly-grid {
+        gap: 3px
+      }
+
+      .day-dot {
+        font-size: 0.62rem;
+        border-radius: 6px
+      }
+
+      /* AI chat height */
+      .chat-msgs {
+        height: 240px
+      }
+
+      /* Plan head */
+      .plan-head {
+        flex-direction: column
+      }
+
+      .plan-cals {
+        text-align: left
+      }
+
+      /* Daily plan */
+      .daily-plan {
+        padding: 20px 16px
+      }
+
+      .meal-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px
+      }
+
+      .meal-macros {
+        text-align: left;
+        gap: 16px
+      }
+
+      /* Planner pref cards */
+      .pref-card {
+        padding: 14px 16px
+      }
+
+      /* Chips */
+      .chip {
+        padding: 6px 11px;
+        font-size: 0.78rem
+      }
+
+      /* Verify modal */
+      .verify-modal {
+        padding: 28px 20px 24px
+      }
+
+      /* Toast: full width on very small screens */
+      .toast {
+        left: 12px;
+        right: 12px;
+        transform: translateX(0) translateY(80px);
+        white-space: normal;
+        text-align: center;
+        justify-content: center
+      }
+
+      .toast.show {
+        transform: translateX(0) translateY(0)
+      }
+
+      /* Week summary */
+      .ws-stats {
+        grid-template-columns: 1fr 1fr 1fr
+      }
+
+      /* Footer */
+      .footer-top {
+        grid-template-columns: 1fr
+      }
+
+      footer {
+        padding: 40px 14px 20px
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px
+      }
+
+      /* Campus mini cards */
+      .campus-mini-card {
+        padding: 16px
+      }
+
+      /* API key bar */
+      .api-key-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px
+      }
+
+      .api-key-input-wrap {
+        width: 100%;
+        min-width: unset
+      }
+
+      /* College banner */
+      .college-banner {
+        flex-direction: column;
+        gap: 10px
       }
     }
   </style>
@@ -3146,8 +3499,8 @@
     <a onclick="scrollToSection('ai-chat');closeMobileMenu()">🤖 Nutrition AI Coach</a>
     <a onclick="scrollToSection('features');closeMobileMenu()">📊 Nutrition Insights</a>
     <div class="mm-divider"></div>
-    <a class="mm-college-btn" onclick="openVerifyModal();closeMobileMenu()">🎓 Verify College Email — Unlock Student
-      Access</a>
+    <a onclick="scrollToSection('planner');closeMobileMenu()" style="background:var(--dark);color:#fff;border-radius:12px;justify-content:center;font-size:0.9rem;margin-bottom:6px">⚡ Get Started — Build My Diet</a>
+    <a class="mm-college-btn" onclick="openVerifyModal();closeMobileMenu()">🎓 Verify College Email — Unlock Student Access</a>
   </div>
 
   <!-- ════════════════ HERO ════════════════ -->
@@ -3224,7 +3577,9 @@
               <div class="hc-title">Wellness Dashboard</div>
             </div>
             <div style="display:flex;gap:8px;align-items:center">
-              <div id="ds-today-tag" style="font-size:0.68rem;font-weight:700;color:var(--muted);background:#F5F5F5;padding:3px 9px;border-radius:50px">Today</div>
+              <div id="ds-today-tag"
+                style="font-size:0.68rem;font-weight:700;color:var(--muted);background:#F5F5F5;padding:3px 9px;border-radius:50px">
+                Today</div>
               <div class="live-chip" onclick="refreshDashboard()"><span class="live-dot2"></span> Live ↻</div>
             </div>
           </div>
@@ -3240,11 +3595,15 @@
               </div>
               <div class="hc-m-val" id="prot-val">0g</div>
               <div class="hc-m-sub" id="prot-sub">of 80g target</div>
-              <div class="prog"><div class="prog-fill pg" id="prot-bar" style="width:0%"></div></div>
+              <div class="prog">
+                <div class="prog-fill pg" id="prot-bar" style="width:0%"></div>
+              </div>
               <div class="hc-tip">↗ tap to add</div>
               <div class="hc-metric-quick">
-                <input class="hcq-input" id="ql-prot-val" type="number" placeholder="Protein (g) you ate" min="0" onkeydown="if(event.key==='Enter')quickAddNutrient('prot')" />
-                <button class="hcq-add" onclick="event.stopPropagation();quickAddNutrient('prot')">+ Add Protein</button>
+                <input class="hcq-input" id="ql-prot-val" type="number" placeholder="Protein (g) you ate" min="0"
+                  onkeydown="if(event.key==='Enter')quickAddNutrient('prot')" />
+                <button class="hcq-add" onclick="event.stopPropagation();quickAddNutrient('prot')">+ Add
+                  Protein</button>
               </div>
             </div>
 
@@ -3256,11 +3615,15 @@
               </div>
               <div class="hc-m-val" id="cal-val">0</div>
               <div class="hc-m-sub" id="cal-sub">of 2,000 kcal</div>
-              <div class="prog"><div class="prog-fill pg" id="cal-bar" style="width:0%"></div></div>
+              <div class="prog">
+                <div class="prog-fill pg" id="cal-bar" style="width:0%"></div>
+              </div>
               <div class="hc-tip">↗ tap to add</div>
               <div class="hc-metric-quick">
-                <input class="hcq-input" id="ql-cal-val" type="number" placeholder="Calories (kcal) eaten" min="0" onkeydown="if(event.key==='Enter')quickAddNutrient('cal')" />
-                <button class="hcq-add" onclick="event.stopPropagation();quickAddNutrient('cal')">+ Add Calories</button>
+                <input class="hcq-input" id="ql-cal-val" type="number" placeholder="Calories (kcal) eaten" min="0"
+                  onkeydown="if(event.key==='Enter')quickAddNutrient('cal')" />
+                <button class="hcq-add" onclick="event.stopPropagation();quickAddNutrient('cal')">+ Add
+                  Calories</button>
               </div>
             </div>
 
@@ -3272,12 +3635,17 @@
               </div>
               <div class="hc-m-val" id="energy-val">— · —</div>
               <div class="hc-m-sub" id="energy-sub">carbs · fat today</div>
-              <div class="prog"><div class="prog-fill pa" id="energy-bar" style="width:0%"></div></div>
+              <div class="prog">
+                <div class="prog-fill pa" id="energy-bar" style="width:0%"></div>
+              </div>
               <div class="hc-tip">↗ tap to add</div>
               <div class="hc-metric-quick">
-                <input class="hcq-input" id="ql-carb-val" type="number" placeholder="Carbs (g)" min="0" onkeydown="if(event.key==='Enter')quickAddNutrient('macro')" />
-                <input class="hcq-input" id="ql-fat-val" type="number" placeholder="Fat (g)" min="0" onkeydown="if(event.key==='Enter')quickAddNutrient('macro')" />
-                <button class="hcq-add" onclick="event.stopPropagation();quickAddNutrient('macro')">+ Add Macros</button>
+                <input class="hcq-input" id="ql-carb-val" type="number" placeholder="Carbs (g)" min="0"
+                  onkeydown="if(event.key==='Enter')quickAddNutrient('macro')" />
+                <input class="hcq-input" id="ql-fat-val" type="number" placeholder="Fat (g)" min="0"
+                  onkeydown="if(event.key==='Enter')quickAddNutrient('macro')" />
+                <button class="hcq-add" onclick="event.stopPropagation();quickAddNutrient('macro')">+ Add
+                  Macros</button>
               </div>
             </div>
 
@@ -3289,12 +3657,22 @@
               </div>
               <div class="hc-m-val" id="hydra-val">0 ml</div>
               <div class="hc-m-sub">target: 3L/day</div>
-              <div class="prog"><div class="prog-fill pb" id="hydra-bar" style="width:0%"></div></div>
+              <div class="prog">
+                <div class="prog-fill pb" id="hydra-bar" style="width:0%"></div>
+              </div>
               <div style="display:flex;gap:5px;margin-top:8px">
-                <button onclick="addWater(250)" style="flex:1;padding:5px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer">💧 +250</button>
-                <button onclick="addWater(500)" style="flex:1;padding:5px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer">🥤 +500</button>
-                <button onclick="addWater(1000)" style="flex:1;padding:5px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer">🥤 +1L</button>
-                <button onclick="resetWater()" style="flex:0;padding:5px 7px;font-size:0.72rem;font-weight:700;background:transparent;border:1px solid var(--border-l);border-radius:8px;color:var(--muted);cursor:pointer" title="Reset">↺</button>
+                <button onclick="addWater(250)"
+                  style="flex:1;padding:5px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer">💧
+                  +250</button>
+                <button onclick="addWater(500)"
+                  style="flex:1;padding:5px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer">🥤
+                  +500</button>
+                <button onclick="addWater(1000)"
+                  style="flex:1;padding:5px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer">🥤
+                  +1L</button>
+                <button onclick="resetWater()"
+                  style="flex:0;padding:5px 7px;font-size:0.72rem;font-weight:700;background:transparent;border:1px solid var(--border-l);border-radius:8px;color:var(--muted);cursor:pointer"
+                  title="Reset">↺</button>
               </div>
             </div>
 
@@ -3305,22 +3683,26 @@
             <div class="ai-icon">⚡</div>
             <div>
               <div class="ai-tag">Live Nutrition — tap for detail</div>
-              <div class="ai-text" id="insight-text">Add meals below or click any tile above to log nutrition instantly.</div>
+              <div class="ai-text" id="insight-text">Add meals below or click any tile above to log nutrition instantly.
+              </div>
             </div>
           </div>
 
           <!-- Quick Log Meal panel (collapsed by default) -->
           <div class="ql-panel" id="ql-panel">
             <div class="ql-panel-inner">
-              <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:8px">⚡ Quick Log a Meal</div>
-              <input class="ql-inp ql-full" id="ql-name" placeholder="Meal name (e.g. Dal Rice, Paneer)" style="grid-column:1/-1;margin-bottom:6px" />
+              <div
+                style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:8px">
+                ⚡ Quick Log a Meal</div>
+              <input class="ql-inp ql-full" id="ql-name" placeholder="Meal name (e.g. Dal Rice, Paneer)"
+                style="grid-column:1/-1;margin-bottom:6px" />
               <div class="ql-row">
-                <input class="ql-inp" id="ql-cal"  type="number" placeholder="Kcal" min="0" />
+                <input class="ql-inp" id="ql-cal" type="number" placeholder="Kcal" min="0" />
                 <input class="ql-inp" id="ql-prot" type="number" placeholder="Protein (g)" min="0" />
               </div>
               <div class="ql-row">
                 <input class="ql-inp" id="ql-carb" type="number" placeholder="Carbs (g)" min="0" />
-                <input class="ql-inp" id="ql-fat"  type="number" placeholder="Fat (g)" min="0" />
+                <input class="ql-inp" id="ql-fat" type="number" placeholder="Fat (g)" min="0" />
               </div>
               <button class="ql-btn" onclick="quickLogMeal()">➕ Add to Today's Tracker</button>
             </div>
@@ -3328,7 +3710,9 @@
 
           <!-- Card footer row -->
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-            <button onclick="toggleQuickLog()" style="font-size:0.75rem;font-weight:700;color:var(--green);background:var(--green-bg);border:1px solid var(--green-xl);border-radius:8px;padding:5px 12px;cursor:pointer;transition:all .2s" id="ql-toggle-btn">➕ Quick Log Meal</button>
+            <button onclick="toggleQuickLog()"
+              style="font-size:0.75rem;font-weight:700;color:var(--green);background:var(--green-bg);border:1px solid var(--green-xl);border-radius:8px;padding:5px 12px;cursor:pointer;transition:all .2s"
+              id="ql-toggle-btn">➕ Quick Log Meal</button>
             <span style="font-size:0.68rem;color:var(--muted-l)">or scroll to tracker ↓</span>
           </div>
 
@@ -3460,11 +3844,13 @@
           <h3 style="font-family:var(--font);font-size:1.1rem;font-weight:800;color:var(--dark);margin-bottom:16px">📋
             Add Meals to Track</h3>
           <div class="upload-zone" id="upload-zone">
-            <input type="file" class="upload-input" id="menu-file-input" accept=".jpg,.jpeg,.png,.webp,.txt" onchange="handleFileUpload(event)">
+            <input type="file" class="upload-input" id="menu-file-input" accept=".jpg,.jpeg,.png,.webp,.txt"
+              onchange="handleFileUpload(event)">
             <div class="upload-icon">📸</div>
             <div class="upload-title">Upload Mess Menu Photo or Text File</div>
             <div class="upload-desc">JPG/PNG photo of your mess board — or a .txt file with the menu typed out</div>
-            <div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:6px">🤖 Real AI analysis via Groq Vision</div>
+            <div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:6px">🤖 Real AI analysis via
+              Groq Vision</div>
           </div>
           <div style="text-align:center;font-size:0.82rem;color:var(--muted);margin:10px 0 16px">— or add meal manually
             —</div>
@@ -3628,7 +4014,8 @@
       <div class="plan-acts">
         <button class="btn-save" onclick="savePlan()">💾 Save This Plan</button>
         <button class="btn-share" onclick="sharePlan()">📤 Share Plan</button>
-        <button class="btn-save" id="add-plan-tracker-btn" onclick="addPlanMealsToTracker()" style="background:linear-gradient(135deg,#10b981,#059669)">➕ Add to Today's Tracker</button>
+        <button class="btn-save" id="add-plan-tracker-btn" onclick="addPlanMealsToTracker()"
+          style="background:linear-gradient(135deg,#10b981,#059669)">➕ Add to Today's Tracker</button>
       </div>
     </div>
   </section>
@@ -4028,24 +4415,24 @@
 
     /* ═══ RESOLVE "today" TO A WEEKDAY NAME ═══ */
     function getTodayName() {
-      return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()]
+      return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][new Date().getDay()]
     }
 
     /* ═══ CENTRAL DASHBOARD UPDATE ═══ */
     function updateDashboard() {
       const todayName = getTodayName()
       const tdeeData = JSON.parse(localStorage.getItem('nv_tdee') || 'null')
-      const calTarget  = tdeeData ? Math.round(tdeeData.calories) : 2000
-      const protTarget = tdeeData ? Math.round(tdeeData.protein)  : 80
+      const calTarget = tdeeData ? Math.round(tdeeData.calories) : 2000
+      const protTarget = tdeeData ? Math.round(tdeeData.protein) : 80
       const carbTarget = Math.round(calTarget * 0.5 / 4)   // 50% cal from carbs
-      const fatTarget  = Math.round(calTarget * 0.3 / 9)   // 30% cal from fat
+      const fatTarget = Math.round(calTarget * 0.3 / 9)   // 30% cal from fat
 
       // Filter today's meals
       const todayMeals = meals.filter(m => m.day === todayName || m.day === 'today')
-      const totalCal  = todayMeals.reduce((s, m) => s + parseInt(m.cal  || 0), 0)
+      const totalCal = todayMeals.reduce((s, m) => s + parseInt(m.cal || 0), 0)
       const totalProt = todayMeals.reduce((s, m) => s + parseInt(m.prot || 0), 0)
       const totalCarb = todayMeals.reduce((s, m) => s + parseInt(m.carb || 0), 0)
-      const totalFat  = todayMeals.reduce((s, m) => s + parseInt(m.fat  || 0), 0)
+      const totalFat = todayMeals.reduce((s, m) => s + parseInt(m.fat || 0), 0)
 
       // Water
       const waterStore = getWaterStore()
@@ -4054,36 +4441,36 @@
       const waterPct = Math.min(Math.round((waterMl / waterTarget) * 100), 100)
 
       // Percentages (capped at 100)
-      const calPct  = Math.min(Math.round((totalCal  / calTarget)  * 100), 100)
+      const calPct = Math.min(Math.round((totalCal / calTarget) * 100), 100)
       const protPct = Math.min(Math.round((totalProt / protTarget) * 100), 100)
       const carbPct = totalCarb > 0 ? Math.min(Math.round((totalCarb / carbTarget) * 100), 100) : 0
-      const fatPct  = totalFat  > 0 ? Math.min(Math.round((totalFat  / fatTarget)  * 100), 100) : 0
+      const fatPct = totalFat > 0 ? Math.min(Math.round((totalFat / fatTarget) * 100), 100) : 0
       const macroScore = Math.round((carbPct + fatPct) / 2)
 
       // — Protein row —
       document.getElementById('prot-pct').textContent = protPct + '%'
       document.getElementById('prot-val').textContent = totalProt + 'g'
       document.getElementById('prot-sub').textContent = `of ${protTarget}g target`
-      document.getElementById('prot-bar').style.width  = protPct + '%'
+      document.getElementById('prot-bar').style.width = protPct + '%'
 
       // — Calories row —
       document.getElementById('cal-pct').textContent = calPct + '%'
-      document.getElementById('cal-val').textContent  = totalCal.toLocaleString()
-      document.getElementById('cal-sub').textContent  = `of ${calTarget.toLocaleString()} kcal`
-      document.getElementById('cal-bar').style.width  = calPct + '%'
+      document.getElementById('cal-val').textContent = totalCal.toLocaleString()
+      document.getElementById('cal-sub').textContent = `of ${calTarget.toLocaleString()} kcal`
+      document.getElementById('cal-bar').style.width = calPct + '%'
 
       // — Carbs · Fat row —
       document.getElementById('energy-pct').textContent = macroScore > 0 ? macroScore + '%' : '—'
       document.getElementById('energy-val').textContent = totalCarb > 0 || totalFat > 0
         ? `${totalCarb}g · ${totalFat}g` : '— · —'
       document.getElementById('energy-sub').textContent = `of ~${carbTarget}g · ${fatTarget}g`
-      document.getElementById('energy-bar').style.width  = macroScore + '%'
+      document.getElementById('energy-bar').style.width = macroScore + '%'
 
       // — Hydration row —
       const waterLabel = waterMl >= 1000 ? (waterMl / 1000).toFixed(1) + ' L' : waterMl + ' ml'
       document.getElementById('hydra-pct').textContent = waterPct + '%'
       document.getElementById('hydra-val').textContent = waterLabel
-      document.getElementById('hydra-bar').style.width  = waterPct + '%'
+      document.getElementById('hydra-bar').style.width = waterPct + '%'
 
       // — Smart insight —
       let insight
@@ -4107,11 +4494,11 @@
       const tag = document.getElementById('ds-today-tag')
       if (tag) tag.textContent = todayName
 
-      // Flash animation on value elements when they change
-      ;['prot-val','cal-val','energy-val','hydra-val'].forEach(id => {
-        const el = document.getElementById(id)
-        if (el) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop') }
-      })
+        // Flash animation on value elements when they change
+        ;['prot-val', 'cal-val', 'energy-val', 'hydra-val'].forEach(id => {
+          const el = document.getElementById(id)
+          if (el) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop') }
+        })
     }
 
     /* Alias used by the "Live ↻" button — shows a toast too */
@@ -4148,24 +4535,24 @@
         if (!v) { showToast('⚠️', 'Enter a protein amount first'); return }
         mealObj.name = `Quick Protein Log (+${v}g)`
         mealObj.prot = v
-        mealObj.cal  = Math.round(v * 4)   // ~4 kcal per gram protein
+        mealObj.cal = Math.round(v * 4)   // ~4 kcal per gram protein
         document.getElementById('ql-prot-val').value = ''
       } else if (key === 'cal') {
         const v = parseInt(document.getElementById('ql-cal-val').value) || 0
         if (!v) { showToast('⚠️', 'Enter a calorie amount first'); return }
         mealObj.name = `Quick Calorie Log (+${v} kcal)`
-        mealObj.cal  = v
+        mealObj.cal = v
         document.getElementById('ql-cal-val').value = ''
       } else if (key === 'macro') {
         const carb = parseInt(document.getElementById('ql-carb-val').value) || 0
-        const fat  = parseInt(document.getElementById('ql-fat-val').value)  || 0
+        const fat = parseInt(document.getElementById('ql-fat-val').value) || 0
         if (!carb && !fat) { showToast('⚠️', 'Enter carbs or fat first'); return }
         mealObj.name = `Quick Macro Log (${carb}g C · ${fat}g F)`
         mealObj.carb = carb
-        mealObj.fat  = fat
-        mealObj.cal  = Math.round(carb * 4 + fat * 9)
+        mealObj.fat = fat
+        mealObj.cal = Math.round(carb * 4 + fat * 9)
         document.getElementById('ql-carb-val').value = ''
-        document.getElementById('ql-fat-val').value  = ''
+        document.getElementById('ql-fat-val').value = ''
       }
       meals.push(mealObj)
       saveMeals(); renderMealList(); renderWeeklyGrid(); updateWeekSummary(); updateDashboard()
@@ -4180,22 +4567,22 @@
     function quickLogMeal() {
       const name = document.getElementById('ql-name').value.trim()
       if (!name) { showToast('⚠️', 'Enter a meal name'); document.getElementById('ql-name').focus(); return }
-      const cal  = parseInt(document.getElementById('ql-cal').value)  || 0
+      const cal = parseInt(document.getElementById('ql-cal').value) || 0
       const prot = parseInt(document.getElementById('ql-prot').value) || 0
       const carb = parseInt(document.getElementById('ql-carb').value) || 0
-      const fat  = parseInt(document.getElementById('ql-fat').value)  || 0
+      const fat = parseInt(document.getElementById('ql-fat').value) || 0
       const todayName = getTodayName()
       meals.push({ name, cal, prot, carb, fat, type: 'Meal', day: todayName, source: 'Quick Log' })
       saveMeals(); renderMealList(); renderWeeklyGrid(); updateWeekSummary(); updateDashboard()
-      // Clear fields
-      ;['ql-name','ql-cal','ql-prot','ql-carb','ql-fat'].forEach(id => { document.getElementById(id).value = '' })
+        // Clear fields
+        ;['ql-name', 'ql-cal', 'ql-prot', 'ql-carb', 'ql-fat'].forEach(id => { document.getElementById(id).value = '' })
       showToast('✅', `${name} logged! Dashboard updated.`)
     }
 
     /* ═══ TOGGLE QUICK LOG PANEL ═══ */
     function toggleQuickLog() {
       const panel = document.getElementById('ql-panel')
-      const btn   = document.getElementById('ql-toggle-btn')
+      const btn = document.getElementById('ql-toggle-btn')
       const isOpen = panel.classList.toggle('open')
       btn.textContent = isOpen ? '✕ Close' : '➕ Quick Log Meal'
       if (isOpen) setTimeout(() => document.getElementById('ql-name').focus(), 180)
@@ -4421,10 +4808,10 @@ Return ONLY valid JSON, no markdown, no explanation:
 
     function addMeal() {
       const name = document.getElementById('meal-name-input').value.trim()
-      const cal  = parseInt(document.getElementById('meal-cal-input').value)  || 0
+      const cal = parseInt(document.getElementById('meal-cal-input').value) || 0
       const prot = parseInt(document.getElementById('meal-prot-input').value) || 0
       const carb = parseInt(document.getElementById('meal-carb-input').value) || 0
-      const fat  = parseInt(document.getElementById('meal-fat-input').value)  || 0
+      const fat = parseInt(document.getElementById('meal-fat-input').value) || 0
       const type = document.getElementById('meal-type-input').value || 'Meal'
       const dayRaw = document.getElementById('meal-day-input').value
       // 'today' resolves to today's actual weekday name
@@ -4437,12 +4824,12 @@ Return ONLY valid JSON, no markdown, no explanation:
       updateWeekSummary()
       updateDashboard()
       document.getElementById('meal-name-input').value = ''
-      document.getElementById('meal-cal-input').value  = ''
+      document.getElementById('meal-cal-input').value = ''
       document.getElementById('meal-prot-input').value = ''
       document.getElementById('meal-carb-input').value = ''
-      document.getElementById('meal-fat-input').value  = ''
+      document.getElementById('meal-fat-input').value = ''
       document.getElementById('meal-type-input').value = ''
-      document.getElementById('meal-day-input').value  = 'today'
+      document.getElementById('meal-day-input').value = 'today'
       showToast('✅', `${name} added — dashboard updated!`)
     }
 
@@ -4479,12 +4866,12 @@ Return ONLY valid JSON, no markdown, no explanation:
       _lastPlan.meals.forEach(m => {
         meals.push({
           name: m.name,
-          cal:  parseInt(m.kcal  || 0),
+          cal: parseInt(m.kcal || 0),
           prot: parseInt(m.protein || 0),
           carb: parseInt(m.carb || 0),
-          fat:  parseInt(m.fat  || 0),
+          fat: parseInt(m.fat || 0),
           type: m.tag || 'Meal',
-          day:  todayName,
+          day: todayName,
           source: 'AI Plan'
         })
       })
@@ -4601,15 +4988,15 @@ Be specific, practical, and tailored to an Indian college student's reality.`
 
           // Try to parse a calorie / protein estimate from the analysis text
           // and offer a one-click import into today's tracker
-          const calMatch  = reply.match(/(\d{3,4})\s*(?:kcal|cal|calories)/i)
+          const calMatch = reply.match(/(\d{3,4})\s*(?:kcal|cal|calories)/i)
           const protMatch = reply.match(/(\d{2,3})\s*g\s*(?:protein|prot)/i)
           const carbMatch = reply.match(/(\d{2,3})\s*g\s*(?:carbs?|carbohydrates?)/i)
-          const fatMatch  = reply.match(/(\d{2,3})\s*g\s*fat/i)
+          const fatMatch = reply.match(/(\d{2,3})\s*g\s*fat/i)
           if (calMatch || protMatch) {
-            const estCal  = calMatch  ? parseInt(calMatch[1])  : 0
+            const estCal = calMatch ? parseInt(calMatch[1]) : 0
             const estProt = protMatch ? parseInt(protMatch[1]) : 0
             const estCarb = carbMatch ? parseInt(carbMatch[1]) : 0
-            const estFat  = fatMatch  ? parseInt(fatMatch[1])  : 0
+            const estFat = fatMatch ? parseInt(fatMatch[1]) : 0
             const importBtn = document.createElement('button')
             importBtn.style.cssText = 'margin-top:12px;padding:8px 16px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:0.8rem;cursor:pointer;width:100%'
             importBtn.textContent = `📥 Import estimated nutrition to today’s tracker (${estCal || '?'}kcal · ${estProt || '?'}g P)`
