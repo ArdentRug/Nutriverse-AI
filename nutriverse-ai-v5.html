@@ -492,7 +492,7 @@
     }
 
     .prog {
-      height: 5px;
+      height: 8px;
       background: #F0F0F0;
       border-radius: 10px;
       overflow: hidden
@@ -501,20 +501,129 @@
     .prog-fill {
       height: 100%;
       border-radius: 10px;
-      transition: width .6s ease
+      transition: width 0.9s cubic-bezier(.4,0,.2,1)
     }
 
-    .pg {
-      background: var(--green-l)
-    }
+    .pg { background: linear-gradient(90deg, #22c55e, #4ade80) }
+    .pa { background: linear-gradient(90deg, #f59e0b, #fbbf24) }
+    .pb { background: linear-gradient(90deg, #38bdf8, #7dd3fc) }
 
-    .pa {
-      background: var(--amber)
+    /* Interactive metric tile */
+    .hc-metric {
+      position: relative;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      transition: all .2s;
+      background: transparent
     }
-
-    .pb {
-      background: var(--blue)
+    .hc-metric:hover {
+      background: rgba(16,185,129,.05);
+      border-color: rgba(16,185,129,.18);
+      transform: translateY(-1px)
     }
+    .hc-metric.expanded {
+      background: rgba(16,185,129,.06);
+      border-color: var(--green-xl);
+    }
+    .hc-metric-quick {
+      display: none;
+      margin-top: 8px;
+      animation: fadeSlide .2s ease
+    }
+    .hc-metric.expanded .hc-metric-quick { display: block }
+    .hcq-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 5px 8px;
+      border: 1.5px solid var(--green-xl);
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-family: var(--font);
+      outline: none;
+      color: var(--dark);
+      margin-bottom: 5px
+    }
+    .hcq-input:focus { border-color: var(--green) }
+    .hcq-add {
+      width: 100%;
+      padding: 5px 0;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background .2s
+    }
+    .hcq-add:hover { background: var(--green-d) }
+    .hc-tip {
+      font-size: 0.62rem;
+      color: var(--muted-l);
+      margin-top: 2px;
+      text-align: right
+    }
+    /* Quick log panel at bottom of card */
+    .ql-panel {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s;
+      opacity: 0
+    }
+    .ql-panel.open {
+      max-height: 220px;
+      opacity: 1
+    }
+    .ql-panel-inner {
+      border-top: 1px solid var(--border-l);
+      padding-top: 12px;
+      margin-top: 12px
+    }
+    .ql-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 6px
+    }
+    .ql-inp {
+      padding: 6px 9px;
+      border: 1.5px solid var(--border-l);
+      border-radius: 9px;
+      font-size: 0.78rem;
+      font-family: var(--font);
+      outline: none;
+      color: var(--dark);
+      width: 100%;
+      box-sizing: border-box;
+      transition: border .2s
+    }
+    .ql-inp:focus { border-color: var(--green) }
+    .ql-inp.full { grid-column: 1/-1 }
+    .ql-btn {
+      width: 100%;
+      padding: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: opacity .2s
+    }
+    .ql-btn:hover { opacity: .88 }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-4px) }
+      to   { opacity: 1; transform: none }
+    }
+    @keyframes popVal {
+      0%   { transform: scale(1) }
+      40%  { transform: scale(1.12) }
+      100% { transform: scale(1) }
+    }
+    .pop { animation: popVal .4s ease }
 
     .ai-insight-mini {
       background: #FFFBF0;
@@ -3114,66 +3223,115 @@
               <div class="hc-label">NutriVerse AI</div>
               <div class="hc-title">Wellness Dashboard</div>
             </div>
-            <div class="live-chip" onclick="refreshDashboard()"><span class="live-dot2"></span> Live ↻</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <div id="ds-today-tag" style="font-size:0.68rem;font-weight:700;color:var(--muted);background:#F5F5F5;padding:3px 9px;border-radius:50px">Today</div>
+              <div class="live-chip" onclick="refreshDashboard()"><span class="live-dot2"></span> Live ↻</div>
+            </div>
           </div>
+
+          <!-- Metric grid: each tile is clickable to quick-add that nutrient -->
           <div class="hc-metrics">
-            <div class="hc-metric">
+
+            <!-- Protein tile -->
+            <div class="hc-metric" id="tile-prot" onclick="toggleTile('prot')" title="Click to log protein">
               <div class="hc-m-top">
-                <span class="hc-m-label">Protein Today</span>
+                <span class="hc-m-label">💪 Protein</span>
                 <span class="hc-m-pct pct-green" id="prot-pct">0%</span>
               </div>
               <div class="hc-m-val" id="prot-val">0g</div>
-              <div class="hc-m-sub" id="prot-sub">of 80g</div>
-              <div class="prog">
-                <div class="prog-fill pg" id="prot-bar" style="width:0%"></div>
+              <div class="hc-m-sub" id="prot-sub">of 80g target</div>
+              <div class="prog"><div class="prog-fill pg" id="prot-bar" style="width:0%"></div></div>
+              <div class="hc-tip">↗ tap to add</div>
+              <div class="hc-metric-quick">
+                <input class="hcq-input" id="ql-prot-val" type="number" placeholder="Protein (g) you ate" min="0" onkeydown="if(event.key==='Enter')quickAddNutrient('prot')" />
+                <button class="hcq-add" onclick="event.stopPropagation();quickAddNutrient('prot')">+ Add Protein</button>
               </div>
             </div>
-            <div class="hc-metric">
+
+            <!-- Calories tile -->
+            <div class="hc-metric" id="tile-cal" onclick="toggleTile('cal')" title="Click to log calories">
               <div class="hc-m-top">
-                <span class="hc-m-label">Calories</span>
+                <span class="hc-m-label">🔥 Calories</span>
                 <span class="hc-m-pct pct-green" id="cal-pct">0%</span>
               </div>
               <div class="hc-m-val" id="cal-val">0</div>
               <div class="hc-m-sub" id="cal-sub">of 2,000 kcal</div>
-              <div class="prog">
-                <div class="prog-fill pg" id="cal-bar" style="width:0%"></div>
+              <div class="prog"><div class="prog-fill pg" id="cal-bar" style="width:0%"></div></div>
+              <div class="hc-tip">↗ tap to add</div>
+              <div class="hc-metric-quick">
+                <input class="hcq-input" id="ql-cal-val" type="number" placeholder="Calories (kcal) eaten" min="0" onkeydown="if(event.key==='Enter')quickAddNutrient('cal')" />
+                <button class="hcq-add" onclick="event.stopPropagation();quickAddNutrient('cal')">+ Add Calories</button>
               </div>
             </div>
-            <div class="hc-metric">
+
+            <!-- Carbs · Fat tile -->
+            <div class="hc-metric" id="tile-macro" onclick="toggleTile('macro')" title="Click to log carbs & fat">
               <div class="hc-m-top">
-                <span class="hc-m-label">Carbs · Fat</span>
-                <span class="hc-m-pct pct-amber" id="energy-pct">0%</span>
+                <span class="hc-m-label">🍞 Carbs · Fat</span>
+                <span class="hc-m-pct pct-amber" id="energy-pct">—</span>
               </div>
-              <div class="hc-m-val" id="energy-val">0g · 0g</div>
+              <div class="hc-m-val" id="energy-val">— · —</div>
               <div class="hc-m-sub" id="energy-sub">carbs · fat today</div>
-              <div class="prog">
-                <div class="prog-fill pa" id="energy-bar" style="width:0%"></div>
+              <div class="prog"><div class="prog-fill pa" id="energy-bar" style="width:0%"></div></div>
+              <div class="hc-tip">↗ tap to add</div>
+              <div class="hc-metric-quick">
+                <input class="hcq-input" id="ql-carb-val" type="number" placeholder="Carbs (g)" min="0" onkeydown="if(event.key==='Enter')quickAddNutrient('macro')" />
+                <input class="hcq-input" id="ql-fat-val" type="number" placeholder="Fat (g)" min="0" onkeydown="if(event.key==='Enter')quickAddNutrient('macro')" />
+                <button class="hcq-add" onclick="event.stopPropagation();quickAddNutrient('macro')">+ Add Macros</button>
               </div>
             </div>
-            <div class="hc-metric">
+
+            <!-- Hydration tile -->
+            <div class="hc-metric" style="cursor:default" title="Log water with the buttons below">
               <div class="hc-m-top">
-                <span class="hc-m-label">Hydration</span>
+                <span class="hc-m-label">💧 Hydration</span>
                 <span class="hc-m-pct pct-blue" id="hydra-pct">0%</span>
               </div>
               <div class="hc-m-val" id="hydra-val">0 ml</div>
               <div class="hc-m-sub">target: 3L/day</div>
-              <div class="prog">
-                <div class="prog-fill pb" id="hydra-bar" style="width:0%"></div>
-              </div>
-              <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
-                <button onclick="addWater(250)" style="flex:1;min-width:60px;padding:4px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer" title="+1 glass">💧 +250ml</button>
-                <button onclick="addWater(500)" style="flex:1;min-width:60px;padding:4px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer" title="+500ml">🥤 +500ml</button>
-                <button onclick="resetWater()" style="flex:0;padding:4px 8px;font-size:0.72rem;font-weight:700;background:transparent;border:1px solid var(--border-l);border-radius:8px;color:var(--muted);cursor:pointer" title="Reset water">↺</button>
+              <div class="prog"><div class="prog-fill pb" id="hydra-bar" style="width:0%"></div></div>
+              <div style="display:flex;gap:5px;margin-top:8px">
+                <button onclick="addWater(250)" style="flex:1;padding:5px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer">💧 +250</button>
+                <button onclick="addWater(500)" style="flex:1;padding:5px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer">🥤 +500</button>
+                <button onclick="addWater(1000)" style="flex:1;padding:5px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer">🥤 +1L</button>
+                <button onclick="resetWater()" style="flex:0;padding:5px 7px;font-size:0.72rem;font-weight:700;background:transparent;border:1px solid var(--border-l);border-radius:8px;color:var(--muted);cursor:pointer" title="Reset">↺</button>
               </div>
             </div>
-          </div>
+
+          </div><!-- end hc-metrics -->
+
+          <!-- AI Insight row -->
           <div class="ai-insight-mini" onclick="openModal('insight-modal')">
             <div class="ai-icon">⚡</div>
             <div>
-              <div class="ai-tag">Live Nutrition — tap for insight</div>
-              <div class="ai-text" id="insight-text">Add meals below or upload your mess menu to see your real nutrition data here.</div>
+              <div class="ai-tag">Live Nutrition — tap for detail</div>
+              <div class="ai-text" id="insight-text">Add meals below or click any tile above to log nutrition instantly.</div>
             </div>
           </div>
+
+          <!-- Quick Log Meal panel (collapsed by default) -->
+          <div class="ql-panel" id="ql-panel">
+            <div class="ql-panel-inner">
+              <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:8px">⚡ Quick Log a Meal</div>
+              <input class="ql-inp ql-full" id="ql-name" placeholder="Meal name (e.g. Dal Rice, Paneer)" style="grid-column:1/-1;margin-bottom:6px" />
+              <div class="ql-row">
+                <input class="ql-inp" id="ql-cal"  type="number" placeholder="Kcal" min="0" />
+                <input class="ql-inp" id="ql-prot" type="number" placeholder="Protein (g)" min="0" />
+              </div>
+              <div class="ql-row">
+                <input class="ql-inp" id="ql-carb" type="number" placeholder="Carbs (g)" min="0" />
+                <input class="ql-inp" id="ql-fat"  type="number" placeholder="Fat (g)" min="0" />
+              </div>
+              <button class="ql-btn" onclick="quickLogMeal()">➕ Add to Today's Tracker</button>
+            </div>
+          </div>
+
+          <!-- Card footer row -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+            <button onclick="toggleQuickLog()" style="font-size:0.75rem;font-weight:700;color:var(--green);background:var(--green-bg);border:1px solid var(--green-xl);border-radius:8px;padding:5px 12px;cursor:pointer;transition:all .2s" id="ql-toggle-btn">➕ Quick Log Meal</button>
+            <span style="font-size:0.68rem;color:var(--muted-l)">or scroll to tracker ↓</span>
+          </div>
+
         </div>
       </div>
     </div>
@@ -3944,12 +4102,103 @@
         insight = `${totalProt}g protein, ${totalCal.toLocaleString()} kcal logged. ${protLeft}g more protein needed today.`
       }
       document.getElementById('insight-text').textContent = insight
+
+      // Update day tag in header
+      const tag = document.getElementById('ds-today-tag')
+      if (tag) tag.textContent = todayName
+
+      // Flash animation on value elements when they change
+      ;['prot-val','cal-val','energy-val','hydra-val'].forEach(id => {
+        const el = document.getElementById(id)
+        if (el) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop') }
+      })
     }
 
     /* Alias used by the "Live ↻" button — shows a toast too */
     function refreshDashboard() {
       updateDashboard()
       showToast('📊', 'Dashboard refreshed from today\'s meals!')
+    }
+
+    /* ═══ TILE TOGGLE — expand/collapse inline nutrient quick-entry ═══ */
+    let _openTile = null
+    function toggleTile(key) {
+      const tileId = 'tile-' + key
+      const tile = document.getElementById(tileId)
+      if (!tile) return
+      if (_openTile && _openTile !== tileId) {
+        const prev = document.getElementById(_openTile)
+        if (prev) prev.classList.remove('expanded')
+      }
+      tile.classList.toggle('expanded')
+      _openTile = tile.classList.contains('expanded') ? tileId : null
+      // Auto-focus the first input
+      if (tile.classList.contains('expanded')) {
+        const inp = tile.querySelector('.hcq-input')
+        if (inp) setTimeout(() => inp.focus(), 60)
+      }
+    }
+
+    /* ═══ QUICK ADD SINGLE NUTRIENT from tile ═══ */
+    function quickAddNutrient(key) {
+      const todayName = getTodayName()
+      let mealObj = { name: '', cal: 0, prot: 0, carb: 0, fat: 0, type: 'Snack', day: todayName, source: 'Quick Tile' }
+      if (key === 'prot') {
+        const v = parseInt(document.getElementById('ql-prot-val').value) || 0
+        if (!v) { showToast('⚠️', 'Enter a protein amount first'); return }
+        mealObj.name = `Quick Protein Log (+${v}g)`
+        mealObj.prot = v
+        mealObj.cal  = Math.round(v * 4)   // ~4 kcal per gram protein
+        document.getElementById('ql-prot-val').value = ''
+      } else if (key === 'cal') {
+        const v = parseInt(document.getElementById('ql-cal-val').value) || 0
+        if (!v) { showToast('⚠️', 'Enter a calorie amount first'); return }
+        mealObj.name = `Quick Calorie Log (+${v} kcal)`
+        mealObj.cal  = v
+        document.getElementById('ql-cal-val').value = ''
+      } else if (key === 'macro') {
+        const carb = parseInt(document.getElementById('ql-carb-val').value) || 0
+        const fat  = parseInt(document.getElementById('ql-fat-val').value)  || 0
+        if (!carb && !fat) { showToast('⚠️', 'Enter carbs or fat first'); return }
+        mealObj.name = `Quick Macro Log (${carb}g C · ${fat}g F)`
+        mealObj.carb = carb
+        mealObj.fat  = fat
+        mealObj.cal  = Math.round(carb * 4 + fat * 9)
+        document.getElementById('ql-carb-val').value = ''
+        document.getElementById('ql-fat-val').value  = ''
+      }
+      meals.push(mealObj)
+      saveMeals(); renderMealList(); renderWeeklyGrid(); updateWeekSummary(); updateDashboard()
+      // Close tile
+      const tile = document.getElementById('tile-' + key)
+      if (tile) tile.classList.remove('expanded')
+      _openTile = null
+      showToast('✅', `${mealObj.name} logged to dashboard!`)
+    }
+
+    /* ═══ QUICK LOG MEAL (full form in card bottom panel) ═══ */
+    function quickLogMeal() {
+      const name = document.getElementById('ql-name').value.trim()
+      if (!name) { showToast('⚠️', 'Enter a meal name'); document.getElementById('ql-name').focus(); return }
+      const cal  = parseInt(document.getElementById('ql-cal').value)  || 0
+      const prot = parseInt(document.getElementById('ql-prot').value) || 0
+      const carb = parseInt(document.getElementById('ql-carb').value) || 0
+      const fat  = parseInt(document.getElementById('ql-fat').value)  || 0
+      const todayName = getTodayName()
+      meals.push({ name, cal, prot, carb, fat, type: 'Meal', day: todayName, source: 'Quick Log' })
+      saveMeals(); renderMealList(); renderWeeklyGrid(); updateWeekSummary(); updateDashboard()
+      // Clear fields
+      ;['ql-name','ql-cal','ql-prot','ql-carb','ql-fat'].forEach(id => { document.getElementById(id).value = '' })
+      showToast('✅', `${name} logged! Dashboard updated.`)
+    }
+
+    /* ═══ TOGGLE QUICK LOG PANEL ═══ */
+    function toggleQuickLog() {
+      const panel = document.getElementById('ql-panel')
+      const btn   = document.getElementById('ql-toggle-btn')
+      const isOpen = panel.classList.toggle('open')
+      btn.textContent = isOpen ? '✕ Close' : '➕ Quick Log Meal'
+      if (isOpen) setTimeout(() => document.getElementById('ql-name').focus(), 180)
     }
 
     /* ═══ CHIP SELECTION — radio for goal/diet ═══ */
