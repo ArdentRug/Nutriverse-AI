@@ -3298,10 +3298,11 @@
           <h3 style="font-family:var(--font);font-size:1.1rem;font-weight:800;color:var(--dark);margin-bottom:16px">📋
             Add Meals to Track</h3>
           <div class="upload-zone" id="upload-zone">
-            <input type="file" class="upload-input" accept=".pdf,.jpg,.png,.txt" onchange="handleFileUpload(event)">
-            <div class="upload-icon">📁</div>
-            <div class="upload-title">Upload Mess Menu Photo / PDF</div>
-            <div class="upload-desc">Drag & drop or tap to upload your weekly mess schedule</div>
+            <input type="file" class="upload-input" id="menu-file-input" accept=".jpg,.jpeg,.png,.webp,.txt" onchange="handleFileUpload(event)">
+            <div class="upload-icon">📸</div>
+            <div class="upload-title">Upload Mess Menu Photo or Text File</div>
+            <div class="upload-desc">JPG/PNG photo of your mess board — or a .txt file with the menu typed out</div>
+            <div style="font-size:0.72rem;color:var(--green);font-weight:600;margin-top:6px">🤖 Real AI analysis via Groq Vision</div>
           </div>
           <div style="text-align:center;font-size:0.82rem;color:var(--muted);margin:10px 0 16px">— or add meal manually
             —</div>
@@ -3423,10 +3424,12 @@
         <div class="pref-card">
           <div class="pref-label">⚠️ Allergies / Avoid</div>
           <div class="chips" id="allergy-chips" style="margin-bottom:8px">
-            <button class="chip" onclick="selectChip(this,'allergy')">🥜 Nuts</button>
-            <button class="chip" onclick="selectChip(this,'allergy')">🥛 Dairy</button>
-            <button class="chip" onclick="selectChip(this,'allergy')">🌾 Gluten</button>
-            <button class="chip" onclick="selectChip(this,'allergy')">🐟 Fish</button>
+            <button class="chip" onclick="toggleChip(this)">🥜 Nuts</button>
+            <button class="chip" onclick="toggleChip(this)">🥛 Dairy</button>
+            <button class="chip" onclick="toggleChip(this)">🌾 Gluten</button>
+            <button class="chip" onclick="toggleChip(this)">🐟 Fish</button>
+            <button class="chip" onclick="toggleChip(this)">🥚 Eggs</button>
+            <button class="chip" onclick="toggleChip(this)">🫘 Soy</button>
           </div>
           <input class="allergy-input" type="text" id="allergy-other"
             placeholder="Other (e.g. brinjal, bitter gourd…)" />
@@ -3832,42 +3835,91 @@
       toastTimer = setTimeout(() => t.classList.remove('show'), dur)
     }
 
-    /* ═══ DASHBOARD REFRESH ═══ */
-    const dsStates = [
-      { prot: { p: '57%', v: '68g', s: 'of 120g', w: '57%' }, cal: { p: '84%', v: '1,840', w: '84%' }, energy: { p: '72%', v: '72', w: '72%' }, hydra: { p: '60%', v: '1.8L', w: '60%' }, i: 'Protein 43% below target. Add 1 cup of dal or 2 eggs at dinner.' },
-      { prot: { p: '75%', v: '90g', s: 'of 120g', w: '75%' }, cal: { p: '62%', v: '1,364', w: '62%' }, energy: { p: '88%', v: '88', w: '88%' }, hydra: { p: '80%', v: '2.4L', w: '80%' }, i: 'Great progress! Energy is high. Add a protein snack after 6 PM.' },
-      { prot: { p: '45%', v: '54g', s: 'of 120g', w: '45%' }, cal: { p: '95%', v: '2,090', w: '95%' }, energy: { p: '55%', v: '55', w: '55%' }, hydra: { p: '40%', v: '1.2L', w: '40%' }, i: 'Low hydration affecting energy. Drink 500ml now and reduce carbs at dinner.' },
-    ]
-    let dsIdx = 0
+    /* ═══ DASHBOARD — driven by meal tracker data ═══ */
     function refreshDashboard() {
-      dsIdx = (dsIdx + 1) % dsStates.length
-      const s = dsStates[dsIdx]
-      document.getElementById('prot-pct').textContent = s.prot.p
-      document.getElementById('prot-val').textContent = s.prot.v
-      document.getElementById('prot-sub').textContent = s.prot.s
-      document.getElementById('prot-bar').style.width = s.prot.w
-      document.getElementById('cal-pct').textContent = s.cal.p
-      document.getElementById('cal-val').textContent = s.cal.v
-      document.getElementById('cal-bar').style.width = s.cal.w
-      document.getElementById('energy-pct').textContent = s.energy.p
-      document.getElementById('energy-val').textContent = s.energy.v
-      document.getElementById('energy-bar').style.width = s.energy.w
-      document.getElementById('hydra-pct').textContent = s.hydra.p
-      document.getElementById('hydra-val').textContent = s.hydra.v
-      document.getElementById('hydra-bar').style.width = s.hydra.w
-      document.getElementById('insight-text').textContent = s.i
-      showToast('📊', 'Dashboard refreshed!')
+      // Calculate real values from logged meals (today or latest day)
+      const todayMeals = meals.length > 0 ? meals : []
+      const totalCal = todayMeals.reduce((s, m) => s + parseInt(m.cal || 0), 0)
+      const totalProt = todayMeals.reduce((s, m) => s + parseInt(m.prot || 0), 0)
+      const tdeeData = JSON.parse(localStorage.getItem('nv_tdee') || 'null')
+      const calTarget = tdeeData ? tdeeData.calories : 2200
+      const protTarget = tdeeData ? tdeeData.protein : 120
+
+      if (todayMeals.length === 0) {
+        // No meals logged — show prompt state
+        document.getElementById('prot-pct').textContent = '0%'
+        document.getElementById('prot-val').textContent = '0g'
+        document.getElementById('prot-sub').textContent = `of ${protTarget}g`
+        document.getElementById('prot-bar').style.width = '0%'
+        document.getElementById('cal-pct').textContent = '0%'
+        document.getElementById('cal-val').textContent = '0'
+        document.getElementById('cal-bar').style.width = '0%'
+        document.getElementById('energy-pct').textContent = '—'
+        document.getElementById('energy-val').textContent = '—'
+        document.getElementById('energy-bar').style.width = '0%'
+        document.getElementById('hydra-pct').textContent = '—'
+        document.getElementById('hydra-val').textContent = '—'
+        document.getElementById('hydra-bar').style.width = '0%'
+        document.getElementById('insight-text').textContent = 'No meals logged yet. Add your meals in the Mess Tracker below to see your real nutrition data here.'
+        showToast('📊', 'Log meals below to see your real data!')
+        return
+      }
+
+      const calPct = Math.min(Math.round((totalCal / calTarget) * 100), 100)
+      const protPct = Math.min(Math.round((totalProt / protTarget) * 100), 100)
+
+      document.getElementById('prot-pct').textContent = protPct + '%'
+      document.getElementById('prot-val').textContent = totalProt + 'g'
+      document.getElementById('prot-sub').textContent = `of ${protTarget}g`
+      document.getElementById('prot-bar').style.width = protPct + '%'
+      document.getElementById('cal-pct').textContent = calPct + '%'
+      document.getElementById('cal-val').textContent = totalCal.toLocaleString()
+      document.getElementById('cal-bar').style.width = calPct + '%'
+
+      // Energy score: blend of cal + protein progress
+      const energyScore = Math.round((calPct + protPct) / 2)
+      document.getElementById('energy-pct').textContent = energyScore + '%'
+      document.getElementById('energy-val').textContent = energyScore
+      document.getElementById('energy-bar').style.width = energyScore + '%'
+
+      // Hydration: static prompt (can't be measured)
+      document.getElementById('hydra-pct').textContent = '—'
+      document.getElementById('hydra-val').textContent = 'Log water'
+      document.getElementById('hydra-bar').style.width = '0%'
+
+      // Smart insight based on real data
+      let insight = ''
+      if (protPct < 50) insight = `Protein only ${protPct}% of target. Add dal, paneer, or eggs to hit ${protTarget}g today.`
+      else if (calPct > 95) insight = `Calories near target (${totalCal} kcal). Focus on protein-rich snacks over carbs now.`
+      else if (protPct >= 80 && calPct >= 70) insight = `Great progress! ${totalProt}g protein · ${totalCal} kcal logged. Stay hydrated and keep it up!`
+      else insight = `${totalProt}g protein logged so far. ${Math.max(0, protTarget - totalProt)}g more to reach your ${protTarget}g daily target.`
+      document.getElementById('insight-text').textContent = insight
+      showToast('📊', `Dashboard updated from ${todayMeals.length} logged meal(s)!`)
     }
 
-    /* ═══ CHIP SELECTION ═══ */
+    /* ═══ CHIP SELECTION — radio for goal/diet ═══ */
     function selectChip(el, group) {
       const parent = el.closest('.chips') || el.closest('.selector-chips')
       parent.querySelectorAll('.chip').forEach(c => c.classList.remove('on'))
       el.classList.add('on')
     }
 
+    /* ═══ TOGGLE CHIP — multi-select for allergies ═══ */
+    function toggleChip(el) {
+      el.classList.toggle('on')
+    }
+
+    /* ═══ API KEY GUARD ═══ */
+    function requireApiKey(featureName = 'this AI feature') {
+      if (apiKey) return true
+      showToast('🔑', `API key needed for ${featureName}. Triple-click the logo to open Admin Panel.`, 5000)
+      openAdminPanel()
+      return false
+    }
+
     /* ═══ AI MEAL PLANNER — 100% Groq powered, no hardcoded plans ═══ */
     async function generatePlan() {
+      if (!requireApiKey('Meal Planner')) return
       const btn = document.getElementById('generate-btn')
       btn.classList.add('loading'); btn.disabled = true
       document.getElementById('daily-plan').classList.remove('visible')
@@ -3885,19 +3937,31 @@
       const isStudent = collegeVerified
       const budgetNote = isStudent ? 'Keep each meal under ₹80 — student hostel budget.' : 'Use affordable Indian ingredients.'
 
-      // Build a very explicit prompt so the model cannot ignore any field
-      const prompt = `You are a precise Indian nutrition expert. Generate a 1-day personalized meal plan strictly following ALL of these rules:
+      // Use TDEE data if available
+      const tdeeData = JSON.parse(localStorage.getItem('nv_tdee') || 'null')
+      const calTarget = tdeeData ? tdeeData.calories : 2000
+      const protTarget = tdeeData ? tdeeData.protein : 80
+      const tdeeNote = tdeeData
+        ? `TARGET CALORIES: ${calTarget} kcal/day. TARGET PROTEIN: ${protTarget}g/day. Plan meals to hit these targets exactly.`
+        : 'Aim for approximately 1800-2200 kcal and 60-80g protein.'
 
+      // Build an extremely explicit prompt — model MUST respect every field
+      const prompt = `You are a precise Indian nutrition expert. Generate a 1-day personalized meal plan strictly following ALL rules below. Any violation is unacceptable.
+
+${tdeeNote}
 GOAL: ${goal}
-DIET TYPE: ${diet} — only suggest foods compatible with this diet. If Vegetarian, NO chicken/fish/meat. If Vegan, NO dairy or eggs. If Eggetarian, eggs are fine but no meat.
-ALLERGIES / AVOID: ${allergyStr} — NEVER include these ingredients or any dish containing them, not even as a minor component.
-CONTEXT: ${isStudent ? 'Indian college hostel student with mess/canteen access.' : 'Indian adult cooking at home or eating out.'}
+DIET TYPE: ${diet}
+  - Vegetarian → ZERO meat, chicken, fish, seafood
+  - Vegan → ZERO dairy, eggs, meat
+  - Eggetarian → eggs OK, ZERO meat/chicken/fish
+  - Non-Veg → anything allowed
+ALLERGIES / STRICTLY AVOID: ${allergyStr}
+  → Do NOT include these in any meal, not even as garnish, sauce, or trace ingredient.
+CONTEXT: ${isStudent ? 'Indian college hostel student — suggest mess/canteen foods + easy hostel options.' : 'Indian adult at home or eating out.'}
 BUDGET: ${budgetNote}
 
-Return ONLY a valid JSON object. No explanation, no markdown fences, no extra text.
-
-Required format:
-{"title":"<descriptive plan name>","cal":<total daily calories as integer>,"protein":"<total protein e.g. 74g>","meals":[{"tag":"Breakfast","name":"<specific Indian meal name>","protein":<grams as integer>,"kcal":<kcal as integer>,"note":"<1 short tip>"},{"tag":"Lunch","name":"...","protein":<n>,"kcal":<n>,"note":"..."},{"tag":"Snack","name":"...","protein":<n>,"kcal":<n>,"note":"..."},{"tag":"Dinner","name":"...","protein":<n>,"kcal":<n>,"note":"..."}]}`
+Return ONLY valid JSON, no markdown, no explanation:
+{"title":"<specific descriptive name>","cal":<total kcal integer>,"protein":"<e.g. 74g>","meals":[{"tag":"Breakfast","name":"<specific Indian dish>","protein":<g>,"kcal":<kcal>,"note":"<1 practical tip>"},{"tag":"Lunch","name":"...","protein":<g>,"kcal":<k>,"note":"..."},{"tag":"Snack","name":"...","protein":<g>,"kcal":<k>,"note":"..."},{"tag":"Dinner","name":"...","protein":<g>,"kcal":<k>,"note":"..."}]}`
 
       try {
         const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -3907,7 +3971,7 @@ Required format:
             model: 'llama-3.1-8b-instant',
             messages: [{ role: 'user', content: prompt }],
             max_tokens: 600,
-            temperature: 0.5  // lower = more consistent JSON compliance
+            temperature: 0.5
           })
         })
         const data = await res.json()
@@ -3919,17 +3983,14 @@ Required format:
           return
         }
 
-        // Safely parse — strip any accidental markdown fences
         let raw = data.choices[0].message.content.trim()
         raw = raw.replace(/^```json?\s*/i, '').replace(/```\s*$/, '').trim()
         const plan = JSON.parse(raw)
 
-        // Render the plan
         document.getElementById('plan-title-text').textContent = plan.title || `${goal} Plan`
         document.getElementById('plan-cal-num').textContent = (plan.cal || 0).toLocaleString()
         document.getElementById('plan-total-val').textContent = plan.protein || '—'
 
-        // Show allergy/diet badges under the title so the user can see they were respected
         const badgeHtml = [
           `<span style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-xl);border-radius:50px;padding:2px 10px;font-size:0.7rem;font-weight:700">${diet}</span>`,
           ...allergies.map(a => `<span style="background:#FEF3DC;color:#92400E;border:1px solid #FCD34D;border-radius:50px;padding:2px 10px;font-size:0.7rem;font-weight:700">No ${a}</span>`)
@@ -3962,7 +4023,20 @@ Required format:
       btn.classList.remove('loading'); btn.disabled = false
     }
 
-    function savePlan() { showToast('💾', 'Plan saved! (Use Share to copy it.)') }
+    function savePlan() {
+      const email = localStorage.getItem('nv_user_email')
+      if (!email) { showToast('⚠️', 'Sign in first to save plans!'); openVerifyModal(); return }
+      const title = document.getElementById('plan-title-text').textContent
+      const cal = document.getElementById('plan-cal-num').textContent
+      const prot = document.getElementById('plan-total-val').textContent
+      const mealsHTML = document.getElementById('meal-rows').innerHTML
+      const key = 'nv_plans_' + email
+      const plans = JSON.parse(localStorage.getItem(key) || '[]')
+      if (plans.length >= 5) plans.pop()
+      plans.unshift({ title, cal, prot, mealsHTML, date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }), ts: Date.now() })
+      localStorage.setItem(key, JSON.stringify(plans))
+      showToast('💾', 'Plan saved to your history!')
+    }
 
     function sharePlan() {
       const title = document.getElementById('plan-title-text').textContent
@@ -4097,66 +4171,120 @@ Required format:
       openModal('day-modal')
     }
 
+    /* ═══ MESS MENU ANALYSIS — real Groq vision + text ═══ */
     function handleFileUpload(e) {
       const file = e.target.files[0]
       if (!file) return
-      showToast('📁', `${file.name} received — analyzing with AI…`, 3500)
+      if (!requireApiKey('Mess Menu Analyzer')) { e.target.value = ''; return }
+
+      const optResult = document.getElementById('opt-result')
+      const optResultText = document.getElementById('opt-result-text')
+      optResult.style.display = 'block'
+      optResultText.innerHTML = '⏳ Reading your mess menu…'
+
+      showToast('📸', `${file.name} received — AI analyzing…`, 3500)
 
       const reader = new FileReader()
-      reader.onload = async (ev) => {
-        const optResult = document.getElementById('opt-result')
-        const optResultText = document.getElementById('opt-result-text')
-        optResult.style.display = 'block'
-        optResultText.textContent = '⏳ AI is reading your mess menu…'
 
-        let userContent = ''
-        if (file.type === 'text/plain') {
-          // Real text — send the actual content
-          userContent = `Here is the actual mess menu the student uploaded:\n\n${ev.target.result.slice(0, 3000)}\n\nAnalyze this and provide: 1) Estimated daily calories and protein. 2) Top 3 nutritional gaps. 3) Specific, affordable Indian food additions to fix the gaps. Be concise and practical.`
-        } else {
-          // Image or PDF — use contextual analysis
-          userContent = `A college student uploaded a mess menu file called "${file.name}" (${(file.size / 1024).toFixed(0)}KB, type: ${file.type}). Based on a typical Indian college mess that serves dal, roti, rice, sabzi, and occasionally egg or paneer: analyze the likely nutritional profile and provide: 1) Estimated daily calories (~1200-1600 kcal) and protein (~30-50g) typical of Indian college messes. 2) The 3 most common nutritional gaps (protein, iron, vitamins). 3) Three specific, cheap additions (canteen or kirana) to meaningfully improve nutrition. Keep it under 200 words and actionable.`
+      if (file.type === 'text/plain') {
+        reader.onload = async (ev) => {
+          await analyzeMessContent({ type: 'text', content: ev.target.result.slice(0, 4000) }, file.name)
         }
-
-        try {
-          const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-            body: JSON.stringify({
-              model: 'llama-3.1-8b-instant',
-              messages: [
-                { role: 'system', content: 'You are an Indian college nutrition analyst. Be concise, specific, and practical. Focus on realistic, affordable improvements.' },
-                { role: 'user', content: userContent }
-              ],
-              max_tokens: 400, temperature: 0.6
-            })
-          })
-          const data = await res.json()
-          if (data.choices && data.choices[0]) {
-            const reply = data.choices[0].message.content
-            optResultText.textContent = reply
-            showToast('✅', 'Mess menu analyzed by AI!')
-          } else {
-            const errMsg = data.error?.message || 'Unknown error'
-            optResultText.textContent = `⚠️ AI error: ${errMsg}`
-          }
-        } catch (err) {
-          optResultText.textContent = `⚠️ Could not analyze: ${err.message}. Check your internet connection.`
+        reader.readAsText(file)
+      } else if (file.type.startsWith('image/')) {
+        reader.onload = async (ev) => {
+          const base64 = ev.target.result.split(',')[1]
+          await analyzeMessContent({ type: 'image', base64, mimeType: file.type }, file.name)
         }
+        reader.readAsDataURL(file)
+      } else {
+        optResultText.innerHTML = `⚠️ <strong>Unsupported file type.</strong><br>Please upload a <strong>JPG/PNG photo</strong> of your mess board, or a <strong>.txt file</strong> with the menu typed out. PDF is not supported in browser.`
       }
-
-      if (file.type === 'text/plain') reader.readAsText(file)
-      else reader.readAsDataURL(file) // triggers onload for non-text files too
     }
 
-    /* ═══ DRAG & DROP ═══ */
+    async function analyzeMessContent({ type, content, base64, mimeType }, filename) {
+      const optResultText = document.getElementById('opt-result-text')
+      optResultText.innerHTML = '🤖 AI is analyzing your mess menu in detail…'
+
+      const systemPrompt = 'You are an expert Indian college mess nutrition analyst. Provide specific, data-driven, actionable analysis. Always format with clear section headers using **bold**.'
+      const userPrompt = `Analyze this Indian college mess menu thoroughly and provide:
+
+**1. Menu Items Identified** — List every dish/item you can see or read.
+
+**2. Daily Nutrition Estimate** — Calories, protein, carbs, and fat (estimate for a full day of 3 meals from this menu).
+
+**3. Nutrition Score** — Rate this menu out of 10 with a brief reason.
+
+**4. Top 3 Nutritional Gaps** — What critical nutrients are missing and why this matters for students.
+
+**5. Smart Fixes (with cost)** — 3 specific, affordable Indian foods/items to add to bridge the gaps (include approximate ₹ cost).
+
+**6. Best Meal Combinations** — Which items on this menu to combine together for maximum nutrition.
+
+Be specific, practical, and tailored to an Indian college student's reality.`
+
+      let messages
+      if (type === 'text') {
+        messages = [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: `${userPrompt}\n\nMENU CONTENT:\n${content}` }
+        ]
+      } else {
+        // Vision model for images
+        messages = [
+          {
+            role: 'user',
+            content: [
+              { type: 'text', text: userPrompt },
+              { type: 'image_url', image_url: { url: `data:${mimeType};base64,${base64}` } }
+            ]
+          }
+        ]
+      }
+
+      const model = type === 'image' ? 'meta-llama/llama-4-scout-17b-16e-instruct' : 'llama-3.3-70b-versatile'
+
+      try {
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+          body: JSON.stringify({ model, messages, max_tokens: 900, temperature: 0.4 })
+        })
+        const data = await res.json()
+        if (data.choices?.[0]) {
+          const reply = data.choices[0].message.content
+          // Render with basic markdown: **bold** and newlines
+          optResultText.innerHTML = reply
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n\n/g, '<br><br>')
+            .replace(/\n/g, '<br>')
+          showToast('✅', 'Mess menu fully analyzed by AI!')
+        } else {
+          const errMsg = data.error?.message || 'Unknown API error'
+          optResultText.innerHTML = `⚠️ <strong>AI Error:</strong> ${errMsg}<br><small>Check your Groq API key in Admin Panel (triple-click logo).</small>`
+        }
+      } catch (err) {
+        optResultText.innerHTML = `⚠️ <strong>Network Error:</strong> ${err.message}<br><small>Check your internet connection and try again.</small>`
+      }
+    }
+
+    /* ═══ DRAG & DROP — now properly triggers analysis ═══ */
     const uploadZone = document.getElementById('upload-zone')
     uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over') })
     uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'))
-    uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('drag-over'); if (e.dataTransfer.files[0]) showToast('📁', `Uploaded: ${e.dataTransfer.files[0].name}`) })
+    uploadZone.addEventListener('drop', e => {
+      e.preventDefault()
+      uploadZone.classList.remove('drag-over')
+      const file = e.dataTransfer.files[0]
+      if (file) {
+        // Create a synthetic event and trigger the handler
+        handleFileUpload({ target: { files: [file], value: '' } })
+      }
+    })
 
     async function optimizeMeals() {
       if (!meals.length) { showToast('⚠️', 'Add some meals first to optimize!'); return }
+      if (!requireApiKey('Meal Optimizer')) return
       const spinner = document.getElementById('opt-spinner')
       const text = document.getElementById('opt-text')
       spinner.style.display = 'inline-block'; text.textContent = 'AI analyzing…'
