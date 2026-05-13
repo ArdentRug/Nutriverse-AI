@@ -3120,54 +3120,58 @@
             <div class="hc-metric">
               <div class="hc-m-top">
                 <span class="hc-m-label">Protein Today</span>
-                <span class="hc-m-pct pct-green" id="prot-pct">57%</span>
+                <span class="hc-m-pct pct-green" id="prot-pct">0%</span>
               </div>
-              <div class="hc-m-val" id="prot-val">68g</div>
-              <div class="hc-m-sub" id="prot-sub">of 120g</div>
+              <div class="hc-m-val" id="prot-val">0g</div>
+              <div class="hc-m-sub" id="prot-sub">of 80g</div>
               <div class="prog">
-                <div class="prog-fill pg" id="prot-bar" style="width:57%"></div>
+                <div class="prog-fill pg" id="prot-bar" style="width:0%"></div>
               </div>
             </div>
             <div class="hc-metric">
               <div class="hc-m-top">
                 <span class="hc-m-label">Calories</span>
-                <span class="hc-m-pct pct-green" id="cal-pct">84%</span>
+                <span class="hc-m-pct pct-green" id="cal-pct">0%</span>
               </div>
-              <div class="hc-m-val" id="cal-val">1,840</div>
-              <div class="hc-m-sub">of 2,200 kcal</div>
+              <div class="hc-m-val" id="cal-val">0</div>
+              <div class="hc-m-sub" id="cal-sub">of 2,000 kcal</div>
               <div class="prog">
-                <div class="prog-fill pg" id="cal-bar" style="width:84%"></div>
+                <div class="prog-fill pg" id="cal-bar" style="width:0%"></div>
               </div>
             </div>
             <div class="hc-metric">
               <div class="hc-m-top">
-                <span class="hc-m-label">Energy Score</span>
-                <span class="hc-m-pct pct-amber" id="energy-pct">72%</span>
+                <span class="hc-m-label">Carbs · Fat</span>
+                <span class="hc-m-pct pct-amber" id="energy-pct">0%</span>
               </div>
-              <div class="hc-m-val" id="energy-val">72</div>
-              <div class="hc-m-sub">of 100</div>
+              <div class="hc-m-val" id="energy-val">0g · 0g</div>
+              <div class="hc-m-sub" id="energy-sub">carbs · fat today</div>
               <div class="prog">
-                <div class="prog-fill pa" id="energy-bar" style="width:72%"></div>
+                <div class="prog-fill pa" id="energy-bar" style="width:0%"></div>
               </div>
             </div>
             <div class="hc-metric">
               <div class="hc-m-top">
                 <span class="hc-m-label">Hydration</span>
-                <span class="hc-m-pct pct-blue" id="hydra-pct">60%</span>
+                <span class="hc-m-pct pct-blue" id="hydra-pct">0%</span>
               </div>
-              <div class="hc-m-val" id="hydra-val">1.8L</div>
-              <div class="hc-m-sub">of 3L</div>
+              <div class="hc-m-val" id="hydra-val">0 ml</div>
+              <div class="hc-m-sub">target: 3L/day</div>
               <div class="prog">
-                <div class="prog-fill pb" id="hydra-bar" style="width:60%"></div>
+                <div class="prog-fill pb" id="hydra-bar" style="width:0%"></div>
+              </div>
+              <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+                <button onclick="addWater(250)" style="flex:1;min-width:60px;padding:4px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer" title="+1 glass">💧 +250ml</button>
+                <button onclick="addWater(500)" style="flex:1;min-width:60px;padding:4px 0;font-size:0.72rem;font-weight:700;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);border-radius:8px;color:#0ea5e9;cursor:pointer" title="+500ml">🥤 +500ml</button>
+                <button onclick="resetWater()" style="flex:0;padding:4px 8px;font-size:0.72rem;font-weight:700;background:transparent;border:1px solid var(--border-l);border-radius:8px;color:var(--muted);cursor:pointer" title="Reset water">↺</button>
               </div>
             </div>
           </div>
           <div class="ai-insight-mini" onclick="openModal('insight-modal')">
             <div class="ai-icon">⚡</div>
             <div>
-              <div class="ai-tag">AI Insight — tap for more</div>
-              <div class="ai-text" id="insight-text">Protein 43% below target. Add 1 cup of dal or 2 eggs at dinner to
-                recover by 9 PM.</div>
+              <div class="ai-tag">Live Nutrition — tap for insight</div>
+              <div class="ai-text" id="insight-text">Add meals below or upload your mess menu to see your real nutrition data here.</div>
             </div>
           </div>
         </div>
@@ -3314,6 +3318,10 @@
               <input class="mf-input" type="number" id="meal-prot-input" placeholder="Protein (g)" min="0" />
             </div>
             <div class="mf-row">
+              <input class="mf-input" type="number" id="meal-carb-input" placeholder="Carbs (g) — optional" min="0" />
+              <input class="mf-input" type="number" id="meal-fat-input" placeholder="Fat (g) — optional" min="0" />
+            </div>
+            <div class="mf-row">
               <select class="mf-select" id="meal-type-input">
                 <option value="">Meal type</option>
                 <option value="Breakfast">Breakfast</option>
@@ -3323,7 +3331,7 @@
                 <option value="Mess">Mess Food</option>
               </select>
               <select class="mf-select" id="meal-day-input">
-                <option value="">Day</option>
+                <option value="today">Today</option>
                 <option>Monday</option>
                 <option>Tuesday</option>
                 <option>Wednesday</option>
@@ -3333,7 +3341,7 @@
                 <option>Sunday</option>
               </select>
             </div>
-            <button class="btn-add-meal" onclick="addMeal()">➕ Add to Weekly Tracker</button>
+            <button class="btn-add-meal" onclick="addMeal()">➕ Add to Tracker</button>
           </div>
 
           <!-- Saved meals list -->
@@ -3462,6 +3470,7 @@
       <div class="plan-acts">
         <button class="btn-save" onclick="savePlan()">💾 Save This Plan</button>
         <button class="btn-share" onclick="sharePlan()">📤 Share Plan</button>
+        <button class="btn-save" id="add-plan-tracker-btn" onclick="addPlanMealsToTracker()" style="background:linear-gradient(135deg,#10b981,#059669)">➕ Add to Today's Tracker</button>
       </div>
     </div>
   </section>
@@ -3835,66 +3844,112 @@
       toastTimer = setTimeout(() => t.classList.remove('show'), dur)
     }
 
-    /* ═══ DASHBOARD — driven by meal tracker data ═══ */
-    function refreshDashboard() {
-      // Calculate real values from logged meals (today or latest day)
-      const todayMeals = meals.length > 0 ? meals : []
-      const totalCal = todayMeals.reduce((s, m) => s + parseInt(m.cal || 0), 0)
-      const totalProt = todayMeals.reduce((s, m) => s + parseInt(m.prot || 0), 0)
+    /* ═══ WATER TRACKER (date-aware, resets each day) ═══ */
+    function getWaterStore() {
+      const todayStr = new Date().toISOString().slice(0, 10)
+      const raw = JSON.parse(localStorage.getItem('nv_water') || '{}')
+      if (raw.date !== todayStr) return { date: todayStr, ml: 0 }
+      return raw
+    }
+    function saveWaterStore(ml) {
+      const todayStr = new Date().toISOString().slice(0, 10)
+      localStorage.setItem('nv_water', JSON.stringify({ date: todayStr, ml }))
+    }
+    function addWater(ml) {
+      const store = getWaterStore()
+      store.ml = Math.min(store.ml + ml, 5000)
+      saveWaterStore(store.ml)
+      updateDashboard()
+      showToast('💧', `${store.ml >= 1000 ? (store.ml / 1000).toFixed(1) + 'L' : store.ml + 'ml'} water logged today!`)
+    }
+    function resetWater() {
+      saveWaterStore(0)
+      updateDashboard()
+      showToast('↺', 'Water tracker reset')
+    }
+
+    /* ═══ RESOLVE "today" TO A WEEKDAY NAME ═══ */
+    function getTodayName() {
+      return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()]
+    }
+
+    /* ═══ CENTRAL DASHBOARD UPDATE ═══ */
+    function updateDashboard() {
+      const todayName = getTodayName()
       const tdeeData = JSON.parse(localStorage.getItem('nv_tdee') || 'null')
-      const calTarget = tdeeData ? tdeeData.calories : 2200
-      const protTarget = tdeeData ? tdeeData.protein : 120
+      const calTarget  = tdeeData ? Math.round(tdeeData.calories) : 2000
+      const protTarget = tdeeData ? Math.round(tdeeData.protein)  : 80
+      const carbTarget = Math.round(calTarget * 0.5 / 4)   // 50% cal from carbs
+      const fatTarget  = Math.round(calTarget * 0.3 / 9)   // 30% cal from fat
 
-      if (todayMeals.length === 0) {
-        // No meals logged — show prompt state
-        document.getElementById('prot-pct').textContent = '0%'
-        document.getElementById('prot-val').textContent = '0g'
-        document.getElementById('prot-sub').textContent = `of ${protTarget}g`
-        document.getElementById('prot-bar').style.width = '0%'
-        document.getElementById('cal-pct').textContent = '0%'
-        document.getElementById('cal-val').textContent = '0'
-        document.getElementById('cal-bar').style.width = '0%'
-        document.getElementById('energy-pct').textContent = '—'
-        document.getElementById('energy-val').textContent = '—'
-        document.getElementById('energy-bar').style.width = '0%'
-        document.getElementById('hydra-pct').textContent = '—'
-        document.getElementById('hydra-val').textContent = '—'
-        document.getElementById('hydra-bar').style.width = '0%'
-        document.getElementById('insight-text').textContent = 'No meals logged yet. Add your meals in the Mess Tracker below to see your real nutrition data here.'
-        showToast('📊', 'Log meals below to see your real data!')
-        return
-      }
+      // Filter today's meals
+      const todayMeals = meals.filter(m => m.day === todayName || m.day === 'today')
+      const totalCal  = todayMeals.reduce((s, m) => s + parseInt(m.cal  || 0), 0)
+      const totalProt = todayMeals.reduce((s, m) => s + parseInt(m.prot || 0), 0)
+      const totalCarb = todayMeals.reduce((s, m) => s + parseInt(m.carb || 0), 0)
+      const totalFat  = todayMeals.reduce((s, m) => s + parseInt(m.fat  || 0), 0)
 
-      const calPct = Math.min(Math.round((totalCal / calTarget) * 100), 100)
+      // Water
+      const waterStore = getWaterStore()
+      const waterMl = waterStore.ml
+      const waterTarget = 3000
+      const waterPct = Math.min(Math.round((waterMl / waterTarget) * 100), 100)
+
+      // Percentages (capped at 100)
+      const calPct  = Math.min(Math.round((totalCal  / calTarget)  * 100), 100)
       const protPct = Math.min(Math.round((totalProt / protTarget) * 100), 100)
+      const carbPct = totalCarb > 0 ? Math.min(Math.round((totalCarb / carbTarget) * 100), 100) : 0
+      const fatPct  = totalFat  > 0 ? Math.min(Math.round((totalFat  / fatTarget)  * 100), 100) : 0
+      const macroScore = Math.round((carbPct + fatPct) / 2)
 
+      // — Protein row —
       document.getElementById('prot-pct').textContent = protPct + '%'
       document.getElementById('prot-val').textContent = totalProt + 'g'
-      document.getElementById('prot-sub').textContent = `of ${protTarget}g`
-      document.getElementById('prot-bar').style.width = protPct + '%'
+      document.getElementById('prot-sub').textContent = `of ${protTarget}g target`
+      document.getElementById('prot-bar').style.width  = protPct + '%'
+
+      // — Calories row —
       document.getElementById('cal-pct').textContent = calPct + '%'
-      document.getElementById('cal-val').textContent = totalCal.toLocaleString()
-      document.getElementById('cal-bar').style.width = calPct + '%'
+      document.getElementById('cal-val').textContent  = totalCal.toLocaleString()
+      document.getElementById('cal-sub').textContent  = `of ${calTarget.toLocaleString()} kcal`
+      document.getElementById('cal-bar').style.width  = calPct + '%'
 
-      // Energy score: blend of cal + protein progress
-      const energyScore = Math.round((calPct + protPct) / 2)
-      document.getElementById('energy-pct').textContent = energyScore + '%'
-      document.getElementById('energy-val').textContent = energyScore
-      document.getElementById('energy-bar').style.width = energyScore + '%'
+      // — Carbs · Fat row —
+      document.getElementById('energy-pct').textContent = macroScore > 0 ? macroScore + '%' : '—'
+      document.getElementById('energy-val').textContent = totalCarb > 0 || totalFat > 0
+        ? `${totalCarb}g · ${totalFat}g` : '— · —'
+      document.getElementById('energy-sub').textContent = `of ~${carbTarget}g · ${fatTarget}g`
+      document.getElementById('energy-bar').style.width  = macroScore + '%'
 
-      // Hydration: static prompt (can't be measured)
-      document.getElementById('hydra-pct').textContent = '—'
-      document.getElementById('hydra-val').textContent = 'Log water'
-      document.getElementById('hydra-bar').style.width = '0%'
+      // — Hydration row —
+      const waterLabel = waterMl >= 1000 ? (waterMl / 1000).toFixed(1) + ' L' : waterMl + ' ml'
+      document.getElementById('hydra-pct').textContent = waterPct + '%'
+      document.getElementById('hydra-val').textContent = waterLabel
+      document.getElementById('hydra-bar').style.width  = waterPct + '%'
 
-      // Smart insight based on real data
-      let insight = ''
-      if (protPct < 50) insight = `Protein only ${protPct}% of target. Add dal, paneer, or eggs to hit ${protTarget}g today.`
-      else if (calPct > 95) insight = `Calories near target (${totalCal} kcal). Focus on protein-rich snacks over carbs now.`
-      else if (protPct >= 80 && calPct >= 70) insight = `Great progress! ${totalProt}g protein · ${totalCal} kcal logged. Stay hydrated and keep it up!`
-      else insight = `${totalProt}g protein logged so far. ${Math.max(0, protTarget - totalProt)}g more to reach your ${protTarget}g daily target.`
+      // — Smart insight —
+      let insight
+      if (todayMeals.length === 0) {
+        insight = `Nothing logged for ${todayName} yet. Add meals below or upload your mess menu.`
+      } else if (protPct < 40) {
+        insight = `⚠️ Protein only ${totalProt}g (${protPct}% of ${protTarget}g). Add dal, paneer, or 2 eggs now.`
+      } else if (calPct >= 100) {
+        insight = `Calorie target reached (${totalCal.toLocaleString()} kcal). Focus on lighter, protein-rich snacks now.`
+      } else if (waterPct < 30 && todayMeals.length >= 2) {
+        insight = `Low hydration (${waterLabel}). Drink ${Math.round((waterTarget - waterMl) / 250)} more glasses to hit 3L today.`
+      } else if (protPct >= 80 && calPct >= 70) {
+        insight = `Great day! ${totalProt}g protein · ${totalCal.toLocaleString()} kcal · ${waterLabel} water. Keep it up!`
+      } else {
+        const protLeft = Math.max(0, protTarget - totalProt)
+        insight = `${totalProt}g protein, ${totalCal.toLocaleString()} kcal logged. ${protLeft}g more protein needed today.`
+      }
       document.getElementById('insight-text').textContent = insight
-      showToast('📊', `Dashboard updated from ${todayMeals.length} logged meal(s)!`)
+    }
+
+    /* Alias used by the "Live ↻" button — shows a toast too */
+    function refreshDashboard() {
+      updateDashboard()
+      showToast('📊', 'Dashboard refreshed from today\'s meals!')
     }
 
     /* ═══ CHIP SELECTION — radio for goal/diet ═══ */
@@ -4010,10 +4065,11 @@ Return ONLY valid JSON, no markdown, no explanation:
         </div>
       </div>`).join('')
 
+        _lastPlan = plan  // saved so 'Add to Tracker' button can use it
         const dp = document.getElementById('daily-plan')
         dp.classList.add('visible')
         dp.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        showToast('✨', `${plan.title} ready!`)
+        showToast('✨', `${plan.title} ready! Hit ➕ to add meals to today's tracker.`)
 
       } catch (err) {
         showToast('⚠️', `Plan generation failed: ${err.message}. Try again.`, 5000)
@@ -4095,10 +4151,10 @@ Return ONLY valid JSON, no markdown, no explanation:
     <div class="meal-item">
       <div class="mi-left">
         <div class="mi-name">${m.name}</div>
-        <div class="mi-meta">${m.type} · ${m.day}</div>
+        <div class="mi-meta">${m.source ? '[' + m.source + '] ' : ''}${m.type} · ${m.day}</div>
       </div>
       <div class="mi-right">
-        <div class="mi-cal">${m.cal}kcal · ${m.prot}g P</div>
+        <div class="mi-cal">${m.cal}kcal · ${m.prot}g P${m.carb ? ' · ' + m.carb + 'g C' : ''}${m.fat ? ' · ' + m.fat + 'g F' : ''}</div>
         <button class="mi-del" onclick="deleteMeal(${i})">✕</button>
       </div>
     </div>`).join('')
@@ -4116,23 +4172,29 @@ Return ONLY valid JSON, no markdown, no explanation:
 
     function addMeal() {
       const name = document.getElementById('meal-name-input').value.trim()
-      const cal = document.getElementById('meal-cal-input').value
-      const prot = document.getElementById('meal-prot-input').value
-      const type = document.getElementById('meal-type-input').value
-      const day = document.getElementById('meal-day-input').value
+      const cal  = parseInt(document.getElementById('meal-cal-input').value)  || 0
+      const prot = parseInt(document.getElementById('meal-prot-input').value) || 0
+      const carb = parseInt(document.getElementById('meal-carb-input').value) || 0
+      const fat  = parseInt(document.getElementById('meal-fat-input').value)  || 0
+      const type = document.getElementById('meal-type-input').value || 'Meal'
+      const dayRaw = document.getElementById('meal-day-input').value
+      // 'today' resolves to today's actual weekday name
+      const day = dayRaw === 'today' ? getTodayName() : (dayRaw || getTodayName())
       if (!name) { showToast('⚠️', 'Please enter a meal name'); return }
-      if (!day) { showToast('⚠️', 'Please select a day'); return }
-      meals.push({ name, cal: cal || 0, prot: prot || 0, type: type || 'Meal', day })
+      meals.push({ name, cal, prot, carb, fat, type, day, source: 'manual' })
       saveMeals()
       renderMealList()
       renderWeeklyGrid()
       updateWeekSummary()
+      updateDashboard()
       document.getElementById('meal-name-input').value = ''
-      document.getElementById('meal-cal-input').value = ''
+      document.getElementById('meal-cal-input').value  = ''
       document.getElementById('meal-prot-input').value = ''
+      document.getElementById('meal-carb-input').value = ''
+      document.getElementById('meal-fat-input').value  = ''
       document.getElementById('meal-type-input').value = ''
-      document.getElementById('meal-day-input').value = ''
-      showToast('✅', `${name} added to tracker!`)
+      document.getElementById('meal-day-input').value  = 'today'
+      showToast('✅', `${name} added — dashboard updated!`)
     }
 
     function deleteMeal(i) {
@@ -4142,6 +4204,7 @@ Return ONLY valid JSON, no markdown, no explanation:
       renderMealList()
       renderWeeklyGrid()
       updateWeekSummary()
+      updateDashboard()
       showToast('🗑️', `Removed ${name}`)
     }
 
@@ -4152,7 +4215,36 @@ Return ONLY valid JSON, no markdown, no explanation:
       renderMealList()
       renderWeeklyGrid()
       updateWeekSummary()
+      updateDashboard()
       showToast('🧹', 'All meals cleared')
+    }
+
+    /* ═══ ADD AI PLAN MEALS TO TRACKER ═══ */
+    let _lastPlan = null  // set when generatePlan() succeeds
+
+    function addPlanMealsToTracker() {
+      if (!_lastPlan || !_lastPlan.meals || !_lastPlan.meals.length) {
+        showToast('⚠️', 'Generate a plan first, then add it to tracker.'); return
+      }
+      const todayName = getTodayName()
+      _lastPlan.meals.forEach(m => {
+        meals.push({
+          name: m.name,
+          cal:  parseInt(m.kcal  || 0),
+          prot: parseInt(m.protein || 0),
+          carb: parseInt(m.carb || 0),
+          fat:  parseInt(m.fat  || 0),
+          type: m.tag || 'Meal',
+          day:  todayName,
+          source: 'AI Plan'
+        })
+      })
+      saveMeals()
+      renderMealList()
+      renderWeeklyGrid()
+      updateWeekSummary()
+      updateDashboard()
+      showToast('🤖', `${_lastPlan.meals.length} AI plan meals added to today!`)
     }
 
     function showDayMeals(day) {
@@ -4253,11 +4345,38 @@ Be specific, practical, and tailored to an Indian college student's reality.`
         const data = await res.json()
         if (data.choices?.[0]) {
           const reply = data.choices[0].message.content
-          // Render with basic markdown: **bold** and newlines
           optResultText.innerHTML = reply
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\n\n/g, '<br><br>')
             .replace(/\n/g, '<br>')
+
+          // Try to parse a calorie / protein estimate from the analysis text
+          // and offer a one-click import into today's tracker
+          const calMatch  = reply.match(/(\d{3,4})\s*(?:kcal|cal|calories)/i)
+          const protMatch = reply.match(/(\d{2,3})\s*g\s*(?:protein|prot)/i)
+          const carbMatch = reply.match(/(\d{2,3})\s*g\s*(?:carbs?|carbohydrates?)/i)
+          const fatMatch  = reply.match(/(\d{2,3})\s*g\s*fat/i)
+          if (calMatch || protMatch) {
+            const estCal  = calMatch  ? parseInt(calMatch[1])  : 0
+            const estProt = protMatch ? parseInt(protMatch[1]) : 0
+            const estCarb = carbMatch ? parseInt(carbMatch[1]) : 0
+            const estFat  = fatMatch  ? parseInt(fatMatch[1])  : 0
+            const importBtn = document.createElement('button')
+            importBtn.style.cssText = 'margin-top:12px;padding:8px 16px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:0.8rem;cursor:pointer;width:100%'
+            importBtn.textContent = `📥 Import estimated nutrition to today’s tracker (${estCal || '?'}kcal · ${estProt || '?'}g P)`
+            importBtn.onclick = () => {
+              meals.push({
+                name: `Mess Menu (🤖 AI Estimate from ${filename})`,
+                cal: estCal, prot: estProt, carb: estCarb, fat: estFat,
+                type: 'Mess', day: getTodayName(), source: 'Mess Upload'
+              })
+              saveMeals(); renderMealList(); renderWeeklyGrid(); updateWeekSummary(); updateDashboard()
+              importBtn.textContent = '✅ Imported to tracker!'
+              importBtn.disabled = true
+              showToast('📥', 'Mess nutrition added to today!')
+            }
+            document.getElementById('opt-result').appendChild(importBtn)
+          }
           showToast('✅', 'Mess menu fully analyzed by AI!')
         } else {
           const errMsg = data.error?.message || 'Unknown API error'
@@ -4643,6 +4762,7 @@ Be specific, practical, and tailored to an Indian college student's reality.`
     renderWeeklyGrid()
     renderMealList()
     updateWeekSummary()
+    updateDashboard()   // populate dashboard from stored meals + water on load
     initAdmin()
     initCollegeVerify()
   </script>
