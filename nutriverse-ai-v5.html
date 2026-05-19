@@ -340,7 +340,6 @@
     }
 
     .btn-primary:hover {
-      background: #23693100 00;
       background: var(--green-l);
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(42, 122, 59, .28)
@@ -3998,7 +3997,7 @@
     <div class="daily-plan planner-inner" id="daily-plan">
       <div class="plan-head">
         <div>
-          <div class="plan-ready-tag">Ready For You</div>
+          <div class="plan-ready-tag" id="plan-ready-tag">Ready For You</div>
           <div class="plan-title" id="plan-title-text">Your Daily Plan</div>
         </div>
         <div class="plan-cals">
@@ -4651,8 +4650,9 @@ ALLERGIES / STRICTLY AVOID: ${allergyStr}
 CONTEXT: ${isStudent ? 'Indian college hostel student — suggest mess/canteen foods + easy hostel options.' : 'Indian adult at home or eating out.'}
 BUDGET: ${budgetNote}
 
-Return ONLY valid JSON, no markdown, no explanation:
-{"title":"<specific descriptive name>","cal":<total kcal integer>,"protein":"<e.g. 74g>","meals":[{"tag":"Breakfast","name":"<specific Indian dish>","protein":<g>,"kcal":<kcal>,"note":"<1 practical tip>"},{"tag":"Lunch","name":"...","protein":<g>,"kcal":<k>,"note":"..."},{"tag":"Snack","name":"...","protein":<g>,"kcal":<k>,"note":"..."},{"tag":"Dinner","name":"...","protein":<g>,"kcal":<k>,"note":"..."}]}`
+Return ONLY valid JSON. No markdown, no explanation, no text before or after the JSON.
+IMPORTANT: "protein" and "kcal" inside meals MUST be plain integers — no units, no quotes around numbers. Example: "protein":10 not "protein":"10g" and not "protein":10g
+{"title":"<specific descriptive name>","cal":<total kcal as integer e.g. 1950>,"protein":"<total protein as string e.g. 74g>","meals":[{"tag":"Breakfast","name":"<specific Indian dish>","protein":<integer grams e.g. 12>,"kcal":<integer e.g. 420>,"note":"<1 practical tip>"},{"tag":"Lunch","name":"...","protein":<integer>,"kcal":<integer>,"note":"..."},{"tag":"Snack","name":"...","protein":<integer>,"kcal":<integer>,"note":"..."},{"tag":"Dinner","name":"...","protein":<integer>,"kcal":<integer>,"note":"..."}]}`
 
       try {
         const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -4675,8 +4675,26 @@ Return ONLY valid JSON, no markdown, no explanation:
         }
 
         let raw = data.choices[0].message.content.trim()
-        raw = raw.replace(/^```json?\s*/i, '').replace(/```\s*$/, '').trim()
-        const plan = JSON.parse(raw)
+        // Strip markdown fences
+        raw = raw.replace(/^```json?\s*/i, '').replace(/```\s*$/i, '').trim()
+        // If the model added prose before/after, extract the first {...} JSON block
+        if (!raw.startsWith('{')) {
+          const match = raw.match(/\{[\s\S]*\}/)
+          if (match) raw = match[0]
+        }
+        // Sanitize: AI sometimes writes 10g or 550kcal as bare (unquoted) values.
+        // Strip trailing unit letters from bare numeric values so JSON.parse succeeds.
+        raw = raw.replace(/(:\s*)(\d+)g(?=[,}\]])/g, '$1$2')
+        raw = raw.replace(/(:\s*)(\d+)kcal(?=[,}\]])/gi, '$1$2')
+        let plan
+        try {
+          plan = JSON.parse(raw)
+        } catch (jsonErr) {
+          showToast('⚠️', 'AI returned invalid JSON. Retrying may help — or try different preferences.', 6000)
+          console.error('JSON parse error:', jsonErr, '\nRaw response:', raw)
+          btn.classList.remove('loading'); btn.disabled = false
+          return
+        }
 
         document.getElementById('plan-title-text').textContent = plan.title || `${goal} Plan`
         document.getElementById('plan-cal-num').textContent = (plan.cal || 0).toLocaleString()
